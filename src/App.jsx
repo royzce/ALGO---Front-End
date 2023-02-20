@@ -1,5 +1,7 @@
+import RegisterPage from "./pages/RegisterPage";
+
 function App() {
-  return <p>Hello World</p>;
+  return <RegisterPage />;
 }
 
 export default App;
