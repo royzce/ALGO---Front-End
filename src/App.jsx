@@ -1,8 +1,9 @@
-
 import RegisterPage from "./pages/RegisterPage";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import "./App.css";
 import HomePage from "./pages/HomePage";
 import PostPage from "./pages/PostPage";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/" element={<HomePage />} />
+      <Route path="/not-found" element={<PageNotFound />} />
+      <Route path="*" element={<Navigate to="/not-found" />} />
     </Routes>
   );
 }
