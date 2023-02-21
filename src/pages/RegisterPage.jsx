@@ -17,8 +17,7 @@ import appLogo from "../assets/logo.png";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const RegisterPage = () => {
-  const { uploading, handleUpload, selectedFile, previewUrl } =
-    useContext(RegisterContext);
+  const { uploading, handleUpload, selectedFile } = useContext(RegisterContext);
   const [form, setForm] = useState({
     firstname: "",
     lastname: "",

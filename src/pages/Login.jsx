@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 
 export default function Login() {
@@ -29,7 +29,7 @@ export default function Login() {
       },
     },
   };
-
+  const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -124,7 +124,12 @@ export default function Login() {
           Log In
         </Button>
         <hr />
-        <Button variant="contained" color="success" fullWidth>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => navigate("/register")}
+          fullWidth
+        >
           Create an account
         </Button>
       </Paper>
