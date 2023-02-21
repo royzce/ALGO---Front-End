@@ -19,7 +19,6 @@ export const RegisterProvider = ({ children }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const firebaseConfig = {
@@ -47,30 +46,8 @@ export const RegisterProvider = ({ children }) => {
       setPreviewUrl(null);
     }
   };
-  //   async function uploadTaskPromize() {
-  //     return new Promise(function (resolve, reject) {
-  //       const storageRef = storage.ref(YOUR_STORAGE_PATH);
-  //       const uploadTask = storageRef.put(YOUR_FILE_OR_BLOB);
-  //       uploadTask.on(
-  //         "state_changed",
-  //         function (snapshot) {
-  //           var progress =
-  //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //           console.log("Upload is " + progress + "% done");
-  //         },
-  //         function error(err) {
-  //           console.log("error", err);
-  //           reject();
-  //         },
-  //         function complete() {
-  //           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-  //             resolve(downloadURL);
-  //           });
-  //         }
-  //       );
-  //     });
-  //   }
-  const uploadTaskPromise = async () => {
+
+  const handleUpload = async () => {
     return new Promise((resolve, reject) => {
       if (selectedFile) {
         const storageRef = ref(storage, `images/${Date.now()}`);
@@ -88,59 +65,24 @@ export const RegisterProvider = ({ children }) => {
             setUploading(false);
             reject();
           },
-          () => {
-            getDownloadURL(storageRef)
-              .then((url) => {
-                setDownloadUrl(url);
-              })
-              .finally(() => {
-                setUploading(false);
-                resolve(downloadUrl);
-                //   alert("upload successful");
-              });
+          async () => {
+            getDownloadURL(storageRef).then((url) => {
+              setUploading(false);
+              resolve(url);
+            });
           }
         );
       }
     });
   };
-  //   const handleUpload = async () => {
-  //     if (selectedFile) {
-  //       const storageRef = ref(storage, `images/${Date.now()}`);
-  //       const uploadTask = uploadBytesResumable(storageRef, selectedFile);
-  //       setUploading(true);
-  //       uploadTask.on(
-  //         "state_changed",
-  //         (snapshot) => {
-  //           const progress =
-  //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //           setUploadProgress(progress);
-  //         },
-  //         (error) => {
-  //           console.log("Upload failed:", error);
-  //           setUploading(false);
-  //         },
-  //         () => {
-  //           getDownloadURL(storageRef)
-  //             .then((url) => {
-  //               setDownloadUrl(url);
-  //             })
-  //             .finally(() => {
-  //               setUploading(false);
-  //               //   alert("upload successful");
-  //             });
-  //         }
-  //       );
-  //     }
-  //   };
 
   return (
     <RegisterContext.Provider
       value={{
         previewUrl,
         uploadProgress,
-        handleUpload: uploadTaskPromise,
+        handleUpload: handleUpload,
         handleFileSelect: handleFileSelect,
-        downloadUrl,
         uploading,
         selectedFile,
       }}
