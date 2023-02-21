@@ -4,12 +4,15 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  CardMedia,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import Joi from "joi";
 import { joiPasswordExtendCore } from "joi-password";
+import FirebaseProfileUpload from "../components/FirebaseProfileUpload";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const RegisterPage = () => {
@@ -19,7 +22,7 @@ const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
-    // photoscr:""
+    avatar: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -68,89 +71,110 @@ const RegisterPage = () => {
 
     return !!result.error;
   };
+  const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState(null);
+
+  function handleImageChange(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+      setImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
   return (
-    <Grid
-      container
-      component="form"
-      justifyContent="center"
-      onSubmit={handleSubmit}
-    >
-      <Grid item xs={6}>
-        <Card>
-          <CardHeader title="Register" />
-          <CardContent>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  name="firstname"
-                  error={!!errors.firstname}
-                  helperText={errors.firstname}
-                  onChange={handleChange}
-                  value={form.firstname}
-                  label="First Name"
-                  variant="standard"
-                  fullWidth
-                />
+    <>
+      <Grid
+        container
+        component="form"
+        justifyContent="center"
+        onSubmit={handleSubmit}
+      >
+        <Grid item xs={6}>
+          <Card>
+            <CardHeader title="Register" />
+            <CardContent>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <FirebaseProfileUpload />
+                  <Typography variant="caption" sx={{ fontStyle: "italic" }}>
+                    Choose Avatar (Optional)
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="firstname"
+                    error={!!errors.firstname}
+                    helperText={errors.firstname}
+                    onChange={handleChange}
+                    value={form.firstname}
+                    label="First Name"
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="lastname"
+                    error={!!errors.lastname}
+                    helperText={errors.lastname}
+                    onChange={handleChange}
+                    value={form.lastname}
+                    label="Last Name"
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="username"
+                    error={!!errors.username}
+                    helperText={errors.username}
+                    onChange={handleChange}
+                    value={form.username}
+                    label="Username"
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="email"
+                    error={!!errors.email}
+                    helperText={errors.email}
+                    onChange={handleChange}
+                    value={form.email}
+                    label="Email"
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="password"
+                    error={!!errors.password}
+                    helperText={errors.password}
+                    onChange={handleChange}
+                    value={form.password}
+                    type="password"
+                    label="Password"
+                    variant="standard"
+                    fullWidth
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="lastname"
-                  error={!!errors.lastname}
-                  helperText={errors.lastname}
-                  onChange={handleChange}
-                  value={form.lastname}
-                  label="Last Name"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="username"
-                  error={!!errors.username}
-                  helperText={errors.username}
-                  onChange={handleChange}
-                  value={form.username}
-                  label="Username"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="email"
-                  error={!!errors.email}
-                  helperText={errors.email}
-                  onChange={handleChange}
-                  value={form.email}
-                  label="Email"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="password"
-                  error={!!errors.password}
-                  helperText={errors.password}
-                  onChange={handleChange}
-                  value={form.password}
-                  type="password"
-                  label="Password"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-          </CardContent>
-          <CardActions>
-            <Button disabled={isFormInvalid()} type="submit" fullWidth>
-              Sign Up
-            </Button>
-          </CardActions>
-        </Card>
+            </CardContent>
+            <CardActions>
+              <Button disabled={isFormInvalid()} type="submit" fullWidth>
+                Sign Up
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
