@@ -5,6 +5,7 @@ import {
   Grid,
   LinearProgress,
   Typography,
+  Stack,
 } from "@mui/material";
 
 import { Box } from "@mui/system";
@@ -16,26 +17,40 @@ function FirebaseImageUpload() {
     useContext(RegisterContext);
 
   return (
-    <>
-      <Grid container alignItems="center">
-        <Grid item md={4}>
-          <Card sx={{ width: 100 }}>
-            <CardMedia
-              component="img"
-              alt="Person"
-              height="100"
-              width="100"
-              image={
-                previewUrl
-                  ? previewUrl
-                  : process.env.PUBLIC_URL + "/assets/Person.png"
-              }
-            />
-          </Card>
-        </Grid>
+    <Stack
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="flex-end"
+      spacing={2}
+      mb={1.5}
+    >
+      <Card sx={{ width: 100, borderRadius: "12px" }}>
+        <CardMedia
+          component="img"
+          alt="Person"
+          height="100"
+          width="100"
+          image={
+            previewUrl
+              ? previewUrl
+              : process.env.PUBLIC_URL + "/assets/Person.png"
+          }
+        />
+      </Card>
+      <Stack direction="column" spacing={1}>
+        <Typography variant="body2">Upload you photo (Optional)</Typography>
+        <Button size="small" variant="contained" component="label">
+          <input
+            hidden
+            accept="image/*"
+            type="file"
+            onChange={handleFileSelect}
+          />
+          Choose file
+        </Button>
+      </Stack>
 
-        <Grid item md={8}>
-          {/* <Grid item>
+      {/* <Grid item>
             <Button
               size="small"
               variant="contained"
@@ -46,25 +61,12 @@ function FirebaseImageUpload() {
               Upload
             </Button>
           </Grid> */}
-          <Grid item>
-            <Button size="small" variant="contained" component="label">
-              <input
-                hidden
-                accept="image/*"
-                type="file"
-                onChange={handleFileSelect}
-              />
-              Choose file
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
       {/* {uploadProgress > 0 && uploadProgress !== 100 && (
         <Grid item xs={12} sx={{ width: "100%" }}>
           <LinearProgressWithLabel value={uploadProgress} />
         </Grid>
       )} */}
-    </>
+    </Stack>
   );
 }
 

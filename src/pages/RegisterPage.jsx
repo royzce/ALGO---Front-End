@@ -1,18 +1,19 @@
 import {
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Grid,
+  IconButton,
+  Paper,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import Joi from "joi";
 import { joiPasswordExtendCore } from "joi-password";
 import FirebaseProfileUpload from "../components/FirebaseProfileUpload";
 import { RegisterContext } from "../context/RegisterContext";
+import appLogo from "../assets/logo.png";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const RegisterPage = () => {
@@ -82,9 +83,11 @@ const RegisterPage = () => {
     return !!result.error;
   };
 
-  // const handlePasswordVisibility = () => {
-  //   setPasswordVisible(!passwordVisible);
-  // };
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const handlePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const styles = {
     myTextField: {
@@ -102,99 +105,163 @@ const RegisterPage = () => {
       },
     },
   };
+
+  function Spinner() {
+    return <CircularProgress />;
+  }
+
   return (
-    <Grid
-      container
-      component="form"
-      justifyContent="center"
-      onSubmit={handleSubmit}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        height: "100vh",
+        padding: "50px 0",
+        overflowY: "scroll",
+        backgroundColor: "rgb(238,242,246)",
+      }}
     >
-      <Grid item xs={6}>
-        <Card>
-          <CardHeader title="Register" />
-          <CardContent>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <FirebaseProfileUpload />
-                <Typography variant="caption" sx={{ fontStyle: "italic" }}>
-                  Choose Avatar (Optional)
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="firstname"
-                  error={!!errors.firstname}
-                  helperText={errors.firstname}
-                  onChange={handleChange}
-                  value={form.firstname}
-                  label="First Name"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="lastname"
-                  error={!!errors.lastname}
-                  helperText={errors.lastname}
-                  onChange={handleChange}
-                  value={form.lastname}
-                  label="Last Name"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="username"
-                  error={!!errors.username}
-                  helperText={errors.username}
-                  onChange={handleChange}
-                  value={form.username}
-                  label="Username"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="email"
-                  error={!!errors.email}
-                  helperText={errors.email}
-                  onChange={handleChange}
-                  value={form.email}
-                  label="Email"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  name="password"
-                  error={!!errors.password}
-                  helperText={errors.password}
-                  onChange={handleChange}
-                  value={form.password}
-                  type="password"
-                  label="Password"
-                  variant="standard"
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-          </CardContent>
-          <CardActions>
-            <Button disabled={isFormInvalid()} type="submit" fullWidth>
-              Sign Up
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-      {uploading && <Spinner />}
-    </Grid>
+      <Paper
+        component="form"
+        autoComplete="off"
+        onSubmit={handleSubmit}
+        elevation={0}
+        sx={{
+          borderRadius: "12px",
+          padding: "30px",
+          minWidth: "425px",
+          maxWidth: "685px",
+          my: "auto",
+        }}
+      >
+        <Stack
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          padding={2}
+          spacing={5}
+        >
+          <img
+            src={appLogo}
+            style={{
+              height: "50px",
+            }}
+            alt="Algo app logo"
+          />
+          <div>
+            <Typography variant="h5">
+              <strong>Sign Up</strong>
+            </Typography>
+            <Typography variant="body2" sx={{ color: "gray" }}>
+              Enter your credentials to join the ALGO community
+            </Typography>
+          </div>
+        </Stack>
+        <hr />
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <FirebaseProfileUpload />
+          {uploading && <Spinner />}
+        </Stack>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={1}
+          sx={{ mb: "10px" }}
+        >
+          <TextField
+            name="firstname"
+            error={!!errors.firstname}
+            helperText={errors.firstname}
+            onChange={handleChange}
+            value={form.firstname}
+            label="First Name"
+            variant="filled"
+            InputProps={{ disableUnderline: true }}
+            sx={styles.myTextField}
+            fullWidth
+          />
+          <TextField
+            name="lastname"
+            error={!!errors.lastname}
+            helperText={errors.lastname}
+            onChange={handleChange}
+            value={form.lastname}
+            label="Last Name"
+            variant="filled"
+            InputProps={{ disableUnderline: true }}
+            sx={styles.myTextField}
+            fullWidth
+          />
+        </Stack>
+        <TextField
+          name="username"
+          error={!!errors.username}
+          helperText={errors.username}
+          onChange={handleChange}
+          value={form.username}
+          label="Username"
+          variant="filled"
+          InputProps={{ disableUnderline: true }}
+          sx={[styles.myTextField, { mb: "10px" }]}
+          fullWidth
+        />
+        <TextField
+          name="email"
+          error={!!errors.email}
+          helperText={errors.email}
+          onChange={handleChange}
+          value={form.email}
+          label="Email"
+          variant="filled"
+          InputProps={{ disableUnderline: true }}
+          sx={[styles.myTextField, { mb: "10px" }]}
+          fullWidth
+        />
+        <IconButton
+          size="small"
+          className="text-secondary bg-transparent float-end border-0"
+          onClick={handlePasswordVisibility}
+          sx={[
+            passwordVisible ? { marginRight: "14px" } : { marginRight: "15px" },
+            { zIndex: 3, mt: "16px" },
+          ]}
+        >
+          <i
+            className={
+              passwordVisible ? "fa-solid fa-eye-slash" : "fa-solid fa-eye" // font awesome icon
+            }
+          />
+        </IconButton>
+        <TextField
+          name="password"
+          error={!!errors.password}
+          helperText={errors.password}
+          onChange={handleChange}
+          value={form.password}
+          type={passwordVisible ? "text" : "password"}
+          label="Password"
+          variant="filled"
+          InputProps={{ disableUnderline: true }}
+          sx={[styles.myTextField, { mb: "10px", mt: "-44px" }]}
+          fullWidth
+        />
+        <Button
+          disabled={isFormInvalid()}
+          type="submit"
+          variant="contained"
+          fullWidth
+        >
+          Sign Up
+        </Button>
+        <hr />
+        <Typography variant="body2" sx={{ textAlign: "center" }}>
+          <Link to="/login">Already have an account?</Link>
+        </Typography>
+      </Paper>
+    </div>
   );
 };
-function Spinner() {
-  return <div className="spinner">Loading...</div>;
-}
 export default RegisterPage;
