@@ -1,20 +1,10 @@
-import {
-  Button,
-  Card,
-  CardMedia,
-  Grid,
-  LinearProgress,
-  Typography,
-  Stack,
-} from "@mui/material";
+import { Button, Card, CardMedia, Typography, Stack } from "@mui/material";
 
-import { Box } from "@mui/system";
 import { useContext } from "react";
 import { RegisterContext } from "../context/RegisterContext";
 
 function FirebaseImageUpload() {
-  const { previewUrl, uploadProgress, handleFileSelect } =
-    useContext(RegisterContext);
+  const { previewUrl, handleFileSelect } = useContext(RegisterContext);
 
   return (
     <Stack
@@ -49,39 +39,7 @@ function FirebaseImageUpload() {
           Choose file
         </Button>
       </Stack>
-
-      {/* <Grid item>
-            <Button
-              size="small"
-              variant="contained"
-              onClick={handleUpload}
-              style={{ width: "6.438rem" }}
-              disabled={!previewUrl}
-            >
-              Upload
-            </Button>
-          </Grid> */}
-      {/* {uploadProgress > 0 && uploadProgress !== 100 && (
-        <Grid item xs={12} sx={{ width: "100%" }}>
-          <LinearProgressWithLabel value={uploadProgress} />
-        </Grid>
-      )} */}
     </Stack>
-  );
-}
-
-function LinearProgressWithLabel(props) {
-  return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ width: "100%", mr: 1 }}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
-      </Box>
-    </Box>
   );
 }
 
