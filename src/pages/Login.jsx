@@ -8,6 +8,7 @@ import {
   Typography,
   TextField,
 } from "@mui/material";
+import Joi from "joi";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
@@ -30,10 +31,49 @@ export default function Login() {
     },
   };
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState({});
+  const schema = Joi.object({
+    username: Joi.string().min(1).required(),
+    password: Joi.string().min(1).required(),
+  });
+
+  const handleChange = ({ currentTarget: input }) => {
+    setForm({
+      ...form,
+      [input.name]: input.value,
+    });
+
+    const { error } = schema
+      .extract(input.name)
+      .label(input.name)
+      .validate(input.value);
+
+    if (error) {
+      setErrors({
+        ...errors,
+        [input.name]:
+          input.name === "username"
+            ? "Please input your email/username"
+            : "Please input your password",
+      });
+    } else {
+      delete errors[input.name];
+      setErrors(errors);
+    }
+  };
+
   const [passwordVisible, setPasswordVisible] = useState(false);
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+  const handleLogin = () => {
+    console.log(form);
+  };
+
   return (
     <div
       style={{
@@ -65,11 +105,11 @@ export default function Login() {
           <strong>Hi, Welcome to Algo</strong>
         </Typography>
         <TextField
-          name="email"
-          // error={!!errors.email}
-          // helperText={errors.email}
-          // onChange={handleChange}
-          // value={form.email}
+          name="username"
+          error={!!errors.username}
+          helperText={errors.username}
+          onChange={handleChange}
+          value={form.email}
           label="Email / Username"
           variant="filled"
           InputProps={{ disableUnderline: true }}
@@ -93,10 +133,10 @@ export default function Login() {
         </IconButton>
         <TextField
           name="password"
-          // error={!!errors.password}
-          // helperText={errors.password}
-          // onChange={handleChange}
-          // value={form.password}
+          error={!!errors.password}
+          helperText={errors.password}
+          onChange={handleChange}
+          value={form.password}
           type={passwordVisible ? "text" : "password"}
           label="Password"
           variant="filled"
@@ -120,7 +160,13 @@ export default function Login() {
             </Link>
           </Typography>
         </Stack>
-        <Button variant="contained" size="medium" className="mt-3" fullWidth>
+        <Button
+          variant="contained"
+          size="medium"
+          className="mt-3"
+          onClick={handleLogin}
+          fullWidth
+        >
           Log In
         </Button>
         <hr />
