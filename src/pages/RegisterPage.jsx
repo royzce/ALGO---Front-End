@@ -25,7 +25,6 @@ const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
-    // photoscr:""
   });
   const [errors, setErrors] = useState({});
 
@@ -52,8 +51,6 @@ const RegisterPage = () => {
     event.preventDefault();
     const storageUrl = await handleUpload();
     if (selectedFile) {
-      console.log("preview url", previewUrl);
-      console.log("may seledted", storageUrl);
       form.avatar = storageUrl;
     }
     console.log(form);
