@@ -6,12 +6,15 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { BrowserRouter } from "react-router-dom";
+import { RegisterProvider } from "./context/RegisterContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <RegisterProvider>
+        <App />
+      </RegisterProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
