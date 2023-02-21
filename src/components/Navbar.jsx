@@ -52,14 +52,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   return (
-    <AppBar position="static">
-      <Grid container>
+    <AppBar
+      position="static"
+      sx={{ display: "flex", justifyContent: "center" }}
+    >
+      <Grid container maxWidth={"xl"} sx={{ mx: "auto" }}>
         <Grid item sm={4}>
           <Toolbar>
             <Typography variant="h6">ALGO</Typography>
           </Toolbar>
         </Grid>
-
         <Grid item sm={4}>
           <Toolbar>
             <Search>
