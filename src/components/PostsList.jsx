@@ -2,15 +2,14 @@ import { Grid } from "@mui/material";
 import React from "react";
 import Post from "./Post";
 
-export default function PostsList() {
+export default function PostsList({ posts }) {
   return (
     <Grid container justifyContent="center" spacing={2}>
-      <Grid item width="100%">
-        <Post />
-      </Grid>
-      <Grid item width="100%">
-        <Post />
-      </Grid>
+      {posts.map((post) => (
+        <Grid item width="100%" key={post.id}>
+          <Post post={post} />
+        </Grid>
+      ))}
     </Grid>
   );
 }

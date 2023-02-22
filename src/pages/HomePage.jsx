@@ -1,9 +1,11 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import AddPost from "../components/AddPost";
 import PostsList from "../components/PostsList";
+import { PostContext } from "../context/PostContext";
 
 export default function HomePage() {
+  const { allPosts } = useContext(PostContext);
   return (
     <Grid
       container
@@ -16,7 +18,7 @@ export default function HomePage() {
         <AddPost />
       </Grid>
       <Grid item width="50%">
-        <PostsList />
+        <PostsList posts={allPosts} />
       </Grid>
     </Grid>
   );
