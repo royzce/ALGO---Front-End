@@ -6,16 +6,21 @@ import PostPage from "./pages/PostPage";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 
+import Navbar from "./components/Navbar";
+
 function App() {
   return (
-    <Routes>
-      <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={<HomePage />} />
-      <Route path="/not-found" element={<PageNotFound />} />
-      <Route path="*" element={<Navigate to="/not-found" />} />
-    </Routes>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/not-found" element={<PageNotFound />} />
+        <Route path="*" element={<Navigate to="/not-found" />} />
+      </Routes>
+    </>
   );
 }
 
