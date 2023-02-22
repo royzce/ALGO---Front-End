@@ -113,7 +113,7 @@ const RegisterPage = () => {
         justifyContent: "center",
         height: "100vh",
         padding: "50px 0",
-        overflowY: "scroll",
+        overflowY: "hidden",
         backgroundColor: "rgb(238,242,246)",
       }}
     >
