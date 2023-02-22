@@ -1,23 +1,25 @@
 import React from "react";
 import { Stack, Typography, Button } from "@mui/material";
 import appLogo from "../assets/logo.png";
+import GlobalCSS from "../components/GlobalCSS";
 
 export default function PageNotFound() {
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "calc(100vh - 64px)" }}>
       <Stack
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={3}
+        spacing={5}
         height={"100%"}
       >
-        <img src={appLogo} style={{ height: "150px" }} alt="Algo app logo" />
-        <Typography variant="h3">
-          <strong>Sorry, Page not Found</strong>
+        <GlobalCSS />
+        <Typography variant="h2" fontWeight="fontWeightBold">
+          Page not Found
         </Typography>
+        <img src={appLogo} height={150} alt="Algo app logo" />
         <Typography variant="body1">
-          The page you requested could not be found
+          Sorry, the page you requested could not be found
         </Typography>
         <Button variant="contained" size="large" sx={{ px: 10 }}>
           Home
