@@ -149,7 +149,7 @@ const RegisterPage = () => {
               <strong>Sign Up</strong>
             </Typography>
             <Typography variant="body2" sx={{ color: "gray" }}>
-              Enter your credentials to join the ALGO community
+              Enter your credentials to join the ALGO Community.
             </Typography>
           </div>
         </Stack>
