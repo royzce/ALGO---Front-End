@@ -13,10 +13,10 @@ export default function HomePage() {
       justifyContent="flex-start"
       alignItems="center"
       spacing={1}
-      maxWidth={"lg"}
+      maxWidth={"md"}
       minWidth={"xs"}
-      margin={"24px auto"}
-      padding={"0 24px"}
+      margin={"12px auto"}
+      padding={"0 12px"}
     >
       <GlobalCSS />
       <AddPost />

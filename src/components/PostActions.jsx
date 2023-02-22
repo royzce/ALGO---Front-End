@@ -1,8 +1,8 @@
 import { Button, Popover } from "@mui/material";
 import { Stack } from "@mui/system";
-import ThumbUpAltRounded from "@mui/icons-material/ThumbUpAltRounded";
-import ChatRounded from "@mui/icons-material/ChatRounded";
-import ReplyOutlined from "@mui/icons-material/ReplyOutlined";
+import ThumbDownOffAltRounded from "@mui/icons-material/ThumbDownOffAltRounded";
+import ChatOutlined from "@mui/icons-material/ChatOutlined";
+import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import PostReactions from "./PostReactions";
 import React, { useState } from "react";
 
@@ -28,19 +28,18 @@ export default function PostActions() {
     >
       <Button
         sx={{ px: "24px" }}
-        startIcon={<ThumbUpAltRounded />}
+        startIcon={
+          <ThumbDownOffAltRounded sx={{ transform: "scaleY(-1) scaleX(-1)" }} />
+        }
         onMouseEnter={handlePopoverOpen}
         // onMouseLeave={handlePopoverClose}
       >
         Like
       </Button>
-      <Button sx={{ px: "24px" }} startIcon={<ChatRounded />}>
+      <Button sx={{ px: "24px" }} startIcon={<ChatOutlined />}>
         Comment
       </Button>
-      <Button
-        sx={{ px: "24px" }}
-        startIcon={<ReplyOutlined sx={{ transform: "scaleX(-1)" }} />}
-      >
+      <Button sx={{ px: "24px" }} startIcon={<ShareOutlined />}>
         Share
       </Button>
       <Popover
