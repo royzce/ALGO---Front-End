@@ -1,5 +1,6 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import * as commentSvc from "../services/comment";
 import CommentSection from "./CommentSection";
 import PostActions from "./PostActions";
 import PostHeader from "./PostHeader";
@@ -7,20 +8,30 @@ import PostMedia from "./PostMedia";
 import PostReactions from "./PostReactions";
 import PostStats from "./PostStats";
 
-export default function Post() {
+export default function Post({ post }) {
+  const [showComments, setShowComments] = useState(false);
+
+  function handleToggleComments() {
+    setShowComments(!showComments);
+  }
+
   return (
     <Card sx={{ width: "100%" }}>
       <CardContent>
-        <PostHeader></PostHeader>
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </Typography>
-        <PostMedia />
-        <PostStats />
-        <PostReactions />
-        <PostActions />
-        <CommentSection />
+        <PostHeader post={post} />
+        <Typography paragraph>{post.value}</Typography>
+        <PostMedia post={post} />
+        {/**
+         TODO: for implementation once users are available and the reactions
+        are decided
+         */}
+        <PostStats post={post} onToggleComments={handleToggleComments} />
+        {/**
+         * TODO: for implementation once the reactions are decided
+         */}
+        <PostReactions post={post} />
+        <PostActions post={post} />
+        <CommentSection show={showComments} post={post} />
       </CardContent>
     </Card>
   );

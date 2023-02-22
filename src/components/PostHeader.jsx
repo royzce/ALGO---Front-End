@@ -1,5 +1,7 @@
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import LockIcon from "@mui/icons-material/Lock";
+import GroupIcon from "@mui/icons-material/Group";
 import {
   Avatar,
   IconButton,
@@ -12,17 +14,61 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { PostContext } from "../context/PostContext";
 
-export default function PostHeader() {
+export default function PostHeader({ post }) {
+  const { onDeletePost } = useContext(PostContext);
+  const { firstName, lastName, username, avatar, id, date, privacy } =
+    post || {};
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  function handleClick(event) {
+
+  function handleMore(event) {
     setAnchorEl(event.currentTarget);
   }
+
+  function handleEdit() {
+    console.log("TODO: open edit post modal");
+    handleClose();
+  }
+
+  function handleDelete() {
+    onDeletePost(id);
+    handleClose();
+  }
+
+  function handleEditPrivacy() {
+    console.log("TODO: open edit privacy modal");
+  }
+
   function handleClose() {
     setAnchorEl(null);
   }
+
+  function displayDate() {
+    return date;
+  }
+
+  function displayPrivacy() {
+    let icon = <></>;
+    switch (privacy) {
+      case "private":
+        icon = <LockIcon sx={{ fontSize: 16 }} />;
+        break;
+      case "friends":
+        icon = <GroupIcon sx={{ fontSize: 16 }} />;
+        break;
+      case "public":
+        icon = <PublicOutlinedIcon sx={{ fontSize: 16 }} />;
+        break;
+      default:
+        break;
+    }
+    return icon;
+  }
+
   return (
     <List>
       <ListItem
@@ -30,33 +76,36 @@ export default function PostHeader() {
         disablePadding
         alignItems="flex-start"
         secondaryAction={
-          <IconButton onClick={handleClick}>
+          <IconButton onClick={handleMore}>
             <MoreHorizIcon />
           </IconButton>
         }
       >
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <MenuItem onClick={handleClose}>Edit</MenuItem>
-          <MenuItem onClick={handleClose}>Delete</MenuItem>
+          <MenuItem onClick={handleEdit}>Edit</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
         </Menu>
         <ListItemAvatar>
-          <Avatar
-            alt="prof-pic"
-            src="https://i.pinimg.com/originals/f9/a0/b4/f9a0b4f86ab0226ec83dfff20c08ba78.jpg"
-          />
+          <Avatar alt="avatar" src={avatar} />
         </ListItemAvatar>
         <ListItemText
           disableTypography
-          primary={<Typography variant="body1">Johnny Favorite</Typography>}
+          primary={
+            <Typography variant="body1">
+              {firstName} {lastName}
+            </Typography>
+          }
           secondary={
             <Stack direction="row" alignItems="center" spacing={1}>
               <Typography component="span" variant="body2">
-                @johnnyfave -
+                @{username}
               </Typography>
               <Typography component="span" variant="body2">
-                16h -
+                {displayDate()}
               </Typography>
-              <PublicOutlinedIcon sx={{ fontSize: 18 }} />
+              <IconButton size="small" onClick={handleEditPrivacy}>
+                {displayPrivacy()}
+              </IconButton>
             </Stack>
           }
         />

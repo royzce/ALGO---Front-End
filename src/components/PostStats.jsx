@@ -7,7 +7,7 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Stack } from "@mui/system";
 import React from "react";
 
-export default function PostStats() {
+export default function PostStats({ onToggleComments }) {
   return (
     <Stack
       direction="row"
@@ -36,8 +36,9 @@ export default function PostStats() {
           direction="row"
           alignItems="center"
           spacing={1}
+          onClick={onToggleComments}
         >
-          <Typography variant="body2">2</Typography>
+          <Typography variant="body2">{2}</Typography>
           <ModeCommentOutlinedIcon sx={{ fontSize: 18 }} />
         </Stack>
         <Stack
