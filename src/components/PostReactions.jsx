@@ -8,10 +8,15 @@ import mad from "../assets/mad.gif";
 import { Stack } from "@mui/system";
 import React from "react";
 
-export default function PostReactions() {
+export default function PostReactions({ handleLike, handlePopoverClose }) {
   return (
-    <Stack direction="row" sx={{ padding: "5px" }}>
-      <IconButton>
+    <Stack direction="row" sx={{ padding: "5px", pointerEvents: "auto" }}>
+      <IconButton
+        onClick={(event) => {
+          handleLike(event);
+          handlePopoverClose();
+        }}
+      >
         <img src={fire} height={25} />
       </IconButton>
       <IconButton>

@@ -17,6 +17,18 @@ export default function PostActions() {
     setAnchorEl(null);
   };
 
+  const handleLike = (event) => {
+    console.log("PostReaction!");
+    // setAnchorEl(event.currentTarget);
+    handlePopoverClose();
+  };
+
+  const handleDefault = (event) => {
+    console.log("Like!");
+    // setAnchorEl(event.currentTarget);
+    handlePopoverClose();
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? "popover" : undefined;
   return (
@@ -27,12 +39,12 @@ export default function PostActions() {
       spacing={1}
     >
       <Button
+        onClick={handleDefault}
         sx={{ px: "24px" }}
         startIcon={
           <ThumbDownOffAltRounded sx={{ transform: "scaleY(-1) scaleX(-1)" }} />
         }
         onMouseEnter={handlePopoverOpen}
-        // onMouseLeave={handlePopoverClose}
       >
         Like
       </Button>
@@ -47,6 +59,7 @@ export default function PostActions() {
         open={open}
         anchorEl={anchorEl}
         onClose={handlePopoverClose}
+        onBlur={handlePopoverClose}
         anchorOrigin={{
           vertical: "top",
           horizontal: "left",
@@ -60,8 +73,13 @@ export default function PostActions() {
             borderRadius: "25px",
           },
         }}
+        style={{ pointerEvents: "none" }}
       >
-        <PostReactions />
+        <PostReactions
+          handleLike={handleLike}
+          handlePopoverClose={handlePopoverClose}
+          anchorEl={anchorEl}
+        />
       </Popover>
     </Stack>
   );
