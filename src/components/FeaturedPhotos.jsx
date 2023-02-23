@@ -1,12 +1,10 @@
 import {
+  Button,
   Card,
-  CardContent,
   CardHeader,
   CardMedia,
   ImageList,
   ImageListItem,
-  ImageListItemBar,
-  Typography,
 } from "@mui/material";
 import React from "react";
 
@@ -32,7 +30,10 @@ const itemData = [
 const FeaturedPhotos = () => {
   return (
     <Card>
-      <CardHeader title="Featured Photos" />
+      <CardHeader
+        title="Featured Photos"
+        action={<Button underline="hover">See all photos</Button>}
+      />
       <CardMedia>
         <ImageList cols={2} rowHeight={164}>
           {itemData.map((item) => (

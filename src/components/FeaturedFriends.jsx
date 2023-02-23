@@ -1,6 +1,6 @@
 import {
+  Button,
   Card,
-  CardContent,
   CardHeader,
   CardMedia,
   ImageList,
@@ -31,7 +31,11 @@ const itemData = [
 const FeaturedFriends = () => {
   return (
     <Card>
-      <CardHeader title="Featured Friends" />
+      <CardHeader
+        title="Featured Friends"
+        subheader="5 friends"
+        action={<Button underline="hover">See all friends</Button>}
+      />
       <CardMedia>
         <ImageList cols={2}>
           {itemData.map((item) => (

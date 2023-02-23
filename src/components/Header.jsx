@@ -9,7 +9,7 @@ const Header = () => {
           <img
             width="100%"
             src="https://wallpaperaccess.com/full/2667331.jpg"
-            alt="cover photo"
+            alt="cover"
             sx={{ borderRadius: 3 }}
           />
           <Grid container spacing={4}>
@@ -18,6 +18,7 @@ const Header = () => {
                 src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
                 alt="profile"
                 sx={{
+                  border: "5px solid white",
                   position: "relative",
                   width: 200,
                   height: 200,
