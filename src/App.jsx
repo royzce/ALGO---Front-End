@@ -5,12 +5,9 @@ import HomePage from "./pages/HomePage";
 import PostPage from "./pages/PostPage";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
-
 import Navbar from "./components/Navbar";
-
 import { CssBaseline } from "@mui/material";
 import ProfilePage from "./pages/ProfilePage";
-import { Navigate, Route, Routes } from "react-router-dom";
 import About from "./components/About";
 import ProfileHome from "./components/ProfileHome";
 import ManageFriends from "./components/ManageFriends";
