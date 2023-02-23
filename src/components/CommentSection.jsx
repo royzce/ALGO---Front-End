@@ -18,7 +18,6 @@ export default function CommentSection({ show, post }) {
     } else {
       setAllComments([]);
     }
-    return () => console.log("CommentSection dismounting");
   }, [show]);
 
   function handleAddComment({ value, replyTo }) {

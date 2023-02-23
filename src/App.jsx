@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 
 import Navbar from "./components/Navbar";
+import PostForm from "./components/PostForm";
 
 function App() {
   return (

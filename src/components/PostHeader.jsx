@@ -17,7 +17,7 @@ import { Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
 
-export default function PostHeader({ post }) {
+export default function PostHeader({ post, onEdit }) {
   const { onDeletePost } = useContext(PostContext);
   const { firstName, lastName, username, avatar, id, date, privacy } =
     post || {};
@@ -30,7 +30,7 @@ export default function PostHeader({ post }) {
   }
 
   function handleEdit() {
-    console.log("TODO: open edit post modal");
+    onEdit();
     handleClose();
   }
 
@@ -92,7 +92,7 @@ export default function PostHeader({ post }) {
           disableTypography
           primary={
             <Typography variant="body1">
-              {firstName} {lastName}
+              {firstName} {lastName} and 2 others
             </Typography>
           }
           secondary={
