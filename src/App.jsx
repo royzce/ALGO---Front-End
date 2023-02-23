@@ -16,6 +16,7 @@ import ProfileInterest from "./components/ProfileInterest";
 import ProfileDetails from "./components/ProfileDetails";
 import FriendsList from "./components/FriendsList";
 import FriendRequestList from "./components/FriendRequestList";
+import EditPrivacy from "./components/EditPrivacy";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <CssBaseline />
       <Navbar />
       <Routes>
+        <Route path={"/test"} element={<EditPrivacy />} />
         <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />

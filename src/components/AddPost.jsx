@@ -57,7 +57,11 @@ export default function AddPost() {
             alt="prof-pic"
             src="https://i.pinimg.com/originals/f9/a0/b4/f9a0b4f86ab0226ec83dfff20c08ba78.jpg"
           />
-          <TextField placeholder="Say something, Johnny." fullWidth />
+          <TextField
+            placeholder="Say something, Johnny."
+            fullWidth
+            onClick={() => setOpen(true)}
+          />
           <IconButton onClick={handlePhotoClick}>
             <AddPhotoAlternateIcon />
           </IconButton>

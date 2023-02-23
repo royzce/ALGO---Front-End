@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
 import * as commentSvc from "../services/comment";
 import CommentSection from "./CommentSection";
+import EditPrivacy from "./EditPrivacy";
 import PostActions from "./PostActions";
 import PostForm from "./PostForm";
 import PostHeader from "./PostHeader";
@@ -12,6 +13,7 @@ import PostStats from "./PostStats";
 
 export default function Post({ post }) {
   const [showComments, setShowComments] = useState(false);
+  const [editPrivacy, setEditPrivacy] = useState(false);
   const [editing, setEditing] = useState(false);
   const { onEditPost } = useContext(PostContext);
 
@@ -23,11 +25,20 @@ export default function Post({ post }) {
     setEditing(true);
   }
 
-  function handleClose() {
+  function handleEditPriv() {
+    setEditPrivacy(true);
+  }
+
+  function handleClosePriv() {
+    setEditPrivacy(false);
+  }
+
+  function handleCloseEdit() {
     setEditing(false);
   }
 
-  function handleSubmit(editedPost) {
+  function handleSubmit(editDetails) {
+    const editedPost = { ...post, ...editDetails };
     onEditPost(editedPost);
   }
 
@@ -35,7 +46,11 @@ export default function Post({ post }) {
     <>
       <Card sx={{ width: "100%", borderRadius: "10px" }}>
         <CardContent sx={{ width: "100%", padding: "24px" }}>
-          <PostHeader post={post} onEdit={handleEdit} />
+          <PostHeader
+            post={post}
+            onEdit={handleEdit}
+            onEditPrivacy={handleEditPriv}
+          />
           <Typography paragraph>{post.value}</Typography>
           <PostMedia post={post} />
           {/**
@@ -57,9 +72,17 @@ export default function Post({ post }) {
         <PostForm
           post={post}
           open={editing}
-          onClose={handleClose}
+          onClose={handleCloseEdit}
           withPhoto={post.imgUrl.length > 0}
           onSubmit={handleSubmit}
+        />
+      )}
+      {editPrivacy && (
+        <EditPrivacy
+          open={editPrivacy}
+          onSelect={handleSubmit}
+          onClose={handleClosePriv}
+          privacy={post.privacy}
         />
       )}
     </>

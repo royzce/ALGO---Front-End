@@ -1,4 +1,4 @@
-import { Grid, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import React, { useContext } from "react";
 import AddPost from "../components/AddPost";
 import GlobalCSS from "../components/GlobalCSS";

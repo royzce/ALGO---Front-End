@@ -46,6 +46,12 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
 
   function handlePrivSel(event) {
     const { value } = event.target;
+
+    if (value === "private") {
+      setShowTagSel(false);
+      setForm({ ...form, tags: [] });
+    }
+
     setForm({ ...form, privacy: value });
   }
 
@@ -100,13 +106,8 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
       imgUrl.push(url);
     }
 
-    if (post) {
-      const editedPost = { ...post, ...form, imgUrl };
-      onSubmit(editedPost);
-    } else {
-      const newPost = { ...form, imgUrl };
-      onSubmit(newPost);
-    }
+    const postInfo = { ...form, imgUrl };
+    onSubmit(postInfo);
     onClose();
   }
 

@@ -1,7 +1,5 @@
-import { Button, List } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
-import * as commentSvc from "../services/comment";
-import AddComment from "./AddComment";
+import { List } from "@mui/material";
+import React, { Fragment } from "react";
 import Comment from "./Comment";
 
 export default function Replies({ replies }) {

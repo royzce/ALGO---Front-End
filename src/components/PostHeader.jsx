@@ -17,7 +17,7 @@ import { Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
 
-export default function PostHeader({ post, onEdit }) {
+export default function PostHeader({ post, onEdit, onEditPrivacy }) {
   const { onDeletePost } = useContext(PostContext);
   const { firstName, lastName, username, avatar, id, date, privacy } =
     post || {};
@@ -37,10 +37,6 @@ export default function PostHeader({ post, onEdit }) {
   function handleDelete() {
     onDeletePost(id);
     handleClose();
-  }
-
-  function handleEditPrivacy() {
-    console.log("TODO: open edit privacy modal");
   }
 
   function handleClose() {
@@ -103,7 +99,7 @@ export default function PostHeader({ post, onEdit }) {
               <Typography component="span" variant="body2">
                 {displayDate()}
               </Typography>
-              <IconButton size="small" onClick={handleEditPrivacy}>
+              <IconButton size="small" onClick={onEditPrivacy}>
                 {displayPrivacy()}
               </IconButton>
             </Stack>
