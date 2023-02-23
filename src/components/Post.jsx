@@ -16,8 +16,8 @@ export default function Post({ post }) {
   }
 
   return (
-    <Card sx={{ width: "100%" }}>
-      <CardContent>
+    <Card sx={{ width: "100%", borderRadius: "12px" }}>
+      <CardContent sx={{ width: "100%", padding: "24px" }}>
         <PostHeader post={post} />
         <Typography paragraph>{post.value}</Typography>
         <PostMedia post={post} />
@@ -29,8 +29,10 @@ export default function Post({ post }) {
         {/**
          * TODO: for implementation once the reactions are decided
          */}
-        <PostReactions post={post} />
+        {/* <PostReactions post={post} /> */}
+        <hr style={{ marginBottom: "12px" }} />
         <PostActions post={post} />
+        <hr style={{ marginTop: "12px" }} />
         <CommentSection show={showComments} post={post} />
       </CardContent>
     </Card>

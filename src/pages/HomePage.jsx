@@ -1,25 +1,26 @@
-import { Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import React, { useContext } from "react";
 import AddPost from "../components/AddPost";
+import GlobalCSS from "../components/GlobalCSS";
 import PostsList from "../components/PostsList";
 import { PostContext } from "../context/PostContext";
 
 export default function HomePage() {
   const { allPosts } = useContext(PostContext);
   return (
-    <Grid
-      container
+    <Stack
       direction="column"
-      alignItems="center"
       justifyContent="flex-start"
-      spacing={2}
+      alignItems="center"
+      spacing={1}
+      maxWidth={"md"}
+      minWidth={"xs"}
+      margin={"12px auto"}
+      padding={"0 12px"}
     >
-      <Grid item width="50%">
-        <AddPost />
-      </Grid>
-      <Grid item width="50%">
-        <PostsList posts={allPosts} />
-      </Grid>
-    </Grid>
+      <GlobalCSS />
+      <AddPost />
+      <PostsList posts={allPosts} />
+    </Stack>
   );
 }

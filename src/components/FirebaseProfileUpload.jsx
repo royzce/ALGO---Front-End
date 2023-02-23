@@ -8,23 +8,21 @@ function FirebaseImageUpload() {
 
   return (
     <Stack
-      direction="row"
+      direction="column"
       justifyContent="flex-start"
-      alignItems="flex-end"
+      alignItems="center"
       spacing={2}
-      mb={1.5}
     >
-      <Card sx={{ width: 100, borderRadius: "12px" }}>
+      <Card sx={{ borderRadius: "50%" }}>
         <CardMedia
           component="img"
           alt="Person"
-          height="100"
-          width="100"
           image={
             previewUrl
               ? previewUrl
               : process.env.PUBLIC_URL + "/assets/Person.png"
           }
+          style={{ objectFit: "cover", width: "150px", height: "150px" }}
         />
       </Card>
       <Stack direction="column" spacing={1}>
