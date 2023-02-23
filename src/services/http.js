@@ -2,10 +2,10 @@ import axios from "axios";
 
 export const http = axios.create({
   // temporary use of JSON-server
-  baseURL: "http://localhost:3001",
+  // baseURL: "http://localhost:3001",
 
   // use this when switching to NestJs
-  // baseURL: "http://localhost:3001/api",
+  baseURL: "http://localhost:3001/api",
 });
 
 http.interceptors.response.use(null, (error) => {
