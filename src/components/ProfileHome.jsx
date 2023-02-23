@@ -1,10 +1,14 @@
 import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import Bio from "./Bio";
 import FeaturedPhotos from "./FeaturedPhotos";
 import FeaturedFriends from "./FeaturedFriends";
+import AddPost from "../components/AddPost";
+import PostsList from "../components/PostsList";
+import { PostContext } from "../context/PostContext";
 
 const ProfileHome = () => {
+  const { allPosts } = useContext(PostContext);
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>
@@ -22,9 +26,10 @@ const ProfileHome = () => {
       </Grid>
       <Grid item xs={8}>
         <Card>
+          <AddPost />
           <CardHeader title="Post" />
           <CardContent>
-            <Typography>Post Here</Typography>
+            <PostsList posts={allPosts} />
           </CardContent>
         </Card>
       </Grid>
