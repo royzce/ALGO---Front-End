@@ -6,6 +6,7 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Typography,
 } from "@mui/material";
 import React from "react";
 
@@ -30,14 +31,22 @@ const itemData = [
 
 const FeaturedFriends = () => {
   return (
-    <Card>
+    <Card sx={{ borderRadius: "10px" }}>
       <CardHeader
-        title="Featured Friends"
+        title={
+          <Typography
+            variant="h5"
+            fontWeight="fontWeightBold"
+            // sx={{ padding: "20px" }}
+          >
+            Featured Friends
+          </Typography>
+        }
         subheader="5 friends"
         action={<Button underline="hover">See all friends</Button>}
       />
-      <CardMedia>
-        <ImageList cols={2}>
+      <CardMedia sx={{ padding: "0 15px" }}>
+        <ImageList cols={2} sx={{ borderRadius: "10px" }}>
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
               <img src={item.img} alt={item.title} />

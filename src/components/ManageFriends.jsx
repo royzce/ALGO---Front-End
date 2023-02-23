@@ -7,6 +7,8 @@ import {
   Tabs,
   alpha,
   styled,
+  Typography,
+  Container,
 } from "@mui/material";
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -56,20 +58,31 @@ const ManageFriends = () => {
     setValue(newValue);
   };
   return (
-    <Card>
+    <Card sx={{ borderRadius: "10px" }}>
       <CardHeader
-        title="Friends"
+        sx={{ padding: "20px" }}
+        title={
+          <Typography variant="h5" fontWeight="fontWeightBold">
+            Friends
+          </Typography>
+        }
         action={
-          <Search>
+          <Search sx={{ backgroundColor: "lightgray", borderRadius: "50px" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search…" />
           </Search>
         }
-      />
-      <CardContent>
-        <Tabs value={value} onChange={handleChange}>
+      >
+        Friends
+      </CardHeader>
+      <Container sx={{ padding: "0 20px 20px 20px" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          sx={{ marginBottom: "20px" }}
+        >
           <Tab
             value="AllFriends"
             label="All Friends"
@@ -84,7 +97,7 @@ const ManageFriends = () => {
           />
         </Tabs>
         <Outlet />
-      </CardContent>
+      </Container>
     </Card>
   );
 };

@@ -1,4 +1,11 @@
-import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import React, { useContext } from "react";
 import Bio from "./Bio";
 import FeaturedPhotos from "./FeaturedPhotos";
@@ -25,13 +32,17 @@ const ProfileHome = () => {
         </Grid>
       </Grid>
       <Grid item xs={8}>
-        <Card>
+        <Container disableGutters>
           <AddPost />
-          <CardHeader title="Post" />
-          <CardContent>
-            <PostsList posts={allPosts} />
-          </CardContent>
-        </Card>
+          <Typography
+            variant="h5"
+            fontWeight="fontWeightBold"
+            sx={{ padding: "20px" }}
+          >
+            Posts
+          </Typography>
+          <PostsList posts={allPosts} />
+        </Container>
       </Grid>
     </Grid>
   );

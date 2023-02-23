@@ -3,8 +3,14 @@ import React from "react";
 
 const Bio = () => {
   return (
-    <Card>
-      <CardHeader title="Bio" />
+    <Card sx={{ borderRadius: "10px" }}>
+      <Typography
+        variant="h5"
+        fontWeight="fontWeightBold"
+        sx={{ padding: "20px" }}
+      >
+        Bio
+      </Typography>
       <CardContent>
         <Typography>Bio Here</Typography>
       </CardContent>

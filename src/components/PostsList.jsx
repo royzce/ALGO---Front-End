@@ -8,7 +8,7 @@ export default function PostsList({ posts }) {
       direction="column"
       justifyContent="flex-start"
       alignItems="center"
-      spacing={1}
+      spacing={2}
     >
       {posts.map((post) => (
         <Post post={post} key={post.id} />

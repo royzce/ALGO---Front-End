@@ -1,4 +1,4 @@
-import { Card, CardHeader, Grid, Tab, Tabs } from "@mui/material";
+import { Card, CardHeader, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
 import React, { useState } from "react";
 
@@ -12,8 +12,14 @@ const About = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>
-        <Card>
-          <CardHeader title="About" />
+        <Card sx={{ borderRadius: "10px" }}>
+          <Typography
+            variant="h5"
+            fontWeight="fontWeightBold"
+            sx={{ padding: "20px" }}
+          >
+            About
+          </Typography>
           <Tabs value={value} onChange={handleChange} orientation="vertical">
             <Tab
               value="Details"
