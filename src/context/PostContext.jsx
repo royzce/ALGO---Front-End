@@ -7,9 +7,6 @@ export const PostContext = createContext({
   onEditPost: () => {},
   onEditPrivacy: () => {},
   onDeletePost: () => {},
-  //   onAddComment: () => {},
-  //   onEditComment: () => {},
-  //   onDeleteComment: () => {},
 });
 
 export default function PostProvider({ children }) {
@@ -18,19 +15,17 @@ export default function PostProvider({ children }) {
   useEffect(() => {
     postSvc.getPosts().then((res) => {
       setAllPosts(res.data);
-      console.log("PostProvider mounting", res.data);
     });
-    return () => console.log("PostProvider unmounting");
   }, []);
 
-  function handleAddPost() {
+  function handleAddPost(newPost) {
     // TODO
-    console.log("inside handleAddPost");
+    console.log("inside handleAddPost", newPost);
   }
 
-  function handleEditPost() {
+  function handleEditPost(editedPost) {
     // TODO
-    console.log("inside handleEditPost");
+    console.log("inside handleEditPost", editedPost);
   }
 
   function handleEditPrivacy() {
