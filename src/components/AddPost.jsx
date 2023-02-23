@@ -18,7 +18,7 @@ export default function AddPost() {
     paper: {
       width: "100%",
       padding: "24px",
-      borderRadius: "12px",
+      borderRadius: "10px",
     },
   };
   return (

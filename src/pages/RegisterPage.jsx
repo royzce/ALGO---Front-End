@@ -94,7 +94,7 @@ const RegisterPage = () => {
         backgroundColor: "rgb(248, 250,252)",
         border: "1px solid #e2e2e1",
         overflow: "hidden",
-        borderRadius: "12px",
+        borderRadius: "10px",
         "&:hover": {
           backgroundColor: "transparent",
         },
@@ -104,7 +104,7 @@ const RegisterPage = () => {
       },
     },
     paper: {
-      borderRadius: "12px",
+      borderRadius: "10px",
       padding: "30px",
       minWidth: "425px",
       maxWidth: "685px",

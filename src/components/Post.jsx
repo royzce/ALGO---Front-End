@@ -16,7 +16,7 @@ export default function Post({ post }) {
   }
 
   return (
-    <Card sx={{ width: "100%", borderRadius: "12px" }}>
+    <Card sx={{ width: "100%", borderRadius: "10px" }}>
       <CardContent sx={{ width: "100%", padding: "24px" }}>
         <PostHeader post={post} />
         <Typography paragraph>{post.value}</Typography>

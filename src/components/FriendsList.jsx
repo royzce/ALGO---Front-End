@@ -44,6 +44,9 @@ const FriendsList = () => {
             <Card
               sx={{
                 height: 150,
+                border: "1px solid lightgray",
+                borderRadius: "10px",
+                boxShadow: "none",
               }}
             >
               <CardContent
@@ -61,7 +64,7 @@ const FriendsList = () => {
                   sx={{ width: 80, height: 86 }}
                 />
                 <Typography variant="h6">{friend.name}</Typography>
-                <Button color="error" variant="contained">
+                <Button color="error" variant="contained" size="small">
                   Unfriend
                 </Button>
               </CardContent>

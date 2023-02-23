@@ -8,11 +8,11 @@ import PageNotFound from "./pages/PageNotFound";
 import Navbar from "./components/Navbar";
 import { CssBaseline } from "@mui/material";
 import ProfilePage from "./pages/ProfilePage";
-import About from "./components/About";
+import ProfileAbout from "./components/ProfileAbout";
 import ProfileHome from "./components/ProfileHome";
 import ManageFriends from "./components/ManageFriends";
-import Interest from "./components/Interest";
-import Details from "./components/Details";
+import ProfileInterest from "./components/ProfileInterest";
+import ProfileDetails from "./components/ProfileDetails";
 import FriendsList from "./components/FriendsList";
 import FriendRequestList from "./components/FriendRequestList";
 
@@ -27,9 +27,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<ProfilePage />}>
           <Route path="/profile" element={<ProfileHome />} />
-          <Route element={<About />}>
-            <Route path="/profile/about" element={<Details />} />
-            <Route path="/profile/interest" element={<Interest />} />
+          <Route element={<ProfileAbout />}>
+            <Route path="/profile/about" element={<ProfileDetails />} />
+            <Route path="/profile/interest" element={<ProfileInterest />} />
           </Route>
           <Route element={<ManageFriends />}>
             <Route path="/profile/friends" element={<FriendsList />} />

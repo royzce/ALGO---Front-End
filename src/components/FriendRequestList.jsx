@@ -45,6 +45,9 @@ const FriendRequestList = () => {
             <Card
               sx={{
                 height: 150,
+                border: "1px solid lightgray",
+                borderRadius: "10px",
+                boxShadow: "none",
               }}
             >
               <CardContent
@@ -63,10 +66,15 @@ const FriendRequestList = () => {
                 />
                 <Typography variant="h6">{friend.name}</Typography>
                 <Box>
-                  <Button color="success" variant="contained">
+                  <Button color="success" variant="contained" size="small">
                     Confirm
                   </Button>
-                  <Button color="error" variant="contained">
+                  <Button
+                    color="error"
+                    variant="contained"
+                    size="small"
+                    sx={{ margin: "0 0 0 5px" }}
+                  >
                     Delete
                   </Button>
                 </Box>

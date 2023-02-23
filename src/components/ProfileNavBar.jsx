@@ -9,7 +9,7 @@ const ProfileNavBar = () => {
     setValue(newValue);
   };
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", borderTop: "1px solid silver" }}>
       <Tabs value={value} onChange={handleChange}>
         <Tab value="Post" label="Post" LinkComponent={Link} to={"/profile"} />
         <Tab
