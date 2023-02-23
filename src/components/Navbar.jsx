@@ -118,7 +118,9 @@ function CustomOption({ option }) {
       onClick={() => console.log(option)}
     >
       <Avatar src={option.avatar} />
-      <div style={{ marginLeft: "16px", color: "black" }}>{option.label}</div>
+      <div style={{ marginLeft: "16px", color: "black" }}>
+        {option.firstName + " " + option.lastName}
+      </div>
     </div>
   );
 }
@@ -136,16 +138,25 @@ function NoOption() {
 function AutocompleteWithAvatar() {
   const [options, setOptions] = useState([]);
 
-  useEffect(() => {
-    fetch;
-    searchService.getUsersBy();
-  }, []);
+  function handleInputChange(event, value) {
+    if (value.length >= 3) {
+      searchService.getUsersBy(value).then((res) => setOptions(res.data));
+    }
+  }
+
+  // useEffect(() => {
+  //   // fetch;
+  //   // searchService.getUsersBy()
+  //   // setOptions(searchService.getAllUser())
+  //   // console.log(searchService.getAllUser());
+  //   searchService.getAllUser().then((res) => setOptions(res.data));
+  // }, []);
   return (
     <Autocomplete
       options={options}
       // noOptionsText={"Your Customized No Options Text"}
       noOptionsText={<NoOption />}
-      getOptionLabel={(option) => option.other}
+      getOptionLabel={(option) => option.firstName + " " + option.lastName}
       renderOption={(props, option) => (
         <CustomOption key={option.id} option={option} />
       )}
@@ -157,6 +168,7 @@ function AutocompleteWithAvatar() {
           variant="outlined"
         />
       )}
+      onInputChange={handleInputChange}
     />
   );
 }
