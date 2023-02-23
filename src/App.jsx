@@ -24,7 +24,6 @@ function App() {
       <CssBaseline />
       <Navbar />
       <Routes>
-        <Route path={"/test"} element={<EditPrivacy />} />
         <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />
