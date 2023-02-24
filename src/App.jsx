@@ -17,6 +17,7 @@ import ProfileDetails from "./components/ProfileDetails";
 import FriendsList from "./components/FriendsList";
 import FriendRequestList from "./components/FriendRequestList";
 import EditPrivacy from "./components/EditPrivacy";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -42,6 +43,8 @@ function App() {
           </Route>
         </Route>
         <Route path="/not-found" element={<PageNotFound />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/search/:q" element={<SearchPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
