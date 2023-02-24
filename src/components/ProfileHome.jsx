@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import ProfileBio from "./ProfileBio";
 import FeaturedPhotos from "./FeaturedPhotos";

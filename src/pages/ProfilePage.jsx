@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import { Box, Container, Divider, Grid } from "@mui/material";
+import { Container } from "@mui/material";
 import ProfileNavBar from "../components/ProfileNavBar";
 import GlobalCSS from "../components/GlobalCSS";
 import React from "react";

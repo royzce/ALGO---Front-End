@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   IconButton,
-  Paper,
   TextField,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";

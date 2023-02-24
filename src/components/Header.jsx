@@ -1,10 +1,8 @@
 import {
   Avatar,
   AvatarGroup,
-  Box,
   CardMedia,
   Container,
-  Grid,
   Stack,
   Typography,
 } from "@mui/material";

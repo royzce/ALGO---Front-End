@@ -4,7 +4,6 @@ import PostImgCarousel from "../components/PostImgCarousel";
 import CommentSection from "../components/CommentSection";
 import PostActions from "../components/PostActions";
 import PostHeader from "../components/PostHeader";
-import PostReactions from "../components/PostReactions";
 import PostStats from "../components/PostStats";
 import * as postSvc from "../services/post";
 import { useParams } from "react-router-dom";

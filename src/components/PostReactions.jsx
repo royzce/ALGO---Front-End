@@ -23,19 +23,19 @@ export default function PostReactions({ handleLike, handlePopoverClose }) {
           handlePopoverClose();
         }}
       >
-        <img src={fire} height={25} />
+        <img src={fire} height={25} alt="" />
       </IconButton>
       <IconButton>
-        <img src={haha} height={25} />
+        <img src={haha} height={25} alt="" />
       </IconButton>
       <IconButton>
-        <img src={shit} height={25} />
+        <img src={shit} height={25} alt="" />
       </IconButton>
       <IconButton>
-        <img src={broken} height={25} />
+        <img src={broken} height={25} alt="" />
       </IconButton>
       <IconButton>
-        <img src={mad} height={25} />
+        <img src={mad} height={25} alt="" />
       </IconButton>
     </Stack>
   );

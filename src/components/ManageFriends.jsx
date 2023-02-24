@@ -1,6 +1,5 @@
 import {
   Card,
-  CardContent,
   CardHeader,
   InputBase,
   Tab,

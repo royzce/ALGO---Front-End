@@ -1,14 +1,12 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
-import * as commentSvc from "../services/comment";
 import CommentSection from "./CommentSection";
 import EditPrivacy from "./EditPrivacy";
 import PostActions from "./PostActions";
 import PostForm from "./PostForm";
 import PostHeader from "./PostHeader";
 import PostMedia from "./PostMedia";
-import PostReactions from "./PostReactions";
 import PostStats from "./PostStats";
 
 export default function Post({ post }) {
