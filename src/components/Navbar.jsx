@@ -159,7 +159,7 @@ function AutocompleteWithAvatar() {
 
   function handleKeyDown(event) {
     if (event.key === "Enter" && inputValue.length > 0) {
-      setShowOptions(false);
+      event.target.blur();
       navigate(`/search/${inputValue}`);
     }
   }
@@ -218,7 +218,6 @@ function AutocompleteWithAvatar() {
       onFocus={handleFocus}
       onBlur={handleBlur}
       clearOnBlur={false}
-      // onInputChange={handleInputChange}
     />
   );
 }
