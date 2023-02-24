@@ -11,6 +11,7 @@ import {
   ImageList,
   ImageListItem,
   Modal,
+  Slide,
   TextField,
   Typography,
 } from "@mui/material";
@@ -129,89 +130,91 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
 
   return (
     <Modal open={open} onClose={onClose} sx={styles.modal}>
-      <Card sx={styles.card}>
-        <CardHeader
-          title={
-            <Typography variant="h5" fontWeight="fontWeightBold">
-              {post ? "EDIT POST" : "NEW POST"}
-            </Typography>
-          }
-          action={
-            <IconButton onClick={onClose}>
-              <CloseIcon />
-            </IconButton>
-          }
-          sx={{ textAlign: "center" }}
-        />
-        <CardContent>
-          <PostFormHeader
-            onSelect={handlePrivSel}
-            privacy={form.privacy}
-            onToggleTags={handleToggleTags}
-            onTogglePhotos={handleTogglePhotos}
-            totalTags={form.tags.length}
+      <Slide in={open} direction="down">
+        <Card sx={styles.card}>
+          <CardHeader
+            title={
+              <Typography variant="h5" fontWeight="fontWeightBold">
+                {post ? "EDIT POST" : "NEW POST"}
+              </Typography>
+            }
+            action={
+              <IconButton onClick={onClose}>
+                <CloseIcon />
+              </IconButton>
+            }
+            sx={{ textAlign: "center" }}
           />
-          <Stack spacing={2} alignItems="center">
-            {showTagSel && (
-              <Grid item width="100%">
-                <Autocomplete
-                  multiple
-                  options={friends}
-                  onChange={(event, value) => handleTagSel(value)}
-                  getOptionLabel={(option) =>
-                    `${option.firstName} ${option.lastName}`
-                  }
-                  filterSelectedOptions
-                  renderInput={(params) => (
-                    <TextField {...params} placeholder="Tag your friends" />
-                  )}
-                  size="small"
-                  fullWidth
-                />
-              </Grid>
-            )}
-            <TextField
-              multiline
-              value={form.value}
-              rows={4}
-              placeholder="Say something, Johnny."
-              onChange={handleTextChange}
-              fullWidth
+          <CardContent>
+            <PostFormHeader
+              onSelect={handlePrivSel}
+              privacy={form.privacy}
+              onToggleTags={handleToggleTags}
+              onTogglePhotos={handleTogglePhotos}
+              totalTags={form.tags.length}
             />
-            {addPhoto && (
-              <>
-                <Box sx={{ width: "100%" }}>
-                  <Button variant="contained" component="label">
-                    <input
-                      hidden
-                      multiple
-                      accept="image/*"
-                      type="file"
-                      onChange={handleFileSel}
-                    />
-                    Add Photos
-                  </Button>
-                  {previewUrls.length > 0 && (
-                    <Button onClick={handleClrFiles}>Clear</Button>
-                  )}
-                </Box>
-                <ImageList cols={3}>
-                  {previewUrls.map((url, index) => (
-                    <ImageListItem className="image-preview" key={index}>
-                      <img alt={`post-${index}`} src={url} />
-                    </ImageListItem>
-                  ))}
-                </ImageList>
-              </>
-            )}
-          </Stack>
-        </CardContent>
-        <CardActions>
-          <Button variant="contained" fullWidth onClick={handleSubmit}>
-            Post
-          </Button>
-        </CardActions>
-      </Card>
+            <Stack spacing={2} alignItems="center">
+              {showTagSel && (
+                <Grid item width="100%">
+                  <Autocomplete
+                    multiple
+                    options={friends}
+                    onChange={(event, value) => handleTagSel(value)}
+                    getOptionLabel={(option) =>
+                      `${option.firstName} ${option.lastName}`
+                    }
+                    filterSelectedOptions
+                    renderInput={(params) => (
+                      <TextField {...params} placeholder="Tag your friends" />
+                    )}
+                    size="small"
+                    fullWidth
+                  />
+                </Grid>
+              )}
+              <TextField
+                multiline
+                value={form.value}
+                rows={4}
+                placeholder="Say something, Johnny."
+                onChange={handleTextChange}
+                fullWidth
+              />
+              {addPhoto && (
+                <>
+                  <Box sx={{ width: "100%" }}>
+                    <Button variant="contained" component="label">
+                      <input
+                        hidden
+                        multiple
+                        accept="image/*"
+                        type="file"
+                        onChange={handleFileSel}
+                      />
+                      Add Photos
+                    </Button>
+                    {previewUrls.length > 0 && (
+                      <Button onClick={handleClrFiles}>Clear</Button>
+                    )}
+                  </Box>
+                  <ImageList cols={3}>
+                    {previewUrls.map((url, index) => (
+                      <ImageListItem className="image-preview" key={index}>
+                        <img alt={`post-${index}`} src={url} />
+                      </ImageListItem>
+                    ))}
+                  </ImageList>
+                </>
+              )}
+            </Stack>
+          </CardContent>
+          <CardActions>
+            <Button variant="contained" fullWidth onClick={handleSubmit}>
+              Post
+            </Button>
+          </CardActions>
+        </Card>
+      </Slide>
     </Modal>
   );
 }

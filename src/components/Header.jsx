@@ -25,6 +25,8 @@ const Header = () => {
       marginBottom: "10px",
       borderBottomLeftRadius: "12px",
       borderBottomRightRadius: "12px",
+      boxShadow: "0px 0px 30px rgba(0, 0, 0, 0.4)",
+      backdropFilter: "blur(8px)",
     },
     stack1: {
       marginBottom: "20px",

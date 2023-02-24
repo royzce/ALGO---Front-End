@@ -9,9 +9,23 @@ import {
   Typography,
   InputBase,
   Badge,
+  Drawer,
+  Box,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Menu,
+  Button,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import Divider from "@mui/material/Divider";
+import InboxIcon from "@mui/icons-material/Inbox";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Logout, Settings } from "@mui/icons-material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,50 +64,184 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function Navbar() {
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <AppBar
-      position="static"
-      sx={{ display: "flex", justifyContent: "center" }}
-    >
-      <Grid container maxWidth={"xl"} sx={{ mx: "auto" }}>
-        <Grid item sm={4}>
-          <Toolbar>
-            <Typography variant="h6">ALGO</Typography>
-          </Toolbar>
-        </Grid>
-        <Grid item sm={4}>
-          <Toolbar>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase placeholder="Search…" />
-            </Search>
-          </Toolbar>
-        </Grid>
-        <Grid item sm={4} container justifyContent="flex-end">
-          <Toolbar>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton sx={{ p: 0 }}>
-              <Avatar alt="U" src="/static/images/avatar/2.jpg" />
-            </IconButton>
-          </Toolbar>
-        </Grid>
-        {/* <Grid item md={2}>
+    <>
+      <AppBar
+        position="static"
+        sx={{ display: "flex", justifyContent: "center", minWidth: "xs" }}
+      >
+        <Grid container minWidth={"xs"} maxWidth={"xl"} sx={{ mx: "auto" }}>
+          <Grid item sm={4}>
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "inline-flex", md: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                variant="h6"
+                sx={{ display: { xs: "none", md: "inline-flex" } }}
+              >
+                ALGO
+              </Typography>
+            </Toolbar>
+          </Grid>
+          <Grid item sm={4}>
+            <Toolbar>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase placeholder="Search…" />
+              </Search>
+            </Toolbar>
+          </Grid>
+          <Grid item sm={4} container justifyContent="flex-end">
+            <Toolbar>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <Badge badgeContent={4} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                sx={{
+                  p: 0,
+                  display: { xs: "none", md: "inline-flex" },
+                }}
+              >
+                <Avatar alt="U" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Toolbar>
+          </Grid>
+
+          {/* <Grid item md={2}>
           <Toolbar>
             
           </Toolbar>
         </Grid> */}
-      </Grid>
-    </AppBar>
+        </Grid>
+      </AppBar>
+      <Drawer open={isDrawerOpen} onClose={handleDrawerToggle}>
+        <Box
+          sx={{
+            width: 300,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <List>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Inbox" />
+            </ListItemButton>
+            <ListItemButton>
+              <ListItemIcon>
+                <DraftsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Drafts" />
+            </ListItemButton>
+          </List>
+          <Divider />
+          <Box sx={{ flexGrow: 1 }} />
+          <Box>
+            <Divider />
+            <Button
+              onClick={handleClick}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              sx={{
+                p: 1,
+                m: 1,
+              }}
+              startIcon={<Avatar alt="U" src="/static/images/avatar/2.jpg" />}
+            >
+              <Typography variant="body2" fontWeight={"fontWeightBold"}>
+                Name FamilyName
+              </Typography>
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  borderRadius: "10px",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    bottom: -10,
+                    left: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "bottom" }}
+              anchorOrigin={{ horizontal: "right", vertical: "top" }}
+            >
+              <MenuItem onClick={handleClose}>
+                <Avatar /> My account
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Box>
+      </Drawer>
+    </>
   );
 }

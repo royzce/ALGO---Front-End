@@ -14,13 +14,13 @@ import { PostContext } from "../context/PostContext";
 
 export default function AddPost() {
   const styles = {
-    stack: {
+    card: {
       width: "100%",
+      borderRadius: "10px",
     },
-    paper: {
+    cardContent: {
       width: "100%",
       padding: "24px",
-      borderRadius: "10px",
     },
   };
   const { onAddPost } = useContext(PostContext);
@@ -46,27 +46,29 @@ export default function AddPost() {
 
   return (
     <>
-      <Paper elevation={2} style={styles.paper}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={2}
-          style={styles.stack}
-        >
-          <Avatar
-            alt="prof-pic"
-            src="https://i.pinimg.com/originals/f9/a0/b4/f9a0b4f86ab0226ec83dfff20c08ba78.jpg"
-          />
-          <TextField
-            placeholder="Say something, Johnny."
-            fullWidth
-            onClick={() => setOpen(true)}
-          />
-          <IconButton onClick={handlePhotoClick}>
-            <AddPhotoAlternateIcon />
-          </IconButton>
-        </Stack>
-      </Paper>
+      <Card sx={styles.card}>
+        <CardContent sx={styles.cardContent}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={2}
+            style={styles.stack}
+          >
+            <Avatar
+              alt="prof-pic"
+              src="https://i.pinimg.com/originals/f9/a0/b4/f9a0b4f86ab0226ec83dfff20c08ba78.jpg"
+            />
+            <TextField
+              placeholder="Say something, Johnny."
+              fullWidth
+              onClick={() => setOpen(true)}
+            />
+            <IconButton onClick={handlePhotoClick}>
+              <AddPhotoAlternateIcon />
+            </IconButton>
+          </Stack>
+        </CardContent>
+      </Card>
       {open && (
         <PostForm
           withPhoto={withPhoto}
