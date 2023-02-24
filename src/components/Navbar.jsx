@@ -20,7 +20,6 @@ import {
   ListItemText,
   MenuItem,
   Menu,
-  Button,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -31,7 +30,6 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
-import { useNavigate } from "react-router";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
