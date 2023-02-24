@@ -36,27 +36,27 @@ const friends = [
 ];
 
 const FriendsList = () => {
+  const styles = {
+    card: {
+      height: 150,
+      border: "1px solid lightgray",
+      borderRadius: "10px",
+      boxShadow: "none",
+    },
+    cardContent: {
+      display: "flex",
+      alignItems: "center",
+      marginTop: 2,
+      justifyContent: "space-between",
+    },
+  };
   return (
     <Grid container spacing={2}>
       {friends.map((friend, index) => {
         return (
           <Grid item key={index} xs={6}>
-            <Card
-              sx={{
-                height: 150,
-                border: "1px solid lightgray",
-                borderRadius: "10px",
-                boxShadow: "none",
-              }}
-            >
-              <CardContent
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: 2,
-                  justifyContent: "space-between",
-                }}
-              >
+            <Card sx={styles.card}>
+              <CardContent sx={styles.cardContent}>
                 <Avatar
                   src={friend.img}
                   alt={friend.name}

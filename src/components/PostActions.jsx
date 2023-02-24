@@ -31,6 +31,12 @@ export default function PostActions() {
 
   const open = Boolean(anchorEl);
   const id = open ? "popover" : undefined;
+
+  const styles = {
+    buttonPadding: {
+      px: "24px",
+    },
+  };
   return (
     <Stack
       direction="row"
@@ -48,10 +54,10 @@ export default function PostActions() {
       >
         Like
       </Button>
-      <Button sx={{ px: "24px" }} startIcon={<ChatOutlined />}>
+      <Button sx={styles.buttonPadding} startIcon={<ChatOutlined />}>
         Comment
       </Button>
-      <Button sx={{ px: "24px" }} startIcon={<ShareOutlined />}>
+      <Button sx={styles.buttonPadding} startIcon={<ShareOutlined />}>
         Share
       </Button>
       <Popover

@@ -20,16 +20,19 @@ const Details = () => {
       // backgroundColor: "red",
       padding: "8px 0",
     },
+    borderRadius: {
+      borderRadius: "10px",
+    },
   };
   return (
-    <Card sx={{ borderRadius: "10px" }}>
-      <Typography
-        variant="h5"
-        fontWeight="fontWeightBold"
-        sx={{ padding: "20px" }}
-      >
-        Details
-      </Typography>
+    <Card sx={styles.borderRadius}>
+      <CardHeader
+        title={
+          <Typography variant="h5" fontWeight="fontWeightBold">
+            Details
+          </Typography>
+        }
+      ></CardHeader>
       <List style={styles.list} disablePadding>
         <ListItem style={styles.listItem}>
           <ListItemButton>
