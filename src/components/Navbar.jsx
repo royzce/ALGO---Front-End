@@ -72,18 +72,27 @@ export default function Navbar() {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [mdAnchorEl, setMdAnchorEl] = React.useState(null);
+  const [drawerAnchorEl, setDrawerAnchorEl] = React.useState(null);
+  const mdOpen = Boolean(mdAnchorEl);
+  const drawerOpen = Boolean(drawerAnchorEl);
+  const handleMdClick = (event) => {
+    setMdAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleMdClose = () => {
+    setMdAnchorEl(null);
+  };
+  const handleDrawerClick = (event) => {
+    setDrawerAnchorEl(event.currentTarget);
+  };
+  const handleDrawerClose = () => {
+    setDrawerAnchorEl(null);
   };
 
   const navigate = useNavigate();
   const handleGoToProfile = () => {
-    handleClose();
+    handleMdClose();
+    handleDrawerClose();
     navigate("/profile");
   };
 
@@ -135,10 +144,10 @@ export default function Navbar() {
                 </Badge>
               </IconButton>
               <IconButton
-                onClick={handleClick}
-                aria-controls={open ? "account-menu" : undefined}
+                onClick={handleMdClick}
+                aria-controls={mdOpen ? "md-menu" : undefined}
                 aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
+                aria-expanded={mdOpen ? "true" : undefined}
                 sx={{
                   p: 0,
                   display: { xs: "none", md: "inline-flex" },
@@ -147,11 +156,11 @@ export default function Navbar() {
                 <Avatar alt="U" src="/static/images/avatar/2.jpg" />
               </IconButton>
               <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
+                anchorEl={mdAnchorEl}
+                id="md-menu"
+                open={mdOpen}
+                onClose={handleMdClose}
+                onClick={handleMdClose}
                 PaperProps={{
                   elevation: 0,
                   sx: {
@@ -185,13 +194,13 @@ export default function Navbar() {
                 <MenuItem onClick={handleGoToProfile}>
                   <Avatar /> My account
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleMdClose}>
                   <ListItemIcon>
                     <Settings fontSize="small" />
                   </ListItemIcon>
                   Settings
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleMdClose}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
@@ -236,10 +245,10 @@ export default function Navbar() {
           <Box>
             <Divider />
             <Button
-              onClick={handleClick}
-              aria-controls={open ? "account-menu" : undefined}
+              onClick={handleDrawerClick}
+              aria-controls={drawerOpen ? "drawer-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
+              aria-expanded={drawerOpen ? "true" : undefined}
               sx={{
                 p: 1,
                 m: 1,
@@ -251,11 +260,11 @@ export default function Navbar() {
               </Typography>
             </Button>
             <Menu
-              anchorEl={anchorEl}
-              id="account-menu"
-              open={open}
-              onClose={handleClose}
-              onClick={handleClose}
+              anchorEl={drawerAnchorEl}
+              id="drawer-menu"
+              open={drawerOpen}
+              onClose={handleDrawerClose}
+              onClick={handleDrawerClose}
               PaperProps={{
                 elevation: 0,
                 sx: {
@@ -284,18 +293,18 @@ export default function Navbar() {
                 },
               }}
               transformOrigin={{ horizontal: "right", vertical: "bottom" }}
-              anchorOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "left", vertical: "top" }}
             >
               <MenuItem onClick={handleGoToProfile}>
                 <Avatar /> My account
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleDrawerClose}>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
                 Settings
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleDrawerClose}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
