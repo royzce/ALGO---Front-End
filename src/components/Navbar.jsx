@@ -26,6 +26,7 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -78,6 +79,12 @@ export default function Navbar() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const navigate = useNavigate();
+  const handleGoToProfile = () => {
+    handleClose();
+    navigate("/profile");
   };
 
   return (
@@ -223,7 +230,7 @@ export default function Navbar() {
               transformOrigin={{ horizontal: "right", vertical: "bottom" }}
               anchorOrigin={{ horizontal: "right", vertical: "top" }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleGoToProfile}>
                 <Avatar /> My account
               </MenuItem>
               <MenuItem onClick={handleClose}>

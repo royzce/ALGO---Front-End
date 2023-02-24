@@ -47,9 +47,9 @@ const Interest = () => {
         <Grid container spacing={6} textAlign="center">
           {interest.map((item, index) => {
             return (
-              <Grid item key={index} xs={6}>
+              <Grid item key={index} xs={4}>
                 <Typography>{item.name}</Typography>
-                <img src={item.img} alt={item.name} width="165" height="165" />
+                <img src={item.img} alt={item.name} width="auto" height="165" />
               </Grid>
             );
           })}

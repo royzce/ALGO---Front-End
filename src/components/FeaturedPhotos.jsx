@@ -46,7 +46,7 @@ const FeaturedPhotos = () => {
         action={<Button underline="hover">See all photos</Button>}
       />
       <CardMedia sx={{ padding: "0 15px" }}>
-        <ImageList cols={2} rowHeight={164} sx={styles.borderRadius}>
+        <ImageList cols={3} sx={styles.borderRadius}>
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
               <img src={item.img} alt={item.title} />

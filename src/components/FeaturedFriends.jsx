@@ -48,7 +48,7 @@ const FeaturedFriends = () => {
         action={<Button underline="hover">See all friends</Button>}
       />
       <CardMedia sx={{ padding: "0 15px" }}>
-        <ImageList cols={2} sx={styles.borderRadius}>
+        <ImageList cols={3} sx={styles.borderRadius}>
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
               <img src={item.img} alt={item.title} />

@@ -18,7 +18,7 @@ const ProfileHome = () => {
   const { allPosts } = useContext(PostContext);
   return (
     <Grid container spacing={2}>
-      <Grid item xs={4}>
+      <Grid item sm={12} md={4}>
         <Grid container spacing={2} direction="column">
           <Grid item>
             <ProfileBio />
@@ -31,7 +31,7 @@ const ProfileHome = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item sm={12} md={8}>
         <Container disableGutters>
           <AddPost />
           <Typography
