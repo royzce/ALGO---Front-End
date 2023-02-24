@@ -56,7 +56,7 @@ const RegisterPage = () => {
     if (selectedFile) {
       form.avatar = storageUrl;
     }
-    userService.register(form);
+    // userService.register(form);
     console.log(form);
   };
 

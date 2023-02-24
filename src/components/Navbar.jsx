@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
   Avatar,
@@ -16,6 +16,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import * as searchService from "../services/search";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -118,22 +119,58 @@ function NoOption({ value }) {
 function AutocompleteWithAvatar() {
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  function handleInputChange(event, value) {
+  const [showOptions, setShowOptions] = useState(false);
+  const navigate = useNavigate();
+  // function handleInputChange(event, value) {
+  //   setInputValue(value.trim());
+  //   if (value.trim().length >= 3) {
+  //     const users = algo_users
+  //       .filter(
+  //         (user) =>
+  //           user.firstName.toUpperCase().includes(value.toUpperCase()) ||
+  //           user.lastName.toUpperCase().includes(value.toUpperCase())
+  //       )
+  //       .slice(0, 5); //limit of five result
+  //     setOptions(users);
+  //   } else {
+  //     setOptions([]);
+  //   }
+  // }
+  let timeoutId;
+  function handleInput(event) {
+    const value = event.target.value;
+    clearTimeout(timeoutId);
     setInputValue(value.trim());
-    if (value.trim().length >= 3) {
-      const users = algo_users
-        .filter(
-          (user) =>
-            user.firstName.toUpperCase().includes(value.toUpperCase()) ||
-            user.lastName.toUpperCase().includes(value.toUpperCase())
-        )
-        .slice(0, 5); //limit of five result
-      setOptions(users);
-    } else {
-      setOptions([]);
-    }
+    timeoutId = setTimeout(() => {
+      if (value.trim().length >= 3) {
+        const users = algo_users
+          .filter(
+            (user) =>
+              user.firstName.toUpperCase().includes(value.toUpperCase()) ||
+              user.lastName.toUpperCase().includes(value.toUpperCase())
+          )
+          .slice(0, 5); //limit of five result
+        setOptions(users);
+      } else {
+        setOptions([]);
+      }
+    }, 500);
   }
 
+  function handleKeyDown(event) {
+    if (event.key === "Enter" && inputValue.length > 0) {
+      setShowOptions(false);
+      navigate(`/search/${inputValue}`);
+    }
+  }
+  function handleFocus() {
+    setShowOptions(true);
+  }
+  let inpuSearchRef = createRef();
+  function handleBlur() {
+    setShowOptions(false);
+    inpuSearchRef.current.blur();
+  }
   /**
    * Code Below is for implementation in API
    *
@@ -150,9 +187,10 @@ function AutocompleteWithAvatar() {
 
   return (
     <Autocomplete
+      ref={inpuSearchRef}
       forcePopupIcon={false}
       options={options}
-      open={inputValue.length > 0}
+      open={inputValue.length > 0 && showOptions}
       getOptionLabel={(option) => option.firstName + " " + option.lastName}
       renderOption={(props, option) => {
         if (option.userId) {
@@ -175,7 +213,12 @@ function AutocompleteWithAvatar() {
         result.push({ label: "Not Found" });
         return result;
       }}
-      onInputChange={handleInputChange}
+      onKeyDown={handleKeyDown}
+      onInput={handleInput}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      clearOnBlur={false}
+      // onInputChange={handleInputChange}
     />
   );
 }
