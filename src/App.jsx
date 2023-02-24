@@ -17,6 +17,10 @@ import FriendsList from "./components/FriendsList";
 import FriendRequestList from "./components/FriendRequestList";
 import EditPrivacy from "./components/EditPrivacy";
 import SearchPage from "./pages/SearchPage";
+import PostsList from "./components/PostsList";
+import SearchAll from "./components/SearchAll";
+import SearchPeople from "./components/SearchPeople";
+import SearchPosts from "./components/SearchPosts";
 
 function App() {
   return (
@@ -43,7 +47,12 @@ function App() {
         </Route>
         <Route path="/not-found" element={<PageNotFound />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/search/:q" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage />}>
+          <Route path="/search/all/:q" element={<SearchAll />} />
+          <Route path="/search/people/:q" element={<SearchPeople />} />
+          <Route path="/search/posts/:q" element={<SearchPosts />} />
+          <Route path="/search/*" element={<Navigate to="/not-found" />} />
+        </Route>
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
