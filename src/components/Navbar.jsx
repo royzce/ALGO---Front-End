@@ -1,5 +1,4 @@
 import React, { createRef, useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
 import {
   Avatar,
   Grid,
@@ -24,40 +23,13 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import * as searchService from "../services/search";
+// import * as searchService from "../services/search";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
-import { indigo } from "@mui/material/colors";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: "theme.shape.borderRadius",
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
