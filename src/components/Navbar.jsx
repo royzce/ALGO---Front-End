@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
   Avatar,
@@ -7,7 +7,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  InputBase,
   Badge,
   Autocomplete,
   TextField,
@@ -23,7 +22,6 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import * as searchService from "../services/search";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
