@@ -12,7 +12,7 @@ export default function HomePage() {
       direction="column"
       justifyContent="flex-start"
       alignItems="center"
-      spacing={1}
+      spacing={2}
       maxWidth={"md"}
       minWidth={"xs"}
       margin={"12px auto"}

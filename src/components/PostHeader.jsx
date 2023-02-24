@@ -51,19 +51,25 @@ export default function PostHeader({ post, onEdit, onEditPrivacy }) {
     let icon = <></>;
     switch (privacy) {
       case "private":
-        icon = <LockIcon sx={{ fontSize: 16 }} />;
+        icon = <LockIcon sx={styles.iconSize} />;
         break;
       case "friends":
-        icon = <GroupIcon sx={{ fontSize: 16 }} />;
+        icon = <GroupIcon sx={styles.iconSize} />;
         break;
       case "public":
-        icon = <PublicOutlinedIcon sx={{ fontSize: 16 }} />;
+        icon = <PublicOutlinedIcon sx={styles.iconSize} />;
         break;
       default:
         break;
     }
     return icon;
   }
+
+  const styles = {
+    iconSize: {
+      fontSize: 16,
+    },
+  };
 
   return (
     <List>

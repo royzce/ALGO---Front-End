@@ -1,10 +1,8 @@
 import {
   Avatar,
   AvatarGroup,
-  Box,
   CardMedia,
   Container,
-  Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -12,6 +10,12 @@ import React from "react";
 
 const Header = () => {
   const styles = {
+    profilePhoto: {
+      border: "5px solid white",
+      width: 200,
+      height: 200,
+      margin: "-50px 0 0 20px",
+    },
     coverPhoto: {
       objectFit: "cover",
       width: "100%",
@@ -19,6 +23,8 @@ const Header = () => {
       marginBottom: "10px",
       borderBottomLeftRadius: "12px",
       borderBottomRightRadius: "12px",
+      boxShadow: "0px 0px 30px rgba(0, 0, 0, 0.4)",
+      backdropFilter: "blur(8px)",
     },
     stack1: {
       marginBottom: "20px",
@@ -29,23 +35,18 @@ const Header = () => {
       <CardMedia
         component="img"
         image="https://wallpaperaccess.com/full/22249.jpg"
-        style={styles.coverPhoto}
+        sx={styles.coverPhoto}
       />
       <Stack
         direction="row"
         justifyContent="flex-start"
         spacing={3}
-        style={styles.stack1}
+        sx={styles.stack1}
       >
         <Avatar
           src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
           alt="profile"
-          sx={{
-            border: "5px solid white",
-            width: 200,
-            height: 200,
-            margin: "-50px 0 0 20px",
-          }}
+          sx={styles.profilePhoto}
         />
         <Stack
           direction="column"
@@ -82,66 +83,6 @@ const Header = () => {
         </Stack>
       </Stack>
     </Container>
-    // <Grid>
-    //   <Box>
-    //     <Box position="static">
-    //       {/* <img
-    //         height={360}
-    //         width={"100%"}
-    //         src="https://wallpaperaccess.com/full/22249.jpg"
-    //         alt="cover"
-    //         sx={{ borderRadius: 3 }}
-    //       /> */}
-    //       <CardMedia
-    //         component="img"
-    //         image="https://wallpaperaccess.com/full/22249.jpg"
-    //         style={styles.coverPhoto}
-    //       />
-    //       <Grid container spacing={4} sx={{ backgroundColor: "red" }}>
-    //         <Grid item>
-    //           <Avatar
-    //             src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
-    //             alt="profile"
-    //             sx={{
-    //               border: "5px solid white",
-    //               position: "relative",
-    //               width: 200,
-    //               height: 200,
-    //               top: -50,
-    //               left: 20,
-    //             }}
-    //           />
-    //         </Grid>
-    //         <Grid item>
-    //           <Typography>Name FamilyName</Typography>
-    //           <Typography>@Username</Typography>
-    //           <AvatarGroup max={4}>
-    //             <Avatar
-    //               src="https://i.pinimg.com/originals/a7/d2/e6/a7d2e62776ce45b76a88ae2eeaf44803.jpg"
-    //               alt="p1"
-    //             />
-    //             <Avatar
-    //               src="https://i.pinimg.com/474x/cb/33/d8/cb33d80fe655e221ae05f41c8edd0cdb.jpg"
-    //               alt="p2"
-    //             />
-    //             <Avatar
-    //               src="https://i.pinimg.com/474x/ee/e6/51/eee651694ba2b3112ffb3eb4525547e9--denzel-washington-cinema.jpg"
-    //               alt="p3"
-    //             />
-    //             <Avatar
-    //               src="https://i.pinimg.com/originals/9d/13/b0/9d13b0ef9e1a3bce90c3946842a8592f.jpg"
-    //               alt="p4"
-    //             />
-    //             <Avatar
-    //               src="https://i.pinimg.com/736x/65/8e/4e/658e4eef6027fe5cfbd580b21d10fc1e--male-portraits-photography-portraits.jpg"
-    //               alt="p5"
-    //             />
-    //           </AvatarGroup>
-    //         </Grid>
-    //       </Grid>
-    //     </Box>
-    //   </Box>
-    // </Grid>
   );
 };
 

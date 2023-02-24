@@ -6,7 +6,6 @@ import PostPage from "./pages/PostPage";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Navbar from "./components/Navbar";
-import PostForm from "./components/PostForm";
 import { CssBaseline } from "@mui/material";
 import ProfilePage from "./pages/ProfilePage";
 import ProfileAbout from "./components/ProfileAbout";

@@ -72,7 +72,7 @@ export default function Comment({ comment, replies, reply }) {
       ) : (
         <>
           <ListItem
-            sx={{ bgcolor: "#f0f2f5", borderRadius: "10px" }}
+            sx={{ bgcolor: "#f0f2f5", borderRadius: "12px" }}
             alignItems="flex-start"
             secondaryAction={
               <IconButton size="small" onClick={handleMoreClick}>

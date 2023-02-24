@@ -8,6 +8,18 @@ import { Stack } from "@mui/system";
 import React from "react";
 
 export default function PostStats({ onToggleComments }) {
+  const styles = {
+    avatarSize: {
+      width: 24,
+      height: 24,
+    },
+    reactsIconSize: {
+      fontSize: 12,
+    },
+    statsIconSize: {
+      fontSize: 18,
+    },
+  };
   return (
     <Stack
       direction="row"
@@ -17,14 +29,14 @@ export default function PostStats({ onToggleComments }) {
     >
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <AvatarGroup>
-          <Avatar sx={{ width: 24, height: 24 }}>
-            <ThumbUpIcon sx={{ fontSize: 12 }} />
+          <Avatar sx={styles.avatarSize}>
+            <ThumbUpIcon sx={styles.reactsIconSize} />
           </Avatar>
-          <Avatar sx={{ width: 24, height: 24 }}>
-            <FavoriteIcon sx={{ fontSize: 12 }} />
+          <Avatar sx={styles.avatarSize}>
+            <FavoriteIcon sx={styles.reactsIconSize} />
           </Avatar>
-          <Avatar sx={{ width: 24, height: 24 }}>
-            <SickIcon sx={{ fontSize: 12 }} />
+          <Avatar sx={styles.avatarSize}>
+            <SickIcon sx={styles.reactsIconSize} />
           </Avatar>
         </AvatarGroup>
         <Typography variant="body2">Louis Cyphre and 11 others</Typography>
@@ -39,7 +51,7 @@ export default function PostStats({ onToggleComments }) {
           onClick={onToggleComments}
         >
           <Typography variant="body2">{2}</Typography>
-          <ModeCommentOutlinedIcon sx={{ fontSize: 18 }} />
+          <ModeCommentOutlinedIcon sx={styles.statsIconSize} />
         </Stack>
         <Stack
           component={Button}
@@ -49,7 +61,7 @@ export default function PostStats({ onToggleComments }) {
           spacing={1}
         >
           <Typography variant="body2">4</Typography>
-          <ShareOutlinedIcon sx={{ fontSize: 18 }} />
+          <ShareOutlinedIcon sx={styles.statsIconSize} />
         </Stack>
       </Stack>
     </Stack>

@@ -1,14 +1,12 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
-import * as commentSvc from "../services/comment";
 import CommentSection from "./CommentSection";
 import EditPrivacy from "./EditPrivacy";
 import PostActions from "./PostActions";
 import PostForm from "./PostForm";
 import PostHeader from "./PostHeader";
 import PostMedia from "./PostMedia";
-import PostReactions from "./PostReactions";
 import PostStats from "./PostStats";
 
 export default function Post({ post }) {
@@ -42,10 +40,21 @@ export default function Post({ post }) {
     onEditPost(editedPost);
   }
 
+  const styles = {
+    card: {
+      width: "100%",
+      borderRadius: "10px",
+    },
+    cardContent: {
+      width: "100%",
+      padding: "24px",
+    },
+  };
+
   return (
     <>
-      <Card sx={{ width: "100%", borderRadius: "10px" }}>
-        <CardContent sx={{ width: "100%", padding: "24px" }}>
+      <Card sx={styles.card}>
+        <CardContent sx={styles.cardContent}>
           <PostHeader
             post={post}
             onEdit={handleEdit}
