@@ -12,6 +12,7 @@ import {
   ImageListItem,
   Modal,
   TextField,
+  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
@@ -111,19 +112,30 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     onClose();
   }
 
+  const styles = {
+    modal: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    card: {
+      width: "50%",
+      maxHeight: "90%",
+      overflowY: "scroll",
+      borderRadius: "10px",
+      padding: "10px",
+    },
+  };
+
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Card sx={{ width: "50%", maxHeight: "90%", overflowY: "scroll" }}>
+    <Modal open={open} onClose={onClose} sx={styles.modal}>
+      <Card sx={styles.card}>
         <CardHeader
-          title={post ? "EDIT POST" : "NEW POST"}
+          title={
+            <Typography variant="h5" fontWeight="fontWeightBold">
+              {post ? "EDIT POST" : "NEW POST"}
+            </Typography>
+          }
           action={
             <IconButton onClick={onClose}>
               <CloseIcon />

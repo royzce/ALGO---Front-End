@@ -9,8 +9,14 @@ import { Stack } from "@mui/system";
 import React from "react";
 
 export default function PostReactions({ handleLike, handlePopoverClose }) {
+  const styles = {
+    stack: {
+      padding: "5px",
+      pointerEvents: "auto",
+    },
+  };
   return (
-    <Stack direction="row" sx={{ padding: "5px", pointerEvents: "auto" }}>
+    <Stack direction="row" sx={styles.stack}>
       <IconButton
         onClick={(event) => {
           handleLike(event);

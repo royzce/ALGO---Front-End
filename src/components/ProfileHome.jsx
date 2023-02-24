@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext } from "react";
-import Bio from "./Bio";
+import ProfileBio from "./ProfileBio";
 import FeaturedPhotos from "./FeaturedPhotos";
 import FeaturedFriends from "./FeaturedFriends";
 import AddPost from "../components/AddPost";
@@ -21,7 +21,7 @@ const ProfileHome = () => {
       <Grid item xs={4}>
         <Grid container spacing={2} direction="column">
           <Grid item>
-            <Bio />
+            <ProfileBio />
           </Grid>
           <Grid item>
             <FeaturedPhotos />

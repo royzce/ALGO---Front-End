@@ -36,6 +36,10 @@ export default function Login() {
       maxWidth: "685px",
       margin: "70px auto",
     },
+    heading: {
+      textAlign: "center",
+      margin: "26px 0",
+    },
   };
   const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -51,7 +55,7 @@ export default function Login() {
         alt="Algo app logo"
       />
       <GlobalCSS />
-      <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
+      <Typography variant="h5" sx={styles.heading}>
         <strong>Hi, Welcome to Algo</strong>
       </Typography>
       <TextField

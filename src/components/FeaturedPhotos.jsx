@@ -29,23 +29,24 @@ const itemData = [
 ];
 
 const FeaturedPhotos = () => {
+  const styles = {
+    borderRadius: {
+      borderRadius: "10px",
+    },
+  };
+
   return (
-    <Card sx={{ borderRadius: "10px" }}>
+    <Card sx={styles.borderRadius}>
       <CardHeader
-        // sx={{ padding: "20px" }}
         title={
-          <Typography
-            variant="h5"
-            fontWeight="fontWeightBold"
-            // sx={{ padding: "20px" }}
-          >
+          <Typography variant="h5" fontWeight="fontWeightBold">
             Featured Photos
           </Typography>
         }
         action={<Button underline="hover">See all photos</Button>}
       />
       <CardMedia sx={{ padding: "0 15px" }}>
-        <ImageList cols={2} rowHeight={164} sx={{ borderRadius: "10px" }}>
+        <ImageList cols={2} rowHeight={164} sx={styles.borderRadius}>
           {itemData.map((item) => (
             <ImageListItem key={item.img}>
               <img src={item.img} alt={item.title} />

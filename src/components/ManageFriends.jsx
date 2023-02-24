@@ -57,8 +57,14 @@ const ManageFriends = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const styles = {
+    borderRadius: {
+      borderRadius: "10px",
+    },
+  };
   return (
-    <Card sx={{ borderRadius: "10px" }}>
+    <Card sx={styles.borderRadius}>
       <CardHeader
         sx={{ padding: "20px" }}
         title={
@@ -67,7 +73,7 @@ const ManageFriends = () => {
           </Typography>
         }
         action={
-          <Search sx={{ backgroundColor: "lightgray", borderRadius: "50px" }}>
+          <Search sx={styles.borderRadius}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

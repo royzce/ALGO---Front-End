@@ -13,13 +13,13 @@ const About = () => {
     <Grid container spacing={2}>
       <Grid item xs={4}>
         <Card sx={{ borderRadius: "10px" }}>
-          <Typography
-            variant="h5"
-            fontWeight="fontWeightBold"
-            sx={{ padding: "20px" }}
-          >
-            About
-          </Typography>
+          <CardHeader
+            title={
+              <Typography variant="h5" fontWeight="fontWeightBold">
+                About
+              </Typography>
+            }
+          />
           <Tabs value={value} onChange={handleChange} orientation="vertical">
             <Tab
               value="Details"

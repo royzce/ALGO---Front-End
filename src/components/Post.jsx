@@ -42,10 +42,21 @@ export default function Post({ post }) {
     onEditPost(editedPost);
   }
 
+  const styles = {
+    card: {
+      width: "100%",
+      borderRadius: "10px",
+    },
+    cardContent: {
+      width: "100%",
+      padding: "24px",
+    },
+  };
+
   return (
     <>
-      <Card sx={{ width: "100%", borderRadius: "10px" }}>
-        <CardContent sx={{ width: "100%", padding: "24px" }}>
+      <Card sx={styles.card}>
+        <CardContent sx={styles.cardContent}>
           <PostHeader
             post={post}
             onEdit={handleEdit}

@@ -8,8 +8,15 @@ const ProfileNavBar = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const styles = {
+    box: {
+      width: "100%",
+      borderTop: "1px solid silver",
+    },
+  };
   return (
-    <Box sx={{ width: "100%", borderTop: "1px solid silver" }}>
+    <Box sx={styles.box}>
       <Tabs value={value} onChange={handleChange}>
         <Tab value="Post" label="Post" LinkComponent={Link} to={"/profile"} />
         <Tab

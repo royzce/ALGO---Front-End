@@ -29,9 +29,20 @@ const interest = [
 ];
 
 const Interest = () => {
+  const styles = {
+    borderRadius: {
+      borderRadius: "10px",
+    },
+  };
   return (
-    <Card>
-      <CardHeader title="Interest" />
+    <Card sx={styles.borderRadius}>
+      <CardHeader
+        title={
+          <Typography variant="h5" fontWeight="fontWeightBold">
+            Interests
+          </Typography>
+        }
+      />
       <CardContent>
         <Grid container spacing={6} textAlign="center">
           {interest.map((item, index) => {
