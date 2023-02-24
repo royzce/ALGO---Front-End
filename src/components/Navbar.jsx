@@ -362,7 +362,7 @@ function AutocompleteWithAvatar() {
   function handleKeyDown(event) {
     if (event.key === "Enter" && inputValue.length > 0) {
       event.target.blur();
-      navigate(`/search/${inputValue}`);
+      navigate(`/search/all/${inputValue}`);
     }
   }
   function handleFocus() {
