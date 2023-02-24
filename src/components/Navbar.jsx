@@ -19,6 +19,8 @@ import {
   ListItemText,
   MenuItem,
   Menu,
+  InputAdornment,
+  Paper,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -29,10 +31,11 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
+import { indigo } from "@mui/material/colors";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: "theme.shape.borderRadius",
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
@@ -115,13 +118,13 @@ export default function Navbar() {
           </Grid>
           <Grid item sm={4}>
             <Toolbar>
-              <Search>
-                <SearchIconWrapper>
+              {/* <Search> */}
+              {/* <SearchIconWrapper>
                   <SearchIcon />
-                </SearchIconWrapper>
-                {/* <StyledInputBase placeholder="Search…" /> */}
-                <AutocompleteWithAvatar />
-              </Search>
+                </SearchIconWrapper> */}
+              {/* <StyledInputBase placeholder="Search…" /> */}
+              <AutocompleteWithAvatar />
+              {/* </Search> */}
             </Toolbar>
           </Grid>
           <Grid item sm={4} container justifyContent="flex-end">
@@ -307,12 +310,15 @@ export default function Navbar() {
 function CustomOption({ option }) {
   return (
     <div
-      style={{ display: "flex", alignItems: "center" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        height: "3.25rem",
+      }}
       onClick={() => console.log(option)}
     >
-      <SearchIcon />
-      <Avatar src={option.avatar} />
-      <div style={{ marginLeft: "1rem", color: "black" }}>
+      <Avatar src={option.avatar} sx={{ marginLeft: "10px" }} />
+      <div style={{ marginLeft: "20px", color: "black" }}>
         {option.firstName + " " + option.lastName}
       </div>
     </div>
@@ -323,11 +329,18 @@ function CustomOption({ option }) {
 function NoOption({ value }) {
   return (
     <div
-      style={{ display: "flex", alignItems: "center", height: "2.5rem" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        height: "3.25rem",
+      }}
       onClick={() => console.log(value)}
     >
-      <SearchIcon />
-      <div style={{ marginLeft: "1rem", color: "black" }}>
+      {/* <SearchIcon sx={{ marginLeft: "10px" }} /> */}
+      <Avatar sx={{ marginLeft: "10px", bgcolor: "#1976d2" }}>
+        <SearchIcon />
+      </Avatar>
+      <div style={{ marginLeft: "20px", color: "black" }}>
         Search for <strong>{value}</strong>
       </div>
     </div>
@@ -404,6 +417,24 @@ function AutocompleteWithAvatar() {
 
   return (
     <Autocomplete
+      sx={{
+        border: "2px solid #1460ab",
+        borderRadius: "50px",
+        padding: "0px 5px",
+      }}
+      PaperComponent={({ children }) => (
+        <Paper
+          elevation={1}
+          style={{
+            borderRadius: "8px",
+            marginTop: "4px",
+            maxHeight: "20rem",
+            overflowY: "auto",
+          }}
+        >
+          {children}
+        </Paper>
+      )}
       ref={inpuSearchRef}
       forcePopupIcon={false}
       options={options}
@@ -418,10 +449,33 @@ function AutocompleteWithAvatar() {
       }}
       renderInput={(params) => (
         <TextField
-          style={{ width: "25rem" }}
+          sx={{
+            width: "25rem",
+            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+              backgroundColor: "transparent",
+              border: "none",
+              overflow: "hidden",
+              borderRadius: "50px",
+            },
+            // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+            //   color: "white",
+            // },
+            "&.Mui-focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+              {
+                backgroundColor: "transparent",
+              },
+          }}
           {...params}
           placeholder="Search Algo"
           variant="outlined"
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
       )}
       ListboxProps={{ style: { maxHeight: "100%" } }}
