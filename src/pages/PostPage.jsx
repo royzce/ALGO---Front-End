@@ -41,7 +41,7 @@ export default function PostPage() {
             {/**
              * TODO: for implementation once the reactions are decided
              */}
-            <PostReactions post={post} />
+            {/* <PostReactions post={post} /> */}
             <PostActions post={post} />
             <CommentSection show={showComments} post={post} />
           </CardContent>
