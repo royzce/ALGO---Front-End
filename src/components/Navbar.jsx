@@ -10,6 +10,7 @@ import {
   Badge,
   Autocomplete,
   TextField,
+  Button,
   Drawer,
   Box,
   List,
@@ -18,10 +19,10 @@ import {
   ListItemText,
   MenuItem,
   Menu,
-  Button,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import * as searchService from "../services/search";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
@@ -200,12 +201,6 @@ export default function Navbar() {
               </Menu>
             </Toolbar>
           </Grid>
-
-          {/* <Grid item md={2}>
-          <Toolbar>
-            
-          </Toolbar>
-        </Grid> */}
         </Grid>
       </AppBar>
       <Drawer open={isDrawerOpen} onClose={handleDrawerToggle}>
