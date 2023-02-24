@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 
 import Navbar from "./components/Navbar";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
         <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<HomePage />} />
         <Route path="/not-found" element={<PageNotFound />} />
+        <Route path="/search/:q" element={<SearchPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
     </>
