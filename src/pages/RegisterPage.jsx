@@ -16,6 +16,7 @@ import FirebaseProfileUpload from "../components/FirebaseProfileUpload";
 import { RegisterContext } from "../context/RegisterContext";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
+import * as userService from "../services/user";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const RegisterPage = () => {
@@ -55,6 +56,7 @@ const RegisterPage = () => {
     if (selectedFile) {
       form.avatar = storageUrl;
     }
+    userService.register(form);
     console.log(form);
   };
 
