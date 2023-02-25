@@ -1,21 +1,36 @@
-import { Card, CardContent, Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
+import { Card, CardContent, CircularProgress, Typography } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
 import { PostContext } from "../context/PostContext";
-import * as commentSvc from "../services/comment";
+import { UserContext } from "../context/UserContext";
 import CommentSection from "./CommentSection";
 import EditPrivacy from "./EditPrivacy";
 import PostActions from "./PostActions";
 import PostForm from "./PostForm";
 import PostHeader from "./PostHeader";
 import PostMedia from "./PostMedia";
-import PostReactions from "./PostReactions";
 import PostStats from "./PostStats";
 
-export default function Post({ post }) {
-  const [showComments, setShowComments] = useState(false);
+export default function Post({ post, page, shared }) {
   const [editPrivacy, setEditPrivacy] = useState(false);
+
   const [editing, setEditing] = useState(false);
-  const { onEditPost } = useContext(PostContext);
+  const { onEditPost, onAddReact, onEditReact, onDeleteReact } =
+    useContext(PostContext);
+
+  const { currentUser: user } = useContext(UserContext);
+
+  const [showComments, setShowComments] = useState(false);
+
+  const [reaction, setReaction] = useState(null);
+
+  useEffect(() => {
+    if (post && user) {
+      const react = post.reactions.find(
+        (react) => react.userId === user.userId
+      );
+      setReaction(react);
+    }
+  }, [post, user]);
 
   function handleToggleComments() {
     setShowComments(!showComments);
@@ -42,7 +57,27 @@ export default function Post({ post }) {
     onEditPost(editedPost);
   }
 
-  return (
+  function handleReact(value) {
+    if (value && reaction) {
+      // edit reaction
+      const react = { ...reaction, postId: post.postId, value };
+      onEditReact(react);
+    } else if (value && !reaction) {
+      // add reaction
+      const react = { postId: post.postId, value };
+      onAddReact(react);
+    } else {
+      // delete reaction
+      onDeleteReact(reaction);
+      setReaction(null);
+    }
+  }
+
+  function handleShare() {
+    // TODO
+  }
+
+  return post ? (
     <>
       <Card sx={{ width: "100%", borderRadius: "10px" }}>
         <CardContent sx={{ width: "100%", padding: "24px" }}>
@@ -50,22 +85,33 @@ export default function Post({ post }) {
             post={post}
             onEdit={handleEdit}
             onEditPrivacy={handleEditPriv}
+            user={user}
           />
           <Typography paragraph>{post.value}</Typography>
-          <PostMedia post={post} />
-          {/**
-         TODO: for implementation once users are available and the reactions
-        are decided
-         */}
-          <PostStats post={post} onToggleComments={handleToggleComments} />
-          {/**
-           * TODO: for implementation once the reactions are decided
-           */}
-          {/* <PostReactions post={post} /> */}
-          <hr style={{ marginBottom: "12px" }} />
-          <PostActions post={post} />
-          <hr style={{ marginTop: "12px" }} />
-          <CommentSection show={showComments} post={post} />
+          {!page && <PostMedia post={post} />}
+          {!shared && (
+            <>
+              <PostStats
+                post={post}
+                onToggleComments={handleToggleComments}
+                reaction={reaction}
+                totalReacts={post.reactions.length}
+                totalComments={post.comment.length}
+              />
+              <hr style={{ marginBottom: "12px" }} />
+              <PostActions
+                onReact={handleReact}
+                reaction={reaction}
+                onShare={handleShare}
+              />
+              <hr style={{ marginTop: "12px" }} />
+              <CommentSection
+                show={showComments}
+                post={post}
+                allComments={post.comment}
+              />
+            </>
+          )}
         </CardContent>
       </Card>
       {editing && (
@@ -86,5 +132,7 @@ export default function Post({ post }) {
         />
       )}
     </>
+  ) : (
+    <CircularProgress />
   );
 }

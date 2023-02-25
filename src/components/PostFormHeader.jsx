@@ -23,20 +23,20 @@ export default function PostFormHeader({
   onToggleTags,
   onTogglePhotos,
   totalTags,
+  user,
 }) {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <ListItem>
         <ListItemAvatar>
-          <Avatar
-            alt="avatar"
-            src="https://i.pinimg.com/originals/f9/a0/b4/f9a0b4f86ab0226ec83dfff20c08ba78.jpg"
-          />
+          <Avatar alt="avatar" src={user && user.avatar} />
         </ListItemAvatar>
         <ListItemText
           primary={
             <>
-              <Typography variant="span">Johnny Favorite</Typography>
+              <Typography variant="span">
+                {user && `${user.firstName} ${user.lastName}`}
+              </Typography>
               {totalTags > 0 && (
                 <Typography variant="span">
                   {" and "}
@@ -45,7 +45,7 @@ export default function PostFormHeader({
               )}
             </>
           }
-          secondary="@johnnyfave"
+          secondary={user && `@${user.username}`}
         />
       </ListItem>
       <Stack direction="row" justifyContent="center" alignItems="center">

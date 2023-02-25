@@ -1,8 +1,8 @@
 import {
   Avatar,
-  Card,
-  CardContent,
+  Box,
   IconButton,
+  LinearProgress,
   Paper,
   TextField,
 } from "@mui/material";
@@ -11,6 +11,7 @@ import { Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import PostForm from "./PostForm";
 import { PostContext } from "../context/PostContext";
+import { UserContext } from "../context/UserContext";
 
 export default function AddPost() {
   const styles = {
@@ -23,7 +24,8 @@ export default function AddPost() {
       borderRadius: "10px",
     },
   };
-  const { onAddPost } = useContext(PostContext);
+  const { onAddPost, posting } = useContext(PostContext);
+  const { currentUser: user } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [withPhoto, setWithPhoto] = useState(false);
 
@@ -53,12 +55,9 @@ export default function AddPost() {
           spacing={2}
           style={styles.stack}
         >
-          <Avatar
-            alt="prof-pic"
-            src="https://i.pinimg.com/originals/f9/a0/b4/f9a0b4f86ab0226ec83dfff20c08ba78.jpg"
-          />
+          <Avatar alt="avatar" src={user && user.avatar} />
           <TextField
-            placeholder="Say something, Johnny."
+            placeholder={user && `Say something, ${user.firstName}.`}
             fullWidth
             onClick={() => setOpen(true)}
           />
@@ -67,7 +66,12 @@ export default function AddPost() {
           </IconButton>
         </Stack>
       </Paper>
-      {open && (
+      {posting && (
+        <Box sx={{ width: "95%" }}>
+          <LinearProgress />
+        </Box>
+      )}
+      {(open || posting) && (
         <PostForm
           withPhoto={withPhoto}
           onTogglePhotos={handleTogglePhotos}

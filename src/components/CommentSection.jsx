@@ -1,24 +1,11 @@
 import { List } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { CommentContext } from "../context/CommentContext";
-import * as commentSvc from "../services/comment";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 
-export default function CommentSection({ show, post }) {
-  const [allComments, setAllComments] = useState([]);
+export default function CommentSection({ show, post, allComments }) {
   const comments = allComments.filter((comment) => !comment.replyTo);
-
-  useEffect(() => {
-    if (show) {
-      commentSvc.getComments(post.id).then((res) => {
-        setAllComments(res.data);
-        console.log("CommentSection mounting", res.data);
-      });
-    } else {
-      setAllComments([]);
-    }
-  }, [show]);
 
   function handleAddComment({ value, replyTo }) {
     // TODO
@@ -44,20 +31,22 @@ export default function CommentSection({ show, post }) {
           onDelete: handleDeleteComment,
         }}
       >
-        <List disablePadding dense={true}>
-          {comments &&
-            comments.map((comment) => (
-              <Fragment key={comment.id}>
-                <Comment
-                  comment={comment}
-                  replies={allComments.filter(
-                    (com) => com.replyTo === comment.id
-                  )}
-                  reply={false}
-                />
-              </Fragment>
-            ))}
-        </List>
+        {show && (
+          <List disablePadding dense={true}>
+            {comments &&
+              comments.map((comment) => (
+                <Fragment key={comment.commentId}>
+                  <Comment
+                    comment={comment}
+                    replies={allComments.filter(
+                      (com) => com.replyTo === comment.commentId
+                    )}
+                    reply={false}
+                  />
+                </Fragment>
+              ))}
+          </List>
+        )}
         <AddComment />
       </CommentContext.Provider>
     </>

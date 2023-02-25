@@ -15,3 +15,8 @@ body {
   background-color: silver;
   border-radius: 100px;
 }
+
+.img-post-page {
+  object-fit: contain;
+  width: 100%;
+}
