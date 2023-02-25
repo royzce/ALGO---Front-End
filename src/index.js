@@ -11,6 +11,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BrowserRouter } from "react-router-dom";
 import { RegisterProvider } from "./context/RegisterContext";
 import PostProvider from "./context/PostContext";
+import UserProvider from "./context/UserContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,7 +19,9 @@ root.render(
     <BrowserRouter>
       <RegisterProvider>
         <PostProvider>
-          <App />
+          <UserProvider>
+            <App />
+          </UserProvider>
         </PostProvider>
       </RegisterProvider>
     </BrowserRouter>

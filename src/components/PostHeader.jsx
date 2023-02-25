@@ -16,11 +16,12 @@ import {
 import { Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
+import { getElapsedTime } from "../services/util";
 
 export default function PostHeader({ post, onEdit, onEditPrivacy }) {
   const { onDeletePost } = useContext(PostContext);
-  const { firstName, lastName, username, avatar, id, date, privacy } =
-    post || {};
+  const { postId, date, privacy, tags } = post || {};
+  const { firstName, lastName, username, avatar } = (post && post.user) || {};
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -35,7 +36,7 @@ export default function PostHeader({ post, onEdit, onEditPrivacy }) {
   }
 
   function handleDelete() {
-    onDeletePost(id);
+    onDeletePost(postId);
     handleClose();
   }
 
@@ -44,7 +45,8 @@ export default function PostHeader({ post, onEdit, onEditPrivacy }) {
   }
 
   function displayDate() {
-    return date;
+    const display = new Date(date);
+    return getElapsedTime(display);
   }
 
   function displayPrivacy() {
@@ -94,7 +96,8 @@ export default function PostHeader({ post, onEdit, onEditPrivacy }) {
           disableTypography
           primary={
             <Typography variant="body1">
-              {firstName} {lastName} and 2 others
+              {firstName} {lastName}
+              {tags && tags.length > 0 && ` and ${tags.length} others`}
             </Typography>
           }
           secondary={
@@ -103,7 +106,7 @@ export default function PostHeader({ post, onEdit, onEditPrivacy }) {
                 @{username}
               </Typography>
               <Typography component="span" variant="body2">
-                {displayDate()}
+                {date && displayDate()}
               </Typography>
               <IconButton size="small" onClick={onEditPrivacy}>
                 {displayPrivacy()}

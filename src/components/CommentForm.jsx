@@ -2,8 +2,9 @@ import { Avatar, IconButton, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Stack } from "@mui/system";
+import { UserContext } from "../context/UserContext";
 
 export default function CommentForm({
   comment,
@@ -12,12 +13,13 @@ export default function CommentForm({
   onCloseForm,
 }) {
   const [value, setValue] = useState("");
+  const { currentUser: user } = useContext(UserContext);
 
   useEffect(() => {
     if (editing && comment) {
       setValue(comment.value);
     }
-  }, [comment]);
+  }, [comment, editing]);
 
   function handleChange(event) {
     const { value: input } = event.currentTarget;
@@ -31,10 +33,7 @@ export default function CommentForm({
   return (
     <>
       <Stack direction="row" spacing={1} alignItems="flex-start" padding={2}>
-        <Avatar
-          alt="profile-picture"
-          src="https://i.pinimg.com/originals/f9/a0/b4/f9a0b4f86ab0226ec83dfff20c08ba78.jpg"
-        />
+        <Avatar alt="avatar" src={user && user.avatar} />
         <TextField
           hiddenLabel
           multiline

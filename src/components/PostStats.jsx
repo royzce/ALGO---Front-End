@@ -1,13 +1,17 @@
 import { Avatar, AvatarGroup, Button, Typography } from "@mui/material";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import SickIcon from "@mui/icons-material/Sick";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Stack } from "@mui/system";
 import React from "react";
+import { REACTIONS } from "../services/post";
 
-export default function PostStats({ onToggleComments }) {
+export default function PostStats({
+  onToggleComments,
+  post,
+  totalReacts,
+  reaction,
+  totalComments,
+}) {
   const styles = {
     avatarSize: {
       width: 24,
@@ -20,6 +24,7 @@ export default function PostStats({ onToggleComments }) {
       fontSize: 18,
     },
   };
+
   return (
     <Stack
       direction="row"
@@ -29,17 +34,32 @@ export default function PostStats({ onToggleComments }) {
     >
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <AvatarGroup>
-          <Avatar sx={styles.avatarSize}>
-            <ThumbUpIcon sx={styles.reactsIconSize} />
-          </Avatar>
-          <Avatar sx={styles.avatarSize}>
-            <FavoriteIcon sx={styles.reactsIconSize} />
-          </Avatar>
-          <Avatar sx={styles.avatarSize}>
-            <SickIcon sx={styles.reactsIconSize} />
-          </Avatar>
+          {post &&
+            REACTIONS.map((react) => {
+              const result = post.reactions.find((r) => r.value === react.text);
+              if (result) {
+                return (
+                  <Avatar
+                    sx={{ width: 20, height: 20 }}
+                    src={react.img}
+                    key={react.text}
+                  />
+                );
+              }
+              return "";
+            })}
         </AvatarGroup>
-        <Typography variant="body2">Louis Cyphre and 11 others</Typography>
+        <Typography variant="body2">
+          {totalReacts === 0
+            ? ""
+            : !reaction
+            ? totalReacts
+            : totalReacts === 1
+            ? "You"
+            : totalReacts < 3
+            ? "You and 1 other"
+            : `You and ${totalReacts} others`}
+        </Typography>
       </Stack>
       <Stack direction="row">
         <Stack
@@ -50,8 +70,10 @@ export default function PostStats({ onToggleComments }) {
           spacing={1}
           onClick={onToggleComments}
         >
-          <Typography variant="body2">{2}</Typography>
-          <ModeCommentOutlinedIcon sx={styles.statsIconSize} />
+          {totalComments > 0 && (
+            <Typography variant="body2">{totalComments}</Typography>
+          )}
+          <ModeCommentOutlinedIcon sx={{ fontSize: 18 }} />
         </Stack>
         <Stack
           component={Button}

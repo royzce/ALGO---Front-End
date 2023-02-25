@@ -1,18 +1,38 @@
 import { ImageList, ImageListItem } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import * as userSvc from "../services/post";
+import Post from "./Post";
 
 export default function PostMedia({ post }) {
   const { imgUrl } = post;
+  const [srcPost, setSrcPost] = useState(null);
+
+  useEffect(() => {
+    if (post && post.isRepost) {
+      userSvc.getPost(post.repostId).then((res) => setSrcPost(res.data));
+    }
+  }, [post]);
+
   return (
-    <ImageList>
-      {imgUrl.map((url, index) => (
-        <Link to={`/posts/1/${index}`} key={index}>
-          <ImageListItem>
-            <img alt={`post-pic-${index}`} src={url} />
-          </ImageListItem>
-        </Link>
-      ))}
-    </ImageList>
+    post && (
+      <>
+        {post.isRepost ? (
+          <Post post={srcPost} shared={true} />
+        ) : (
+          imgUrl && (
+            <ImageList>
+              {imgUrl.map((url, index) => (
+                <Link to={`/posts/${post.postId}/${index}`} key={index}>
+                  <ImageListItem>
+                    <img alt={`post-${index}`} src={url} />
+                  </ImageListItem>
+                </Link>
+              ))}
+            </ImageList>
+          )
+        )}
+      </>
+    )
   );
 }

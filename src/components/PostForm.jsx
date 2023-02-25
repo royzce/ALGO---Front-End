@@ -16,25 +16,29 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PostFormHeader from "./PostFormHeader";
 import * as userSvc from "../services/user";
 import { Stack } from "@mui/system";
 import * as firebase from "../services/firebase";
+import { UserContext } from "../context/UserContext";
+import { PostContext } from "../context/PostContext";
 
 export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   const [form, setForm] = useState({
     value: post ? post.value : "",
     tags: post ? post.tags : [],
     privacy: post ? post.privacy : "friends",
-    repost: post ? post.repost : false,
-    edited: !!post,
+    isRepost: false,
+    repostId: null,
   });
   const [showTagSel, setShowTagSel] = useState(false);
   const [addPhoto, setAddPhoto] = useState(withPhoto);
   const [friends, setFriends] = useState([]);
   const [previewUrls, setPreviewUrls] = useState(post ? post.imgUrl : []);
   const [files, setFiles] = useState([]);
+  const { currentUser: user } = useContext(UserContext);
+  const { onPosting } = useContext(PostContext);
 
   useEffect(() => {
     console.log(`PostForm ${post && post.id} mounting...`);
@@ -82,10 +86,14 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   }
 
   async function handleFileSel(event) {
-    const files = Array.from(event.target.files);
-    setFiles(files);
+    const selected = Array.from(event.target.files);
+    if (selected.length < 1) {
+      return;
+    }
 
-    const urls = files.map((file) => {
+    setFiles([...files, ...selected]);
+
+    const urls = selected.map((file) => {
       const reader = new FileReader();
       return new Promise((resolve) => {
         reader.onload = () => resolve(reader.result);
@@ -102,6 +110,8 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   }
 
   async function handleSubmit() {
+    onClose();
+    onPosting(true);
     let imgUrl = post ? [...post.imgUrl] : [];
     for (const file of files) {
       const url = await firebase.uploadImage(file);
@@ -110,7 +120,6 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
 
     const postInfo = { ...form, imgUrl };
     onSubmit(postInfo);
-    onClose();
   }
 
   const styles = {
@@ -152,6 +161,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
               onToggleTags={handleToggleTags}
               onTogglePhotos={handleTogglePhotos}
               totalTags={form.tags.length}
+              user={user}
             />
             <Stack spacing={2} alignItems="center">
               {showTagSel && (

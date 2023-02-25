@@ -1,50 +1,75 @@
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { CircularProgress, Grid, IconButton } from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import React, { useEffect, useState } from "react";
-import PostImgCarousel from "../components/PostImgCarousel";
-import CommentSection from "../components/CommentSection";
-import PostActions from "../components/PostActions";
-import PostHeader from "../components/PostHeader";
-import PostStats from "../components/PostStats";
 import * as postSvc from "../services/post";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Post from "../components/Post";
+import { Stack } from "@mui/system";
 
 export default function PostPage() {
   const { postId, imgIndex } = useParams();
   const [post, setPost] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     postSvc.getPost(+postId).then((res) => setPost(res.data));
   }, [postId]);
 
-  const [showComments, setShowComments] = useState(false);
+  function handleNext() {
+    const max = post.imgUrl.length - 1;
+    let newIndex;
+    if (+imgIndex === max) {
+      newIndex = 0;
+    } else {
+      newIndex = +imgIndex + 1;
+    }
+    // console.log(`posts/${postId}/${newIndex}`);
+    navigate(`/posts/${postId}/${newIndex}`);
+  }
 
-  function handleToggleComments() {
-    setShowComments(!showComments);
+  function handlePrev() {
+    const max = post.imgUrl.length - 1;
+    let newIndex;
+    if (+imgIndex === 0) {
+      newIndex = max;
+    } else {
+      newIndex = +imgIndex - 1;
+    }
+    // console.log(`posts/${postId}/${newIndex}`);
+    navigate(`/posts/${postId}/${newIndex}`);
   }
 
   return (
-    <Grid container justifyContent="center">
-      <Grid container width="45%" justifyContent="center" alignItems="center">
-        <PostImgCarousel />
+    <Grid container justifyContent="center" alignItems="center">
+      <Grid item width="55%">
+        {post ? (
+          <Stack direction="row" alignItems="center" width="100%">
+            {post.imgUrl.length > 1 && (
+              <IconButton onClick={handlePrev}>
+                <ChevronLeftIcon />
+              </IconButton>
+            )}
+
+            <div>
+              <img
+                alt={`post-${post.id}-${imgIndex}`}
+                src={post.imgUrl[+imgIndex]}
+                className="img-post-page"
+              />
+            </div>
+            {post.imgUrl.length > 1 && (
+              <IconButton onClick={handleNext}>
+                <ChevronRightIcon />
+              </IconButton>
+            )}
+          </Stack>
+        ) : (
+          <CircularProgress />
+        )}
       </Grid>
       <Grid item width="40%">
-        <Card sx={{ width: "100%" }}>
-          <CardContent>
-            <PostHeader post={post} />
-            <Typography paragraph>{post && post.value}</Typography>
-            {/**
-             TODO: for implementation once users are available and the reactions
-            are decided
-            */}
-            <PostStats post={post} onToggleComments={handleToggleComments} />
-            {/**
-             * TODO: for implementation once the reactions are decided
-             */}
-            {/* <PostReactions post={post} /> */}
-            <PostActions post={post} />
-            <CommentSection show={showComments} post={post} />
-          </CardContent>
-        </Card>
+        <Post post={post} page={!!postId} />
       </Grid>
     </Grid>
   );

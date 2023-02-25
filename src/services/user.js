@@ -10,3 +10,7 @@ export function getFriends() {
 export function register(user) {
   return http.post(`/users`, { user });
 }
+// TEST FUNCTION ONLY
+export function getCurrentUser() {
+  return http.get("/users/3");
+}

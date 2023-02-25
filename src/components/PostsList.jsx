@@ -1,5 +1,6 @@
 import { Stack } from "@mui/material";
 import React from "react";
+import React, { Fragment } from "react";
 import Post from "./Post";
 
 export default function PostsList({ posts }) {
@@ -11,7 +12,9 @@ export default function PostsList({ posts }) {
       spacing={2}
     >
       {posts.map((post) => (
-        <Post post={post} key={post.id} />
+        <Fragment key={post.postId}>
+          <Post post={post} />
+        </Fragment>
       ))}
     </Stack>
   );

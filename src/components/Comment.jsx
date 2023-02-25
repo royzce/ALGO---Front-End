@@ -18,6 +18,7 @@ import Replies from "./Replies";
 import CommentForm from "./CommentForm";
 import { CommentContext } from "../context/CommentContext";
 import AddComment from "./AddComment";
+import { getElapsedTime } from "../services/util";
 
 export default function Comment({ comment, replies, reply }) {
   const { firstName, lastName, avatar, value, date } = comment || {};
@@ -57,8 +58,8 @@ export default function Comment({ comment, replies, reply }) {
   }
 
   function displayDate() {
-    // TODO: add a proper time-elapsed display
-    return date;
+    const display = new Date(date);
+    return getElapsedTime(display);
   }
   return (
     <>
