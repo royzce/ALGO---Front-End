@@ -85,6 +85,7 @@ export default function PostProvider({ children }) {
 
   function handleAddReact(reaction) {
     reaction.date = new Date();
+    reaction.userId = 29;
     setAllPosts(
       allPosts.map((post) => {
         return post.postId === reaction.postId
@@ -114,7 +115,6 @@ export default function PostProvider({ children }) {
   }
 
   function handleDeleteReact(reaction) {
-    console.log("inside handleDeleteReact", allPosts);
     setAllPosts(
       allPosts.map((post) => {
         return post.postId === reaction.postId

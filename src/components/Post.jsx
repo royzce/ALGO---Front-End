@@ -69,6 +69,7 @@ export default function Post({ post, page, shared }) {
   };
 
   function handleReact(value) {
+    console.log("inside handleReact ", value);
     if (value && reaction) {
       // edit reaction
       const react = { ...reaction, postId: post.postId, value };

@@ -20,6 +20,7 @@ export default function PostActions({ onReact, reaction, onShare }) {
   };
 
   const handleDefault = () => {
+    console.log("inside handle default");
     if (reaction) {
       onReact(null);
     } else {

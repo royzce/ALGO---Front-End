@@ -1,6 +1,8 @@
 import {
   Avatar,
   Box,
+  Card,
+  CardContent,
   IconButton,
   LinearProgress,
   Paper,
@@ -48,24 +50,27 @@ export default function AddPost() {
 
   return (
     <>
-      <Paper elevation={2} style={styles.paper}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          spacing={2}
-          style={styles.stack}
-        >
-          <Avatar alt="avatar" src={user && user.avatar} />
-          <TextField
-            placeholder={user && `Say something, ${user.firstName}.`}
-            fullWidth
-            onClick={() => setOpen(true)}
-          />
-          <IconButton onClick={handlePhotoClick}>
-            <AddPhotoAlternateIcon />
-          </IconButton>
-        </Stack>
-      </Paper>
+      <Card sx={styles.card}>
+        <CardContent sx={styles.cardContent}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={2}
+            style={styles.stack}
+          >
+            <Avatar alt="avatar" src={user && user.avatar} />
+            <TextField
+              placeholder={user && `Say something, ${user.firstName}.`}
+              fullWidth
+              onClick={() => setOpen(true)}
+            />
+            <IconButton onClick={handlePhotoClick}>
+              <AddPhotoAlternateIcon />
+            </IconButton>
+          </Stack>
+        </CardContent>
+      </Card>
+
       {posting && (
         <Box sx={{ width: "95%" }}>
           <LinearProgress />
