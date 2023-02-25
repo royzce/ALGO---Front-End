@@ -36,9 +36,7 @@ const RegisterPage = () => {
     firstName: Joi.string().max(50).required(),
     lastName: Joi.string().max(50).required(),
     username: Joi.string().min(5).max(15).required(),
-    email: Joi.string()
-      .email({ tlds: { allow: false } })
-      .required(),
+    email: Joi.string().email({ minDomainSegments: 2, tlds: false }).required(),
     password: joiPassword
       .string()
       .minOfSpecialCharacters(2)
@@ -47,7 +45,7 @@ const RegisterPage = () => {
       .minOfNumeric(1)
       .minOfSpecialCharacters(1)
       .noWhiteSpaces()
-      .min(6)
+      .min(8)
       .required(),
     avatar: Joi.string().allow(null, ""),
   });
@@ -88,11 +86,19 @@ const RegisterPage = () => {
 
     if (error) {
       if (input.name === "password") {
-        setErrors({
-          ...errors,
-          [input.name]:
-            "Password requires lowercase, uppercase, number, and special character.",
-        });
+        if (
+          error.details[0].message ===
+            `"password" is not allowed to be empty` ||
+          error.details[0].message.includes("should contain at least")
+        ) {
+          setErrors({
+            ...errors,
+            [input.name]:
+              "Password requires lowercase, uppercase, number, and special character.",
+          });
+        } else {
+          setErrors({ ...errors, [input.name]: error.details[0].message });
+        }
       } else if (
         error.details[0].message === `"${input.name}" must be a valid email`
       ) {
