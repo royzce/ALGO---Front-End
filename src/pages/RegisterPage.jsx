@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { joiPasswordExtendCore } from "joi-password";
 import FirebaseProfileUpload from "../components/FirebaseProfileUpload";
@@ -29,7 +29,7 @@ const RegisterPage = () => {
     password: "",
   });
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate();
   const schema = Joi.object({
     firstName: Joi.string().max(50).required(),
     lastName: Joi.string().max(50).required(),
@@ -51,19 +51,25 @@ const RegisterPage = () => {
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handleToggle();
-
+    // handleToggle();
+    setOpen(true);
     if (selectedFile) {
       const storageUrl = await handleUpload();
       form.avatar = storageUrl;
     }
 
-    const response = userService.register(form).catch((err) => {
-      alert(err.response.data.message);
-    });
-
-    console.log("form ", form);
-    console.log("response ", response);
+    userService
+      .register(form)
+      .then(() => {
+        setOpen(false);
+        alert("successfully Registerd");
+        navigate("/login");
+      })
+      .catch((err) => {
+        //change this alert
+        setOpen(false);
+        alert(err.response.data.message);
+      });
   };
 
   const handleChange = ({ currentTarget: input }) => {
@@ -122,9 +128,9 @@ const RegisterPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  const handleToggle = () => {
-    setOpen(!open);
-  };
+  // const handleToggle = () => {
+  //   setOpen(!open);
+  // };
 
   function Spinner() {
     return (
