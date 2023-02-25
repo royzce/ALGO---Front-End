@@ -1,10 +1,20 @@
-import { Button, Card, CardMedia, Typography, Stack } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardMedia,
+  Typography,
+  Stack,
+  IconButton,
+} from "@mui/material";
 
 import { useContext } from "react";
 import { RegisterContext } from "../context/RegisterContext";
+import CloseIcon from "@mui/icons-material/Close";
+import zIndex from "@mui/material/styles/zIndex";
 
 function FirebaseImageUpload() {
-  const { previewUrl, handleFileSelect } = useContext(RegisterContext);
+  const { previewUrl, handleFileSelect, closePreview } =
+    useContext(RegisterContext);
 
   return (
     <Stack
@@ -13,18 +23,34 @@ function FirebaseImageUpload() {
       alignItems="center"
       spacing={2}
     >
-      <Card sx={{ borderRadius: "50%" }}>
-        <CardMedia
-          component="img"
-          alt="Person"
-          image={
-            previewUrl
-              ? previewUrl
-              : process.env.PUBLIC_URL + "/assets/Person.png"
-          }
-          style={{ objectFit: "cover", width: "150px", height: "150px" }}
-        />
-      </Card>
+      <div style={{ position: "relative" }}>
+        <Card sx={{ borderRadius: "50%" }}>
+          <CardMedia
+            component="img"
+            alt="Person"
+            image={
+              previewUrl
+                ? previewUrl
+                : process.env.PUBLIC_URL + "/assets/Person.png"
+            }
+            style={{ objectFit: "cover", width: "150px", height: "150px" }}
+          />
+        </Card>
+        {previewUrl && (
+          <IconButton
+            onClick={closePreview}
+            style={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              color: "#fff",
+              backgroundColor: "#C0C0C0",
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
+      </div>
       <Stack direction="column" spacing={1}>
         <Typography variant="body2">Upload you photo (Optional)</Typography>
         <Button size="small" variant="contained" component="label">

@@ -2,6 +2,7 @@ import {
   Backdrop,
   Button,
   IconButton,
+  InputLabel,
   Paper,
   Stack,
   TextField,
@@ -20,7 +21,8 @@ import * as userService from "../services/user";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const RegisterPage = () => {
-  const { uploading, handleUpload, selectedFile } = useContext(RegisterContext);
+  const { uploading, handleUpload, selectedFile, closePreview } =
+    useContext(RegisterContext);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -35,7 +37,7 @@ const RegisterPage = () => {
     lastName: Joi.string().max(50).required(),
     username: Joi.string().min(5).max(15).required(),
     email: Joi.string()
-      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+      .email({ tlds: { allow: false } })
       .required(),
     password: joiPassword
       .string()
@@ -63,6 +65,7 @@ const RegisterPage = () => {
       .then(() => {
         setOpen(false);
         alert("successfully Registerd");
+        closePreview();
         navigate("/login");
       })
       .catch((err) => {
@@ -84,7 +87,52 @@ const RegisterPage = () => {
       .validate(input.value);
 
     if (error) {
-      setErrors({ ...errors, [input.name]: error.details[0].message });
+      if (input.name === "password") {
+        setErrors({
+          ...errors,
+          [input.name]:
+            "Password requires lowercase, uppercase, number, and special character.",
+        });
+      } else if (
+        error.details[0].message === `"${input.name}" must be a valid email`
+      ) {
+        setErrors({
+          ...errors,
+          [input.name]:
+            "Invalid email format. Please provide a valid email address.",
+        });
+      } else if (
+        error.details[0].message ===
+        `"${input.name}" is not allowed to be empty`
+      ) {
+        switch (input.name) {
+          case "firstName":
+            setErrors({
+              ...errors,
+              [input.name]: "Please input your First Name",
+            });
+            break;
+          case "lastName":
+            setErrors({
+              ...errors,
+              [input.name]: "Please input your Last Name",
+            });
+            break;
+          case "username":
+            setErrors({
+              ...errors,
+              [input.name]: "Please input your username",
+            });
+            break;
+          case "email":
+            setErrors({ ...errors, [input.name]: "Please input your email" });
+            break;
+          default:
+            setErrors({ ...errors, [input.name]: error.details[0].message });
+        }
+      } else {
+        setErrors({ ...errors, [input.name]: error.details[0].message });
+      }
     } else {
       delete errors[input.name];
       setErrors(errors);
@@ -256,6 +304,7 @@ const RegisterPage = () => {
         />
       </IconButton>
       <TextField
+        id="pass-word"
         name="password"
         error={!!errors.password}
         helperText={errors.password}

@@ -47,6 +47,11 @@ export const RegisterProvider = ({ children }) => {
     }
   };
 
+  const closePreview = () => {
+    setPreviewUrl(null);
+    setSelectedFile(null);
+  };
+
   const handleUpload = async () => {
     return new Promise((resolve, reject) => {
       if (selectedFile) {
@@ -83,6 +88,7 @@ export const RegisterProvider = ({ children }) => {
         uploadProgress,
         handleUpload: handleUpload,
         handleFileSelect: handleFileSelect,
+        closePreview: closePreview,
         uploading,
         selectedFile,
       }}
