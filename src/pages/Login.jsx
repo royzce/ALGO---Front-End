@@ -49,6 +49,7 @@ export default function Login() {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [rememberMe, setRememberMe] = useState(false);
   const schema = Joi.object({
     username: Joi.string().min(1).required(),
     password: Joi.string().min(1).required(),
@@ -85,7 +86,10 @@ export default function Login() {
   };
   const handleLogin = async () => {
     let response = await authService.login(form.username, form.password);
-    localStorage.setItem("accessToken", response.data.accessToken);
+    if (rememberMe) {
+      localStorage.setItem("accessToken", response.data.accessToken);
+    }
+    console.log(response);
     // console.log(toekn);
   };
 
@@ -167,6 +171,7 @@ export default function Login() {
         >
           <FormControlLabel
             control={<Checkbox size="small" />}
+            onChange={(e) => setRememberMe(e.target.checked)}
             label={<Typography variant="body2">Remember me</Typography>}
           />
           <Typography variant="body2">

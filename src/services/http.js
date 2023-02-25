@@ -16,7 +16,7 @@ http.interceptors.response.use(null, (error) => {
 
   if (!expectedError) {
     console.log("inside interceptor");
-    alert("An unexpected error occurred");
+    // alert("An unexpected error occurred");
   }
 
   return Promise.reject(error);

@@ -22,8 +22,8 @@ const joiPassword = Joi.extend(joiPasswordExtendCore);
 const RegisterPage = () => {
   const { uploading, handleUpload, selectedFile } = useContext(RegisterContext);
   const [form, setForm] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     username: "",
     email: "",
     password: "",
@@ -31,8 +31,8 @@ const RegisterPage = () => {
   const [errors, setErrors] = useState({});
 
   const schema = Joi.object({
-    firstname: Joi.string().max(50).required(),
-    lastname: Joi.string().max(50).required(),
+    firstName: Joi.string().max(50).required(),
+    lastName: Joi.string().max(50).required(),
     username: Joi.string().min(5).max(15).required(),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
@@ -52,12 +52,18 @@ const RegisterPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     handleToggle();
-    const storageUrl = await handleUpload();
+
     if (selectedFile) {
+      const storageUrl = await handleUpload();
       form.avatar = storageUrl;
     }
-    // userService.register(form);
-    console.log(form);
+
+    const response = userService.register(form).catch((err) => {
+      alert(err.response.data.message);
+    });
+
+    console.log("form ", form);
+    console.log("response ", response);
   };
 
   const handleChange = ({ currentTarget: input }) => {
@@ -180,11 +186,11 @@ const RegisterPage = () => {
         sx={{ mb: "10px" }}
       >
         <TextField
-          name="firstname"
-          error={!!errors.firstname}
-          helperText={errors.firstname}
+          name="firstName"
+          error={!!errors.firstName}
+          helperText={errors.firstName}
           onChange={handleChange}
-          value={form.firstname}
+          value={form.firstName}
           label="First Name"
           variant="filled"
           InputProps={{ disableUnderline: true }}
@@ -192,11 +198,11 @@ const RegisterPage = () => {
           fullWidth
         />
         <TextField
-          name="lastname"
-          error={!!errors.lastname}
-          helperText={errors.lastname}
+          name="lastName"
+          error={!!errors.lastName}
+          helperText={errors.lastName}
           onChange={handleChange}
-          value={form.lastname}
+          value={form.lastName}
           label="Last Name"
           variant="filled"
           InputProps={{ disableUnderline: true }}

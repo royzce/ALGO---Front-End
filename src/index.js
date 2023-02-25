@@ -12,18 +12,21 @@ import { BrowserRouter } from "react-router-dom";
 import { RegisterProvider } from "./context/RegisterContext";
 import PostProvider from "./context/PostContext";
 import UserProvider from "./context/UserContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <RegisterProvider>
-        <PostProvider>
-          <UserProvider>
-            <App />
-          </UserProvider>
-        </PostProvider>
-      </RegisterProvider>
+      <AuthProvider>
+        <RegisterProvider>
+          <PostProvider>
+            <UserProvider>
+              <App />
+            </UserProvider>
+          </PostProvider>
+        </RegisterProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
