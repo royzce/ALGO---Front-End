@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
+import * as authService from "../services/auth";
 
 export default function Login() {
   const styles = {
@@ -82,8 +83,10 @@ export default function Login() {
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-  const handleLogin = () => {
-    console.log(form);
+  const handleLogin = async () => {
+    let response = await authService.login(form.username, form.password);
+    localStorage.setItem("accessToken", response.data.accessToken);
+    // console.log(toekn);
   };
 
   return (
@@ -117,11 +120,11 @@ export default function Login() {
           <strong>Hi, Welcome to Algo</strong>
         </Typography>
         <TextField
-          name="email"
-          error={!!errors.email}
-          helperText={errors.email}
+          name="username"
+          error={!!errors.username}
+          helperText={errors.username}
           onChange={handleChange}
-          value={form.email}
+          value={form.username}
           label="Email / Username"
           variant="filled"
           InputProps={{ disableUnderline: true }}

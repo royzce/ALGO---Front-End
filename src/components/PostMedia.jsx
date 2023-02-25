@@ -5,7 +5,7 @@ import * as userSvc from "../services/post";
 import Post from "./Post";
 
 export default function PostMedia({ post }) {
-  const { imgUrl } = post;
+  const { media } = post;
   const [srcPost, setSrcPost] = useState(null);
 
   useEffect(() => {
@@ -20,9 +20,9 @@ export default function PostMedia({ post }) {
         {post.isRepost ? (
           <Post post={srcPost} shared={true} />
         ) : (
-          imgUrl && (
+          media && (
             <ImageList>
-              {imgUrl.map((url, index) => (
+              {media.map((url, index) => (
                 <Link to={`/posts/${post.postId}/${index}`} key={index}>
                   <ImageListItem>
                     <img alt={`post-${index}`} src={url} />

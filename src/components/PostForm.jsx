@@ -30,12 +30,12 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     tags: post ? post.tags : [],
     privacy: post ? post.privacy : "friends",
     isRepost: false,
-    repostId: null,
+    repostId: 0,
   });
   const [showTagSel, setShowTagSel] = useState(false);
   const [addPhoto, setAddPhoto] = useState(withPhoto);
   const [friends, setFriends] = useState([]);
-  const [previewUrls, setPreviewUrls] = useState(post ? post.imgUrl : []);
+  const [previewUrls, setPreviewUrls] = useState(post ? post.media : []);
   const [files, setFiles] = useState([]);
   const { currentUser: user } = useContext(UserContext);
   const { onPosting } = useContext(PostContext);
@@ -112,13 +112,13 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   async function handleSubmit() {
     onClose();
     onPosting(true);
-    let imgUrl = post ? [...post.imgUrl] : [];
+    let media = post ? [...post.media] : [];
     for (const file of files) {
       const url = await firebase.uploadImage(file);
-      imgUrl.push(url);
+      media.push(url);
     }
 
-    const postInfo = { ...form, imgUrl };
+    const postInfo = { ...form, media };
     onSubmit(postInfo);
   }
 

@@ -107,8 +107,8 @@ export default function Post({ post, page, shared }) {
                 post={post}
                 onToggleComments={handleToggleComments}
                 reaction={reaction}
-                totalReacts={post.reactions.length}
-                totalComments={post.comment.length}
+                totalReacts={post.reactions && post.reactions.length}
+                totalComments={post.comment && post.comment.length}
               />
               <hr style={{ marginBottom: "12px" }} />
               <PostActions

@@ -36,16 +36,10 @@ export default function PostProvider({ children }) {
   async function handleAddPost(newPost) {
     newPost.date = new Date();
     console.log("inside handleAddPost", newPost);
-    // postSvc
-    //   .addPost(newPost)
-    //   .then((res) => setAllPosts([...allPosts, res.data]));
-    const { data } = await getCurrentUser();
-    newPost.user = data;
-    newPost.comment = [];
-    newPost.reactions = [];
-    newPost.postId = allPosts.length + 1;
-    setAllPosts([...allPosts, newPost]);
 
+    const res = await postSvc.addPost(newPost);
+    console.log("res is", res);
+    setAllPosts([...allPosts, res.data]);
     handlePosting(false);
   }
 

@@ -36,7 +36,9 @@ export default function PostStats({
         <AvatarGroup>
           {post &&
             REACTIONS.map((react) => {
-              const result = post.reactions.find((r) => r.value === react.text);
+              const result =
+                post.reactions &&
+                post.reactions.find((r) => r.value === react.text);
               if (result) {
                 return (
                   <Avatar

@@ -12,5 +12,5 @@ export function register(user) {
 }
 // TEST FUNCTION ONLY
 export function getCurrentUser() {
-  return http.get("/profiles/zandor");
+  return http.get("/users/me");
 }
