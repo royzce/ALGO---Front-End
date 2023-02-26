@@ -1,5 +1,5 @@
 import { http } from "./http";
 
 export function getUsersBy(name) {
-  return http.get(`/users/search?q=${name}`);
+  return http.get(`/profiles/search?q=${name}`);
 }
