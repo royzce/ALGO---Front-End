@@ -1,21 +1,46 @@
 import {
   Button,
-  Checkbox,
-  FormControlLabel,
-  IconButton,
   Paper,
   Stack,
   Typography,
   TextField,
+  Backdrop,
+  CircularProgress,
+  IconButton,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
 import * as authService from "../services/auth";
+import { joiPasswordExtendCore } from "joi-password";
+import { useParams } from "react-router-dom";
 
-export default function Login() {
+const joiPassword = Joi.extend(joiPasswordExtendCore);
+export default function ResetPasswordPage() {
+  const { token } = useParams();
+  useEffect(() => {
+    // setLoading(true);
+    async function fetchData() {
+      setLoading(true);
+      await authService
+        .resetPassword(token)
+        .then((res) => {
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          //change to snackbar maybe or whatever
+          alert(err.response.data.message);
+          //maybe navigate them to login page??
+        });
+    }
+    fetchData();
+    // console.log(validToken);
+    // setLoading(false);
+  }, []);
+  //   const { token } = useParams();
+  //   const validToken = authService.resetPassword(token);
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -43,16 +68,21 @@ export default function Login() {
       margin: "26px 0",
     },
   };
-  const navigate = useNavigate();
   const [form, setForm] = useState({
-    username: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
-  const [rememberMe, setRememberMe] = useState(false);
   const schema = Joi.object({
-    username: Joi.string().min(1).required(),
-    password: Joi.string().min(1).required(),
+    password: joiPassword
+      .string()
+      .minOfSpecialCharacters(2)
+      .minOfLowercase(1)
+      .minOfUppercase(1)
+      .minOfNumeric(1)
+      .minOfSpecialCharacters(1)
+      .noWhiteSpaces()
+      .min(8)
+      .required(),
   });
 
   const handleChange = ({ currentTarget: input }) => {
@@ -67,36 +97,64 @@ export default function Login() {
       .validate(input.value);
 
     if (error) {
-      setErrors({
-        ...errors,
-        [input.name]:
-          input.name === "username"
-            ? "Please input your email/username"
-            : "Please input your password",
-      });
+      if (
+        error.details[0].message === `"password" is not allowed to be empty` ||
+        error.details[0].message.includes("should contain at least")
+      ) {
+        setErrors({
+          ...errors,
+          [input.name]:
+            "Password requires lowercase, uppercase, number, and special character.",
+        });
+      } else {
+        setErrors({ ...errors, [input.name]: error.details[0].message });
+      }
     } else {
       delete errors[input.name];
       setErrors(errors);
     }
   };
+  const isFormInvalid = () => {
+    const result = schema.validate(form);
 
+    return !!result.error;
+  };
   const [passwordVisible, setPasswordVisible] = useState(false);
+
   const handlePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-  const handleLogin = async () => {
-    let response = await authService
-      .login(form.username, form.password)
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    // const response = await authService.forgotPassord(form.email);
+    setLoading(true);
+    await authService
+      .resetPassword(token, form.password)
+      .then((res) => {
+        setLoading(false);
+        //snackbar or something
+        alert(res.data.ResetPasswordResponse);
+        //then navigate to login
+      })
       .catch((err) => {
-        //change to snackbar maybe
+        setLoading(false);
+        //snackbar or something
         alert(err.response.data.message);
       });
-    if (rememberMe && response) {
-      console.log("nag remember me");
-      localStorage.setItem("accessToken", response.data.accessToken);
-      navigate("/");
-    }
   };
+
+  function Spinner() {
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={true}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
+    );
+  }
 
   return (
     <div
@@ -109,6 +167,8 @@ export default function Login() {
         overflowY: "scroll",
       }}
     >
+      <GlobalCSS />
+      {loading && <Spinner />}
       <Paper
         elevation={0}
         sx={{
@@ -126,20 +186,9 @@ export default function Login() {
           alt="Algo app logo"
         />
         <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
-          <strong>Hi, Welcome to Algo</strong>
+          <strong>Please enter new password</strong>
         </Typography>
-        <TextField
-          name="username"
-          error={!!errors.username}
-          helperText={errors.username}
-          onChange={handleChange}
-          value={form.username}
-          label="Email / Username"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, { mb: "10px" }]}
-          fullWidth
-        />
+
         <IconButton
           size="small"
           className="text-secondary bg-transparent float-end border-0"
@@ -156,53 +205,35 @@ export default function Login() {
           />
         </IconButton>
         <TextField
+          id="pass-word"
           name="password"
           error={!!errors.password}
           helperText={errors.password}
           onChange={handleChange}
           value={form.password}
           type={passwordVisible ? "text" : "password"}
-          label="Password"
+          label="New Password"
           variant="filled"
           InputProps={{ disableUnderline: true }}
           sx={[styles.myTextField, { mb: "10px", mt: "-44px" }]}
           fullWidth
         />
+        <Button
+          disabled={isFormInvalid()}
+          variant="contained"
+          size="medium"
+          className="mt-3"
+          fullWidth
+          onClick={handleSubmit}
+        >
+          Change Password
+        </Button>
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="baseline"
           spacing={0}
-        >
-          <FormControlLabel
-            control={<Checkbox size="small" />}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            label={<Typography variant="body2">Remember me</Typography>}
-          />
-          <Typography variant="body2">
-            <Link id="forgot" to="/forgot-password" className="float-end">
-              Forgot password?
-            </Link>
-          </Typography>
-        </Stack>
-        <Button
-          variant="contained"
-          size="medium"
-          className="mt-3"
-          fullWidth
-          onClick={handleLogin}
-        >
-          Log In
-        </Button>
-        <hr />
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => navigate("/register")}
-          fullWidth
-        >
-          Create an account
-        </Button>
+        ></Stack>
       </Paper>
     </div>
   );

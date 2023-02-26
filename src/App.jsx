@@ -21,6 +21,8 @@ import PostsList from "./components/PostsList";
 import SearchAll from "./components/SearchAll";
 import SearchPeople from "./components/SearchPeople";
 import SearchPosts from "./components/SearchPosts";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
         <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/profile" element={<ProfilePage />}>
           <Route path="/profile" element={<ProfileHome />} />
           <Route element={<ProfileAbout />}>
