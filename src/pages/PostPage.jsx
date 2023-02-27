@@ -17,26 +17,24 @@ export default function PostPage() {
   }, [postId]);
 
   function handleNext() {
-    const max = post.imgUrl.length - 1;
+    const max = post.media.length - 1;
     let newIndex;
     if (+imgIndex === max) {
       newIndex = 0;
     } else {
       newIndex = +imgIndex + 1;
     }
-    // console.log(`posts/${postId}/${newIndex}`);
     navigate(`/posts/${postId}/${newIndex}`);
   }
 
   function handlePrev() {
-    const max = post.imgUrl.length - 1;
+    const max = post.media.length - 1;
     let newIndex;
     if (+imgIndex === 0) {
       newIndex = max;
     } else {
       newIndex = +imgIndex - 1;
     }
-    // console.log(`posts/${postId}/${newIndex}`);
     navigate(`/posts/${postId}/${newIndex}`);
   }
 
@@ -45,7 +43,7 @@ export default function PostPage() {
       <Grid item width="55%">
         {post ? (
           <Stack direction="row" alignItems="center" width="100%">
-            {post.imgUrl.length > 1 && (
+            {post.media.length > 1 && (
               <IconButton onClick={handlePrev}>
                 <ChevronLeftIcon />
               </IconButton>
@@ -54,11 +52,11 @@ export default function PostPage() {
             <div>
               <img
                 alt={`post-${post.id}-${imgIndex}`}
-                src={post.imgUrl[+imgIndex]}
+                src={post.media[+imgIndex].mediaLink}
                 className="img-post-page"
               />
             </div>
-            {post.imgUrl.length > 1 && (
+            {post.media.length > 1 && (
               <IconButton onClick={handleNext}>
                 <ChevronRightIcon />
               </IconButton>

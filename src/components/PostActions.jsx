@@ -5,11 +5,24 @@ import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 
 import PostReactions from "./PostReactions";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { REACTIONS } from "../services/post";
 
-export default function PostActions({ onReact, reaction, onShare }) {
+export default function PostActions({ onReact, reaction, onShare, privacy }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [reactBtn, setReactBtn] = useState(null);
+
+  useEffect(() => {
+    if (reaction) {
+      setReactBtn(
+        reaction
+          ? REACTIONS.find((react) => react.text === reaction.value)
+          : null
+      );
+    } else {
+      setReactBtn(null);
+    }
+  }, [reaction]);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -19,29 +32,18 @@ export default function PostActions({ onReact, reaction, onShare }) {
     setAnchorEl(null);
   };
 
+  const handleReact = (value) => {
+    onReact(value);
+    handlePopoverClose();
+  };
+
   const handleDefault = () => {
-    console.log("inside handle default");
-    if (reaction) {
+    if (reactBtn) {
       onReact(null);
     } else {
       onReact("fire");
     }
-  };
-
-  const reactBtnIcon = () => {
-    if (reaction) {
-      const react = REACTIONS.find((react) => react.text === reaction.value);
-      return <img src={react.img} height={18} />;
-    }
-    return <LocalFireDepartmentIcon />;
-  };
-
-  const reactBtnText = () => {
-    if (reaction) {
-      const react = REACTIONS.find((react) => react.text === reaction.value);
-      return react.text;
-    }
-    return "FIRE";
+    handlePopoverClose();
   };
 
   const open = Boolean(anchorEl);
@@ -62,21 +64,29 @@ export default function PostActions({ onReact, reaction, onShare }) {
       <Button
         onClick={handleDefault}
         sx={{ px: "24px" }}
-        startIcon={reactBtnIcon()}
+        startIcon={
+          reactBtn ? (
+            <img src={reactBtn.img} height={18} />
+          ) : (
+            <LocalFireDepartmentIcon />
+          )
+        }
         onMouseEnter={handlePopoverOpen}
       >
-        {reactBtnText()}
+        {reactBtn ? reactBtn.text : "Fire"}
       </Button>
       <Button sx={styles.buttonPadding} startIcon={<ChatOutlined />}>
         Comment
       </Button>
-      <Button
-        sx={{ px: "24px" }}
-        startIcon={<ShareOutlined />}
-        onClick={onShare}
-      >
-        Share
-      </Button>
+      {privacy !== "private" && (
+        <Button
+          sx={{ px: "24px" }}
+          startIcon={<ShareOutlined />}
+          onClick={onShare}
+        >
+          Share
+        </Button>
+      )}
       <Popover
         id={id}
         open={open}
@@ -98,7 +108,7 @@ export default function PostActions({ onReact, reaction, onShare }) {
         }}
         style={{ pointerEvents: "none" }}
       >
-        <PostReactions onReact={onReact} />
+        <PostReactions onReact={handleReact} />
       </Popover>
     </Stack>
   );

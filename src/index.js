@@ -20,11 +20,11 @@ root.render(
   <BrowserRouter>
     <AuthProvider>
       <RegisterProvider>
-        <PostProvider>
-          <UserProvider>
+        <UserProvider>
+          <PostProvider>
             <App />
-          </UserProvider>
-        </PostProvider>
+          </PostProvider>
+        </UserProvider>
       </RegisterProvider>
     </AuthProvider>
   </BrowserRouter>

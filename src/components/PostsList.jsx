@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import Post from "./Post";
 
 export default function PostsList({ posts }) {
+  console.log("inside PostsList", posts);
   return (
     <Stack
       direction="column"

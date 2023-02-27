@@ -7,7 +7,7 @@ export default function Replies({ replies }) {
     <List disablePadding dense={true} sx={{ marginLeft: 5 }}>
       {replies &&
         replies.map((reply) => (
-          <Fragment key={reply.id}>
+          <Fragment key={reply.commentId}>
             <Comment comment={reply} reply={true} />
           </Fragment>
         ))}

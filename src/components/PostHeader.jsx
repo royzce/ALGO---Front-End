@@ -18,7 +18,7 @@ import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
 import { getElapsedTime } from "../services/util";
 
-export default function PostHeader({ post, onEdit, onEditPrivacy }) {
+export default function PostHeader({ post, onEdit, onEditPrivacy, shared }) {
   const { onDeletePost } = useContext(PostContext);
   const { postId, date, privacy, tags } = post || {};
   const { firstName, lastName, username, avatar } = (post && post.user) || {};
@@ -108,7 +108,11 @@ export default function PostHeader({ post, onEdit, onEditPrivacy }) {
               <Typography component="span" variant="body2">
                 {date && displayDate()}
               </Typography>
-              <IconButton size="small" onClick={onEditPrivacy}>
+              <IconButton
+                size="small"
+                onClick={onEditPrivacy}
+                disabled={shared}
+              >
                 {displayPrivacy()}
               </IconButton>
             </Stack>

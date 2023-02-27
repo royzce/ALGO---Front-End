@@ -20,14 +20,20 @@ export default function PostProvider({ children }) {
   const [allPosts, setAllPosts] = useState([]);
   const [posting, setPosting] = useState(false);
 
-  // TEST
   const { currentUser: user } = useContext(UserContext);
 
   useEffect(() => {
     postSvc.getPosts().then((res) => {
-      setAllPosts(res.data);
+      const posts = res.data.sort(compare);
+      setAllPosts(posts);
     });
   }, []);
+
+  function compare(postA, postB) {
+    const timeA = new Date(postA.date).getTime();
+    const timeB = new Date(postB.date).getTime();
+    return (timeA - timeB) * -1;
+  }
 
   function handlePosting(completed) {
     setPosting(completed);
@@ -35,92 +41,44 @@ export default function PostProvider({ children }) {
 
   async function handleAddPost(newPost) {
     newPost.date = new Date();
-    console.log("inside handleAddPost", newPost);
 
     const res = await postSvc.addPost(newPost);
-    console.log("res is", res);
-    setAllPosts([...allPosts, res.data]);
+    console.log("inside handleAddPost", res);
+
+    const media = newPost.media
+      ? newPost.media.map((url) => {
+          return { mediaLink: url };
+        })
+      : [];
+
+    const post = { ...res.data, media, tags: newPost.tags, user };
+
+    setAllPosts([...allPosts, post].sort(compare));
     handlePosting(false);
   }
 
-  function handleEditPost(editedPost) {
-    editedPost.date = new Date();
-    console.log("inside handleEditPost", editedPost);
-    // postSvc.editPost(editedPost).then((res) => {
-    //   setAllPosts(
-    //     allPosts.map((post) => {
-    //       return post.postId === res.data.postId
-    //         ? { ...post, ...res.data }
-    //         : post;
-    //     })
-    //   );
-    // });
-
+  async function handleEditPost(editedPost) {
+    const res = await postSvc.editPost(editedPost);
+    console.log("inside handleEditPost", res);
     setAllPosts(
-      allPosts.map((post) => {
-        return post.postId === editedPost.postId
-          ? { ...post, ...editedPost }
-          : post;
-      })
+      allPosts
+        .map((post) => {
+          return post.postId === res.data.postId
+            ? { ...post, ...res.data }
+            : post;
+        })
+        .sort(compare)
     );
+    handlePosting(false);
   }
 
-  function handleEditPrivacy() {
-    // TODO
-    console.log("inside handleEditPrivacy");
-  }
-
-  function handleDeletePost(postId) {
-    // postSvc.deletePost(postId).then((res) => {
-    //   setAllPosts(allPosts.filter((post) => post.postId !== res.data.postId));
-    // });
-    setAllPosts(allPosts.filter((post) => post.postId !== postId));
-  }
-
-  function handleAddReact(reaction) {
-    reaction.date = new Date();
-    reaction.userId = 29;
-    setAllPosts(
-      allPosts.map((post) => {
-        return post.postId === reaction.postId
-          ? { ...post, reactions: [...post.reactions, reaction] }
-          : post;
-      })
-    );
-  }
-
-  function handleEditReact(reaction) {
-    reaction.date = new Date();
-
-    const post = allPosts.find((post) => post.postId === reaction.postId);
-    const newReactions = post.reactions.map((react) => {
-      return react.reactionId === reaction.reactionId
-        ? { ...react, ...reaction }
-        : react;
-    });
-
-    setAllPosts(
-      allPosts.map((post) => {
-        return post.postId === reaction.postId
-          ? { ...post, reactions: [...newReactions] }
-          : post;
-      })
-    );
-  }
-
-  function handleDeleteReact(reaction) {
-    setAllPosts(
-      allPosts.map((post) => {
-        return post.postId === reaction.postId
-          ? {
-              ...post,
-              reactions: post.reactions.filter(
-                (react) => react.reactionId !== reaction.reactionId
-              ),
-            }
-          : post;
-      })
-    );
+  async function handleDeletePost(postId) {
+    const res = await postSvc.deletePost(postId);
+    if (res) {
+      setAllPosts(
+        allPosts.filter((post) => post.postId !== postId).sort(compare)
+      );
+    }
   }
 
   return (
@@ -129,12 +87,8 @@ export default function PostProvider({ children }) {
         allPosts,
         onAddPost: handleAddPost,
         onEditPost: handleEditPost,
-        onEditPrivacy: handleEditPrivacy,
         onDeletePost: handleDeletePost,
         onPosting: handlePosting,
-        onAddReact: handleAddReact,
-        onEditReact: handleEditReact,
-        onDeleteReact: handleDeleteReact,
         posting,
       }}
     >

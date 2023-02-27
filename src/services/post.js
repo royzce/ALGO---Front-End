@@ -24,7 +24,7 @@ export function addPost(newPost) {
 }
 
 export function editPost(editedPost) {
-  return http.put(`/posts/${editedPost.postId}`, editedPost);
+  return http.put(`/posts/${editedPost.postId}/edit`, editedPost);
 }
 
 export function deletePost(postId) {
@@ -35,8 +35,28 @@ export function addReaction(reaction) {
   return http.post("reactions", reaction);
 }
 
-export function updateReaction(reaction) {
-  return http.put(`reactions/${reaction.reactionId}`, reaction);
+export function editReaction(reaction) {
+  return http.put(`reactions/${reaction.postId}`, reaction);
+}
+
+export function deleteReaction(postId) {
+  console.log("delete service", postId);
+  return http.delete(`reactions`, { data: { postId: postId } });
+}
+
+export function addComment(newComment) {
+  return http.post(`/posts/${newComment.postId}/comments`, newComment);
+}
+
+export function editComment(editedComm) {
+  return http.put(
+    `/posts/${editedComm.postId}/comments/${editedComm.commentId}/edit`,
+    { value: editedComm.value }
+  );
+}
+
+export function deleteComment(postId, commentId) {
+  return http.delete(`/posts/${postId}/comments/${commentId}`);
 }
 
 export const REACTIONS = [

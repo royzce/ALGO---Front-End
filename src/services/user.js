@@ -1,11 +1,13 @@
 import { http } from "./http";
 
+export function getCurrentUser() {
+  return http.get("/users/me");
+}
+
 // TEST FUNCTION ONLY
 export function getFriends() {
   return http.get("/users");
 }
-
-// import { http } from "./http";
 
 export function register(user) {
   return http.post(`/users`, {
@@ -16,8 +18,4 @@ export function register(user) {
     password: user.password,
     avatar: user.avatar ? user.avatar : "",
   });
-}
-// TEST FUNCTION ONLY
-export function getCurrentUser() {
-  return http.get("/users/me");
 }
