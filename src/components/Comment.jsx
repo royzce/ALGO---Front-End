@@ -21,7 +21,7 @@ import AddComment from "./AddComment";
 import { getElapsedTime } from "../services/util";
 
 export default function Comment({ comment, replies, reply }) {
-  const { firstName, lastName, avatar, value, date } = comment || {};
+  const { value, date, user } = comment || {};
   const [viewReplies, setViewReplies] = useState(false);
   const [replying, setReplying] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -48,18 +48,21 @@ export default function Comment({ comment, replies, reply }) {
   function handleEdit(value) {
     handleCloseForm();
     if (value !== comment.value) {
-      const edited = { ...comment, value, date: new Date().toJSON() };
+      const edited = { ...comment, value };
       onEdit(edited);
     }
   }
 
   function handleDelete() {
-    onDelete(comment.id);
+    handleCloseForm();
+    onDelete(comment.commentId);
   }
 
   function displayDate() {
-    const display = new Date(date);
-    return getElapsedTime(display);
+    if (date) {
+      const display = new Date(date);
+      return getElapsedTime(display);
+    }
   }
   return (
     <>
@@ -86,14 +89,14 @@ export default function Comment({ comment, replies, reply }) {
               <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
             <ListItemAvatar>
-              <Avatar src={avatar} />
+              <Avatar src={user && user.avatar} />
             </ListItemAvatar>
             <ListItemText
               disableTypography
               primary={
                 <>
                   <Typography variant="subtitle2">
-                    {firstName} {lastName}
+                    {user && `${user.firstName} ${user.lastName}`}
                   </Typography>
                   <Typography variant="body2">{value}</Typography>
                 </>
@@ -156,7 +159,9 @@ export default function Comment({ comment, replies, reply }) {
           <ListItemText
             disableTypography
             sx={{ marginLeft: 5 }}
-            primary={<AddComment comment={comment} />}
+            primary={
+              <AddComment comment={comment} onShowComments={setViewReplies} />
+            }
           />
         </ListItem>
       )}

@@ -5,6 +5,7 @@ export function getElapsedTime(date) {
   const elapsed = timeNow - time;
   let display = "";
   if (elapsed < 60) {
+    // less than a minute
     display = "now";
   } else if (elapsed < 3600) {
     // less than an hour

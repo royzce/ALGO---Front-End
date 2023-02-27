@@ -1,25 +1,64 @@
 import { List } from "@mui/material";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { CommentContext } from "../context/CommentContext";
+import * as postSvc from "../services/post";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 
-export default function CommentSection({ show, post, allComments }) {
-  const comments = allComments.filter((comment) => !comment.replyTo);
+export default function CommentSection({ show, onShowComments, post, user }) {
+  const [comments, setComments] = useState([]);
+  const onlyComments =
+    comments && comments.filter((comment) => !comment.replyTo);
 
-  function handleAddComment({ value, replyTo }) {
+  useEffect(() => {
+    if (post && post.comment) {
+      setComments(post.comment.sort(compare));
+      console.log("CommentSection", post.comment);
+    }
+  }, [post]);
+
+  async function handleAddComment({ value, replyTo }) {
     // TODO
-    console.log("inside handleAddComment", value, replyTo);
+    const newComment = {
+      postId: post.postId,
+      userId: user.userId,
+      value,
+      replyTo,
+      isEdited: false,
+      date: new Date(),
+    };
+    const res = await postSvc.addComment(newComment);
+    console.log("inside handleAddComment", res);
+    // setComments([...comments, res.data].sort(compare));
   }
 
-  function handleEditComment(comment) {
+  async function handleEditComment(editedComm) {
     // TODO
-    console.log("inside handleEditComment", comment);
+    const res = await postSvc.editComment(editedComm);
+    console.log("inside handleEditComment", res);
+    setComments(
+      comments.map((comment) => {
+        return comment.commentId === res.data.commentId
+          ? { ...comment, ...res.data }
+          : comment;
+      })
+    );
   }
 
-  function handleDeleteComment(id) {
+  async function handleDeleteComment(commentId) {
     // TODO
-    console.log("inside handleDeleteComment", id);
+    const res = await postSvc.deleteComment(post.postId, commentId);
+
+    console.log("inside handleDeleteComment response", res);
+
+    // TODO: server response data has no commentId
+    // setComments(comments.filter(comment => comment.commentId !== res.data.commentId));
+  }
+
+  function compare(commA, commB) {
+    const timeA = new Date(commA.date).getTime();
+    const timeB = new Date(commB.date).getTime();
+    return timeA - timeB;
   }
 
   return (
@@ -33,12 +72,12 @@ export default function CommentSection({ show, post, allComments }) {
       >
         {show && (
           <List disablePadding dense={true}>
-            {comments &&
-              comments.map((comment) => (
+            {onlyComments &&
+              onlyComments.map((comment) => (
                 <Fragment key={comment.commentId}>
                   <Comment
                     comment={comment}
-                    replies={allComments.filter(
+                    replies={comments.filter(
                       (com) => com.replyTo === comment.commentId
                     )}
                     reply={false}
@@ -47,7 +86,7 @@ export default function CommentSection({ show, post, allComments }) {
               ))}
           </List>
         )}
-        <AddComment />
+        <AddComment onShowComments={onShowComments} />
       </CommentContext.Provider>
     </>
   );

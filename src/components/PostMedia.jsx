@@ -4,15 +4,8 @@ import { Link } from "react-router-dom";
 import * as userSvc from "../services/post";
 import Post from "./Post";
 
-export default function PostMedia({ post }) {
+export default function PostMedia({ post, srcPost }) {
   const { media } = post;
-  const [srcPost, setSrcPost] = useState(null);
-
-  useEffect(() => {
-    if (post && post.isRepost) {
-      userSvc.getPost(post.repostId).then((res) => setSrcPost(res.data));
-    }
-  }, [post]);
 
   return (
     post && (
@@ -22,10 +15,10 @@ export default function PostMedia({ post }) {
         ) : (
           media && (
             <ImageList>
-              {media.map((url, index) => (
+              {media.map((media, index) => (
                 <Link to={`/posts/${post.postId}/${index}`} key={index}>
                   <ImageListItem>
-                    <img alt={`post-${index}`} src={url} />
+                    <img alt={`post-${index}`} src={media.mediaLink} />
                   </ImageListItem>
                 </Link>
               ))}

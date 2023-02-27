@@ -28,6 +28,7 @@ export default function CommentForm({
 
   function handleSubmit() {
     onSubmit(value);
+    setValue("");
   }
 
   return (

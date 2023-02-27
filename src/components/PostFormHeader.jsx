@@ -24,6 +24,7 @@ export default function PostFormHeader({
   onTogglePhotos,
   totalTags,
   user,
+  isRepost,
 }) {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -49,9 +50,11 @@ export default function PostFormHeader({
         />
       </ListItem>
       <Stack direction="row" justifyContent="center" alignItems="center">
-        <IconButton onClick={onTogglePhotos} size="small">
-          <AddPhotoAlternateIcon />
-        </IconButton>
+        {!isRepost && (
+          <IconButton onClick={onTogglePhotos} size="small">
+            <AddPhotoAlternateIcon />
+          </IconButton>
+        )}
         {privacy !== "private" && (
           <IconButton onClick={onToggleTags} size="small">
             <GroupAddIcon />

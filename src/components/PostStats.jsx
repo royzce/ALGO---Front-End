@@ -8,9 +8,9 @@ import { REACTIONS } from "../services/post";
 export default function PostStats({
   onToggleComments,
   post,
-  totalReacts,
-  reaction,
+  reactions,
   totalComments,
+  user,
 }) {
   const styles = {
     avatarSize: {
@@ -34,11 +34,9 @@ export default function PostStats({
     >
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <AvatarGroup>
-          {post &&
+          {reactions &&
             REACTIONS.map((react) => {
-              const result =
-                post.reactions &&
-                post.reactions.find((r) => r.value === react.text);
+              const result = reactions.find((r) => r.value === react.text);
               if (result) {
                 return (
                   <Avatar
@@ -51,17 +49,19 @@ export default function PostStats({
               return "";
             })}
         </AvatarGroup>
-        <Typography variant="body2">
-          {totalReacts === 0
-            ? ""
-            : !reaction
-            ? totalReacts
-            : totalReacts === 1
-            ? "You"
-            : totalReacts < 3
-            ? "You and 1 other"
-            : `You and ${totalReacts} others`}
-        </Typography>
+        {reactions && (
+          <Typography variant="body2">
+            {reactions.length === 0
+              ? ""
+              : !reactions.find((react) => react.userId === user.userId)
+              ? reactions.length
+              : reactions.length === 1
+              ? "You"
+              : reactions.length < 3
+              ? "You and 1 other"
+              : `You and ${reactions.length} others`}
+          </Typography>
+        )}
       </Stack>
       <Stack direction="row">
         <Stack

@@ -18,11 +18,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <RegisterProvider>
-        <PostProvider>
-          <UserProvider>
+        <UserProvider>
+          <PostProvider>
             <App />
-          </UserProvider>
-        </PostProvider>
+          </PostProvider>
+        </UserProvider>
       </RegisterProvider>
     </BrowserRouter>
   </React.StrictMode>
