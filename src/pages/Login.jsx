@@ -9,13 +9,15 @@ import {
   TextField,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
+import { PopupContext } from "../context/PopupContext";
 import * as authService from "../services/auth";
 
 export default function Login() {
+  const { onShowFail } = useContext(PopupContext);
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -89,7 +91,7 @@ export default function Login() {
       .login(form.username, form.password)
       .catch((err) => {
         //change to snackbar maybe
-        alert(err.response.data.message);
+        onShowFail(err.response.data.message);
       });
     if (rememberMe && response) {
       console.log("nag remember me");

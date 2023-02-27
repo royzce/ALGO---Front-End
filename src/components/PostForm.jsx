@@ -46,7 +46,10 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     }
 
     if (showTagSel) {
-      userSvc.getFriends().then((res) => setFriends(res.data));
+      userSvc.getFriends().then((res) => {
+        console.log("res is", res);
+        setFriends(res.data);
+      });
     }
   }, [showTagSel, post]);
 
@@ -177,7 +180,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                     options={friends}
                     onChange={(event, value) => handleTagSel(value)}
                     getOptionLabel={(option) =>
-                      `${option.firstName} ${option.lastName}`
+                      `${option.user.firstName} ${option.user.lastName}`
                     }
                     filterSelectedOptions
                     renderInput={(params) => (

@@ -9,16 +9,18 @@ import {
   IconButton,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
 import * as authService from "../services/auth";
 import { joiPasswordExtendCore } from "joi-password";
 import { useParams } from "react-router-dom";
+import { PopupContext } from "../context/PopupContext";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 export default function ResetPasswordPage() {
   const { token } = useParams();
+  const { onShowSuccess, onShowFail } = useContext(PopupContext);
   useEffect(() => {
     // setLoading(true);
     async function fetchData() {
@@ -31,16 +33,11 @@ export default function ResetPasswordPage() {
         .catch((err) => {
           setLoading(false);
           //change to snackbar maybe or whatever
-          alert(err.response.data.message);
-          //maybe navigate them to login page??
+          onShowFail(err.response.data.message);
         });
     }
     fetchData();
-    // console.log(validToken);
-    // setLoading(false);
   }, []);
-  //   const { token } = useParams();
-  //   const validToken = authService.resetPassword(token);
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -135,13 +132,14 @@ export default function ResetPasswordPage() {
       .then((res) => {
         setLoading(false);
         //snackbar or something
-        alert(res.data.ResetPasswordResponse);
+
+        onShowSuccess(res.data.ResetPasswordResponse);
         //then navigate to login
       })
       .catch((err) => {
         setLoading(false);
         //snackbar or something
-        alert(err.response.data.message);
+        onShowFail(err.response.data.message);
       });
   };
 

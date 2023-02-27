@@ -8,13 +8,16 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
+import { PopupContext } from "../context/PopupContext";
 import * as authService from "../services/auth";
 
 export default function ForgotPasswordPage() {
+  const { onShowSuccess, onShowFail } = useContext(PopupContext);
+  const navigate = useNavigate();
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -88,16 +91,18 @@ export default function ForgotPasswordPage() {
       .then((res) => {
         setLoading(false);
         if (res.data) {
-          alert("Password reset link was sent. Please check your email");
+          onShowSuccess(
+            "Password reset link was sent. Please check your email"
+          );
+          navigate("/login");
           //maybe add navigate to login
         }
       })
       .catch((err) => {
         //change to snackbar maybe or something
         setLoading(false);
-        alert(err.response.data.message);
+        onShowFail(err.response.data.message);
       });
-    //response.data = alert sent
   };
 
   function Spinner() {

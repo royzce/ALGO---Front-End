@@ -13,19 +13,22 @@ import { RegisterProvider } from "./context/RegisterContext";
 import PostProvider from "./context/PostContext";
 import UserProvider from "./context/UserContext";
 import { AuthProvider } from "./context/AuthContext";
+import { PopupProvider } from "./context/PopupContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
     <AuthProvider>
-      <RegisterProvider>
-        <UserProvider>
-          <PostProvider>
-            <App />
-          </PostProvider>
-        </UserProvider>
-      </RegisterProvider>
+      <PopupProvider>
+        <RegisterProvider>
+          <UserProvider>
+            <PostProvider>
+              <App />
+            </PostProvider>
+          </UserProvider>
+        </RegisterProvider>
+      </PopupProvider>
     </AuthProvider>
   </BrowserRouter>
   // </React.StrictMode>

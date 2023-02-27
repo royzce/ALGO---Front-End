@@ -6,7 +6,7 @@ export function getCurrentUser() {
 
 // TEST FUNCTION ONLY
 export function getFriends() {
-  return http.get("/users");
+  return http.get("/friends");
 }
 
 export function register(user) {

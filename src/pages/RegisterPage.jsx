@@ -18,9 +18,11 @@ import { RegisterContext } from "../context/RegisterContext";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
 import * as userService from "../services/user";
+import { PopupContext } from "../context/PopupContext";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 const RegisterPage = () => {
+  const { onShowSuccess, onShowFail } = useContext(PopupContext);
   const { uploading, handleUpload, selectedFile, closePreview } =
     useContext(RegisterContext);
   const [form, setForm] = useState({
@@ -62,14 +64,13 @@ const RegisterPage = () => {
       .register(form)
       .then(() => {
         setOpen(false);
-        alert("successfully Registerd");
+        onShowSuccess("successfully Registerd");
         closePreview();
         navigate("/login");
       })
       .catch((err) => {
-        //change this alert
         setOpen(false);
-        alert(err.response.data.message);
+        onShowFail(err.response.data.message);
       });
   };
 
