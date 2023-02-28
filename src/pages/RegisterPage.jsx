@@ -345,34 +345,7 @@ const RegisterPage = () => {
           fullWidth
         />
       </Tooltip>
-      {/* <IconButton
-        size="small"
-        className="text-secondary bg-transparent float-end border-0"
-        onClick={handlePasswordVisibility}
-        sx={[
-          passwordVisible ? { marginRight: "14px" } : { marginRight: "15px" },
-          { zIndex: 3, mt: "16px" },
-        ]}
-      >
-        <i
-          className={
-            passwordVisible ? "fa-solid fa-eye-slash" : "fa-solid fa-eye" // font awesome icon
-          }
-        />
-      </IconButton>
-      <TextField
-        id="pass-word"
-        name="password"
-        error={!!errors.password}
-        onChange={handleChange}
-        value={form.password}
-        type={passwordVisible ? "text" : "password"}
-        label="Password"
-        variant="filled"
-        InputProps={{ disableUnderline: true }}
-        sx={[styles.myTextField, { mb: "20px", mt: "-44px" }]}
-        fullWidth
-      /> */}
+
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="pass-word" error={!!errors.password}>
           Password

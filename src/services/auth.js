@@ -15,3 +15,7 @@ export function resetPassword(token, password) {
     return http.post("/auth/reset-password", { token, password });
   }
 }
+
+export function changePassword(old_password, new_password) {
+  return http.post("/auth/change-password", { old_password, new_password });
+}
