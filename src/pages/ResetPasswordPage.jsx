@@ -59,7 +59,7 @@ export default function ResetPasswordPage() {
       },
     },
     paper: {
-      borderRadius: "12px",
+      borderRadius: "10px",
       padding: "30px",
       minWidth: "425px",
       margin: "84px auto",

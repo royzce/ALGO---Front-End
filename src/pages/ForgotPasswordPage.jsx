@@ -39,8 +39,8 @@ export default function ForgotPasswordPage() {
       borderRadius: "10px",
       padding: "30px",
       minWidth: "425px",
-      maxWidth: "685px",
-      margin: "70px auto",
+      margin: "84px auto",
+      width: "425px",
     },
     heading: {
       textAlign: "center",
@@ -119,77 +119,57 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "100vh",
-        padding: "50px 0",
-        backgroundColor: "rgb(238,242,246)",
-        overflowY: "scroll",
-      }}
-    >
+    <Paper elevation={0} sx={styles.paper}>
       <GlobalCSS />
       {loading && <Spinner />}
-      <Paper
-        elevation={0}
-        sx={{
-          borderRadius: "12px",
-          padding: "30px",
-          minWidth: "425px",
-          my: "auto",
-          maxWidth: "425px",
-        }}
+      <img
+        src={appLogo}
+        className="rounded mx-auto d-block"
+        style={{ height: "8vh", marginTop: "26px" }}
+        alt="Algo app logo"
+      />
+      <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
+        <strong>Forgot Password</strong>
+      </Typography>
+      <Tooltip
+        title={errors.email}
+        open={!!errors.email}
+        placement="top-end"
+        TransitionComponent={Zoom}
+        arrow={true}
       >
-        <img
-          src={appLogo}
-          className="rounded mx-auto d-block"
-          style={{ height: "8vh", marginTop: "26px" }}
-          alt="Algo app logo"
-        />
-        <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
-          <strong>Forgot Password</strong>
-        </Typography>
-        <Tooltip
-          title={errors.email}
-          open={!!errors.email}
-          placement="top-end"
-          TransitionComponent={Zoom}
-          arrow={true}
-        >
-          <TextField
-            name="email"
-            error={!!errors.email}
-            onChange={handleChange}
-            value={form.email}
-            label="Email"
-            variant="filled"
-            InputProps={{ disableUnderline: true }}
-            sx={[styles.myTextField, { mb: "10px" }]}
-            placeholder="Enter email"
-            fullWidth
-          />
-        </Tooltip>
-        <Button
-          disabled={isFormInvalid()}
-          variant="contained"
-          size="medium"
-          className="mt-3"
+        <TextField
+          name="email"
+          error={!!errors.email}
+          onChange={handleChange}
+          value={form.email}
+          label="Email"
+          variant="filled"
+          InputProps={{ disableUnderline: true }}
+          sx={[styles.myTextField, { mb: "10px" }]}
+          placeholder="Enter email"
           fullWidth
-          onClick={handleSubmit}
-        >
-          Continue
-        </Button>
-        <br />
-        <Typography
-          variant="body2"
-          sx={{ textAlign: "center", marginTop: "10px" }}
-        >
-          <Link id="forgot" to="/login">
-            Go back to Login
-          </Link>
-        </Typography>
-      </Paper>
-    </div>
+        />
+      </Tooltip>
+      <Button
+        disabled={isFormInvalid()}
+        variant="contained"
+        size="medium"
+        className="mt-3"
+        fullWidth
+        onClick={handleSubmit}
+      >
+        Continue
+      </Button>
+      <br />
+      <Typography
+        variant="body2"
+        sx={{ textAlign: "center", marginTop: "10px" }}
+      >
+        <Link id="forgot" to="/login">
+          Go back to Login
+        </Link>
+      </Typography>
+    </Paper>
   );
 }
