@@ -10,7 +10,6 @@ import {
 import { useContext } from "react";
 import { RegisterContext } from "../context/RegisterContext";
 import CloseIcon from "@mui/icons-material/Close";
-import zIndex from "@mui/material/styles/zIndex";
 
 function FirebaseImageUpload() {
   const { previewUrl, handleFileSelect, closePreview } =
