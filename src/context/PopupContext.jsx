@@ -19,7 +19,7 @@ export const PopupProvider = ({ children }) => {
     setOpenSnackbar(true);
     setTimeout(() => {
       handleCloseSnackbar();
-    }, 1000); // 5000ms = 5 seconds
+    }, 1000);
   };
 
   const handleFailMessage = (message) => {
@@ -28,7 +28,7 @@ export const PopupProvider = ({ children }) => {
     setOpenSnackbar(true);
     setTimeout(() => {
       handleCloseSnackbar();
-    }, 3000); // 5000ms = 5 seconds
+    }, 3000);
   };
 
   function customAlert(message) {}
