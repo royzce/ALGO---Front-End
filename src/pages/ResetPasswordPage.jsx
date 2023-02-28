@@ -59,11 +59,11 @@ export default function ResetPasswordPage() {
       },
     },
     paper: {
-      borderRadius: "10px",
+      borderRadius: "12px",
       padding: "30px",
       minWidth: "425px",
-      maxWidth: "685px",
-      margin: "70px auto",
+      margin: "84px auto",
+      width: "425px",
     },
     heading: {
       textAlign: "center",
@@ -160,39 +160,20 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "100vh",
-        padding: "50px 0",
-        backgroundColor: "rgb(238,242,246)",
-        overflowY: "scroll",
-      }}
-    >
+    <Paper elevation={0} sx={styles.paper}>
       <GlobalCSS />
       {loading && <Spinner />}
-      <Paper
-        elevation={0}
-        sx={{
-          borderRadius: "12px",
-          padding: "30px",
-          minWidth: "425px",
-          my: "auto",
-          maxWidth: "425px",
-        }}
-      >
-        <img
-          src={appLogo}
-          className="rounded mx-auto d-block"
-          style={{ height: "8vh", marginTop: "26px" }}
-          alt="Algo app logo"
-        />
-        <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
-          <strong>Please enter new password</strong>
-        </Typography>
+      <img
+        src={appLogo}
+        className="rounded mx-auto d-block"
+        style={{ height: "8vh", marginTop: "26px" }}
+        alt="Algo app logo"
+      />
+      <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
+        <strong>Please enter new password</strong>
+      </Typography>
 
-        {/* <IconButton
+      {/* <IconButton
           size="small"
           className="text-secondary bg-transparent float-end border-0"
           onClick={handlePasswordVisibility}
@@ -221,55 +202,54 @@ export default function ResetPasswordPage() {
           sx={[styles.myTextField, { mb: "10px", mt: "-44px" }]}
           fullWidth
         /> */}
-        <FormControl sx={{ width: "100%" }} variant="filled">
-          <InputLabel htmlFor="pass-word" error={!!errors.password}>
-            Password
-          </InputLabel>
-          <Tooltip
-            title={errors.password}
-            open={!!errors.password}
-            placement="top-end"
-            TransitionComponent={Zoom}
-            arrow={true}
-            id="error-tooltip"
-          >
-            <FilledInput
-              // id="filled-adornment-password"
-              id="pass-word"
-              name="password"
-              error={!!errors.password}
-              onChange={handleChange}
-              value={form.password}
-              type={passwordVisible ? "text" : "password"}
-              disableUnderline={true}
-              sx={styles.passwordField}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={handlePasswordVisibility} edge="end">
-                    {passwordVisible ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </Tooltip>
-        </FormControl>
-        <Button
-          disabled={isFormInvalid()}
-          variant="contained"
-          size="medium"
-          className="mt-3"
-          fullWidth
-          onClick={handleSubmit}
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="pass-word" error={!!errors.password}>
+          Password
+        </InputLabel>
+        <Tooltip
+          title={errors.password}
+          open={!!errors.password}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+          id="error-tooltip"
         >
-          Change Password
-        </Button>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="baseline"
-          spacing={0}
-        ></Stack>
-      </Paper>
-    </div>
+          <FilledInput
+            // id="filled-adornment-password"
+            id="pass-word"
+            name="password"
+            error={!!errors.password}
+            onChange={handleChange}
+            value={form.password}
+            type={passwordVisible ? "text" : "password"}
+            disableUnderline={true}
+            sx={styles.passwordField}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton onClick={handlePasswordVisibility} edge="end">
+                  {passwordVisible ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Tooltip>
+      </FormControl>
+      <Button
+        disabled={isFormInvalid()}
+        variant="contained"
+        size="medium"
+        className="mt-3"
+        fullWidth
+        onClick={handleSubmit}
+      >
+        Change Password
+      </Button>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="baseline"
+        spacing={0}
+      ></Stack>
+    </Paper>
   );
 }

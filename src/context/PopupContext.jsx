@@ -1,50 +1,31 @@
-import React, { createContext } from "react";
-import MuiAlert from "@mui/material/Alert";
-import { Snackbar } from "@mui/material";
+import { Alert, AlertTitle, Button, IconButton, Snackbar } from "@mui/material";
+import { createContext, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 export const PopupContext = createContext({});
 
 export const PopupProvider = ({ children }) => {
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [alertType, setAlertType] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   const handleSuccessMessage = (message) => {
-    //green maybe
-    //
-    // alert(message);
-    handleClick();
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-        {message}
-      </Alert>
-    </Snackbar>;
+    setSnackbarMessage(message);
+    setAlertType(true);
+    setOpenSnackbar(true);
   };
 
   const handleFailMessage = (message) => {
-    //red maybe
-    //
-    alert(message);
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-        {message}
-      </Alert>
-    </Snackbar>;
+    setSnackbarMessage(message);
+    setAlertType(false);
+    setOpenSnackbar(true);
   };
+
+  function customAlert(message) {}
 
   return (
     <PopupContext.Provider
@@ -54,6 +35,24 @@ export const PopupProvider = ({ children }) => {
       }}
     >
       {children}
+      <Snackbar open={openSnackbar} autoHideDuration={6000} sx={{ width: 300 }}>
+        <Alert
+          severity={alertType ? "success" : "error"}
+          variant="filled"
+          action={
+            <IconButton
+              color="inherit"
+              size="small"
+              onClick={handleCloseSnackbar}
+            >
+              <CloseIcon />
+            </IconButton>
+          }
+        >
+          <AlertTitle>{alertType ? "Success" : "Error"}</AlertTitle>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </PopupContext.Provider>
   );
 };
