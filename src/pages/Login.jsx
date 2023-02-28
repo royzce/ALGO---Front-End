@@ -87,20 +87,13 @@ export default function Login() {
     setPasswordVisible(!passwordVisible);
   };
   const handleLogin = async () => {
-    if (rememberMe) {
-      console.log("nag remember me");
-      setForm({ ...form, remember: true });
-    } else {
-      setForm({ ...form, remember: false });
-    }
     await authService
-      .login(form.username, form.password, form.remember)
+      .login(form.username, form.password, rememberMe ? true : false)
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
         navigate("/");
       })
       .catch((err) => {
-        //change to snackbar maybe
         onShowFail(err.response.data.message);
       });
   };

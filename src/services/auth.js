@@ -1,7 +1,7 @@
 import { http } from "./http";
 
-export function login(username, password) {
-  return http.post("/auth", { username, password });
+export function login(username, password, remember) {
+  return http.post("/auth", { username, password, remember });
 }
 
 export function forgotPassord(email) {
