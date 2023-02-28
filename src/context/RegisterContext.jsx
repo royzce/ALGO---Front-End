@@ -13,6 +13,9 @@ export const RegisterContext = createContext({
   uploading: false,
   downloadUrl: null,
   uploadProgress: 0,
+  handleUpload: () => {},
+  handleFileSelect: () => {},
+  closePreview: () => {},
 });
 
 export const RegisterProvider = ({ children }) => {
@@ -50,6 +53,10 @@ export const RegisterProvider = ({ children }) => {
   const closePreview = () => {
     setPreviewUrl(null);
     setSelectedFile(null);
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   const handleUpload = async () => {
