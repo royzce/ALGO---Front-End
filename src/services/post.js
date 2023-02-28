@@ -32,16 +32,16 @@ export function deletePost(postId) {
 }
 
 export function addReaction(reaction) {
-  return http.post("reactions", reaction);
+  return http.post("/reactions", reaction);
 }
 
 export function editReaction(reaction) {
-  return http.put(`reactions/${reaction.postId}`, reaction);
+  return http.put(`/reactions`, reaction);
 }
 
 export function deleteReaction(postId) {
   console.log("delete service", postId);
-  return http.delete(`reactions`, { data: { postId: postId } });
+  return http.delete(`/reactions`, { data: { postId: postId } });
 }
 
 export function addComment(newComment) {

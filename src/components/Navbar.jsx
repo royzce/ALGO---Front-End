@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Grid,
@@ -30,6 +30,10 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
+import NotificationPanel from "./NotificationPanel";
+import * as userSvc from "../services/user";
+import { compareByDate } from "../services/util";
+import { NotifContext } from "../context/NotifContext";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -60,6 +64,22 @@ export default function Navbar() {
     handleMdClose();
     handleDrawerClose();
     navigate("/profile");
+  };
+
+  const { notifs } = useContext(NotifContext);
+  const [notifAnchorEl, setNotifAnchorEl] = React.useState(null);
+  const isNotifOpen = Boolean(notifAnchorEl);
+
+  const handleNotifClick = (event) => {
+    if (notifAnchorEl) {
+      setNotifAnchorEl(null);
+    } else {
+      setNotifAnchorEl(event.currentTarget);
+    }
+  };
+
+  const handleNotifClose = () => {
+    setNotifAnchorEl(null);
   };
 
   return (
@@ -103,13 +123,27 @@ export default function Navbar() {
             <Toolbar>
               <IconButton
                 size="large"
-                aria-label="show 4 new mails"
                 color="inherit"
+                onClick={handleNotifClick}
               >
-                <Badge badgeContent={4} color="error">
+                <Badge badgeContent={notifs && notifs.length} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+
+              {/**NOTIFICATIONS PANEL */}
+              <Menu
+                anchorEl={notifAnchorEl}
+                open={isNotifOpen}
+                onClose={handleNotifClose}
+                PaperProps={{
+                  style: {
+                    width: "40%",
+                  },
+                }}
+              >
+                <NotificationPanel notifs={notifs} onClose={handleNotifClose} />
+              </Menu>
               <IconButton
                 onClick={handleMdClick}
                 aria-controls={mdOpen ? "md-menu" : undefined}

@@ -59,20 +59,18 @@ export default function Post({ post, page, shared }) {
     setEditing(false);
   }
 
-  function handleSubmit(submitBody) {
-    if (submitBody.postId) {
-      // if there is a postID, then it is an edit task
-      if (!submitBody.media) {
-        submitBody.media = post.media.map((media) => media.mediaLink);
-      }
-      const editedPost = { ...post, ...submitBody };
-      console.log("Inside handleSubmit in Post.jsx", editedPost);
-      onEditPost(editedPost);
-    } else {
-      // else, this is an add task
-      console.log("Inside handleSubmit in Post.jsx", submitBody);
-      onAddPost(submitBody);
+  function handleEditSubmit(submitBody) {
+    if (!submitBody.media) {
+      submitBody.media = post.media.map((media) => media.mediaLink);
     }
+    const editedPost = { ...post, ...submitBody };
+    console.log("Inside handleSubmit in Post.jsx", editedPost);
+    onEditPost(editedPost);
+  }
+
+  function handleRepostSubmit(submitBody) {
+    console.log("Inside handleSubmit in Post.jsx", submitBody);
+    onAddPost(submitBody);
   }
 
   const styles = {
@@ -87,11 +85,11 @@ export default function Post({ post, page, shared }) {
   };
 
   async function handleReact(value) {
-    console.log("inside handleReact ", value);
     if (value && reaction) {
       // edit reaction
-      // const react = { ...reaction, postId: post.postId, value };
-      console.log("TODO: edit reaction");
+      const react = { postId: post.postId, value };
+      const res = await postSvc.editReaction(react);
+      console.log("inside handleReact ", res);
       setReactions(
         reactions.map((r) => {
           return r.userId === user.userId ? { ...reaction, value } : r;
@@ -170,13 +168,13 @@ export default function Post({ post, page, shared }) {
           open={editing}
           onClose={handleCloseEdit}
           withPhoto={post && post.media.length > 0}
-          onSubmit={handleSubmit}
+          onSubmit={handleEditSubmit}
         />
       )}
       {editPrivacy && (
         <EditPrivacy
           open={editPrivacy}
-          onSelect={handleSubmit}
+          onSelect={handleEditSubmit}
           onClose={handleClosePriv}
           privacy={post.privacy}
         />
@@ -187,7 +185,7 @@ export default function Post({ post, page, shared }) {
           onClose={handleCloseRepost}
           srcPost={post.isRepost ? srcPost : post}
           post={post.isRepost ? post : null}
-          onSubmit={handleSubmit}
+          onSubmit={handleRepostSubmit}
         />
       )}
     </>

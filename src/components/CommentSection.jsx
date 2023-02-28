@@ -2,6 +2,7 @@ import { List } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
 import { CommentContext } from "../context/CommentContext";
 import * as postSvc from "../services/post";
+import { compareByDate } from "../services/util";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 
@@ -12,7 +13,7 @@ export default function CommentSection({ show, onShowComments, post, user }) {
 
   useEffect(() => {
     if (post && post.comment) {
-      setComments(post.comment.sort(compare));
+      setComments(post.comment.sort(compareByDate));
       console.log("CommentSection", post.comment);
     }
   }, [post]);
@@ -21,7 +22,6 @@ export default function CommentSection({ show, onShowComments, post, user }) {
     // TODO
     const newComment = {
       postId: post.postId,
-      userId: user.userId,
       value,
       replyTo,
       isEdited: false,
@@ -29,7 +29,7 @@ export default function CommentSection({ show, onShowComments, post, user }) {
     };
     const res = await postSvc.addComment(newComment);
     console.log("inside handleAddComment", res);
-    // setComments([...comments, res.data].sort(compare));
+    setComments([...comments, res.data].sort(compareByDate));
   }
 
   async function handleEditComment(editedComm) {
@@ -52,13 +52,7 @@ export default function CommentSection({ show, onShowComments, post, user }) {
     console.log("inside handleDeleteComment response", res);
 
     // TODO: server response data has no commentId
-    // setComments(comments.filter(comment => comment.commentId !== res.data.commentId));
-  }
-
-  function compare(commA, commB) {
-    const timeA = new Date(commA.date).getTime();
-    const timeB = new Date(commB.date).getTime();
-    return timeA - timeB;
+    setComments(comments.filter((comment) => comment.commentId !== commentId));
   }
 
   return (

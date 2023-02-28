@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as postSvc from "../services/post";
 import { getCurrentUser } from "../services/user";
+import { compareByDate } from "../services/util";
 import { UserContext } from "./UserContext";
 
 export const PostContext = createContext({
@@ -23,17 +24,13 @@ export default function PostProvider({ children }) {
   const { currentUser: user } = useContext(UserContext);
 
   useEffect(() => {
-    postSvc.getPosts().then((res) => {
-      const posts = res.data.sort(compare);
-      setAllPosts(posts);
-    });
-  }, []);
-
-  function compare(postA, postB) {
-    const timeA = new Date(postA.date).getTime();
-    const timeB = new Date(postB.date).getTime();
-    return (timeA - timeB) * -1;
-  }
+    if (user) {
+      postSvc.getPosts().then((res) => {
+        const posts = res.data.sort(compareByDate);
+        setAllPosts(posts);
+      });
+    }
+  }, [user]);
 
   function handlePosting(completed) {
     setPosting(completed);
@@ -53,7 +50,7 @@ export default function PostProvider({ children }) {
 
     const post = { ...res.data, media, tags: newPost.tags, user };
 
-    setAllPosts([...allPosts, post].sort(compare));
+    setAllPosts([...allPosts, post].sort(compareByDate));
     handlePosting(false);
   }
 
@@ -67,7 +64,7 @@ export default function PostProvider({ children }) {
             ? { ...post, ...res.data }
             : post;
         })
-        .sort(compare)
+        .sort(compareByDate)
     );
     handlePosting(false);
   }
@@ -76,7 +73,7 @@ export default function PostProvider({ children }) {
     const res = await postSvc.deletePost(postId);
     if (res) {
       setAllPosts(
-        allPosts.filter((post) => post.postId !== postId).sort(compare)
+        allPosts.filter((post) => post.postId !== postId).sort(compareByDate)
       );
     }
   }
