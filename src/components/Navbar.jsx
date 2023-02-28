@@ -94,10 +94,10 @@ export default function Navbar() {
     <>
       <AppBar
         position="static"
-        sx={{ display: "flex", justifyContent: "center", minWidth: "xs" }}
+        sx={{ display: "flex", justifyContent: "center" }}
       >
-        <Grid container minWidth={"xs"} maxWidth={"xl"} sx={{ mx: "auto" }}>
-          <Grid item sm={4}>
+        <Grid container maxWidth={"xl"} sx={{ mx: "auto" }}>
+          <Grid item sm={3}>
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -109,19 +109,20 @@ export default function Navbar() {
                 <MenuIcon />
               </IconButton>
               <Typography
-                variant="h6"
+                variant="h5"
+                fontWeight={"fontWeightBold"}
                 sx={{ display: { xs: "none", md: "inline-flex" } }}
               >
                 ALGO
               </Typography>
             </Toolbar>
           </Grid>
-          <Grid item sm={4}>
+          <Grid item sm={6}>
             <Toolbar>
               <AutocompleteWithAvatar />
             </Toolbar>
           </Grid>
-          <Grid item sm={4} container justifyContent="flex-end">
+          <Grid item sm={3} container justifyContent="flex-end">
             <Toolbar>
               <IconButton
                 size="large"
@@ -330,8 +331,8 @@ function CustomOption({ option }) {
       }}
       onClick={() => console.log(option)}
     >
-      <Avatar src={option.avatar} sx={{ marginLeft: "10px" }} />
-      <div style={{ marginLeft: "20px", color: "black" }}>
+      <Avatar src={option.avatar} />
+      <div style={{ marginLeft: "12px", color: "black" }}>
         {option.firstName + " " + option.lastName}
       </div>
     </MenuItem>
@@ -349,10 +350,10 @@ function NoOption({ value }) {
       }}
       onClick={() => console.log(value)}
     >
-      <Avatar sx={{ marginLeft: "10px", bgcolor: "#1976d2" }}>
+      <Avatar sx={{ bgcolor: "#1976d2" }}>
         <SearchIcon />
       </Avatar>
-      <div style={{ marginLeft: "20px", color: "black" }}>
+      <div style={{ marginLeft: "12px", color: "black" }}>
         Search for <strong>{value}</strong>
       </div>
     </MenuItem>
@@ -396,23 +397,11 @@ function AutocompleteWithAvatar() {
   return (
     <Autocomplete
       sx={{
-        border: "2px solid #1460ab",
+        width: "80%",
+        margin: "auto",
         borderRadius: "50px",
-        padding: "0px 5px",
+        backgroundColor: "#4999e7",
       }}
-      PaperComponent={({ children }) => (
-        <Paper
-          elevation={1}
-          style={{
-            borderRadius: "8px",
-            marginTop: "4px",
-            maxHeight: "20rem",
-            overflowY: "auto",
-          }}
-        >
-          {children}
-        </Paper>
-      )}
       ref={inpuSearchRef}
       forcePopupIcon={false}
       options={options}
@@ -428,20 +417,14 @@ function AutocompleteWithAvatar() {
       renderInput={(params) => (
         <TextField
           sx={{
-            width: "25rem",
+            width: "100%",
             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-              backgroundColor: "transparent",
               border: "none",
-              overflow: "hidden",
-              borderRadius: "50px",
             },
-            // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            //   color: "white",
-            // },
-            "&.Mui-focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-              {
-                backgroundColor: "transparent",
-              },
+            "& .css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input": {
+              height: "12px",
+              color: "white",
+            },
           }}
           {...params}
           placeholder="Search Algo"
@@ -449,7 +432,7 @@ function AutocompleteWithAvatar() {
           InputProps={{
             ...params.InputProps,
             startAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment position="start" sx={{ color: "white" }}>
                 <SearchIcon />
               </InputAdornment>
             ),
