@@ -87,17 +87,22 @@ export default function Login() {
     setPasswordVisible(!passwordVisible);
   };
   const handleLogin = async () => {
-    let response = await authService
-      .login(form.username, form.password)
+    if (rememberMe) {
+      console.log("nag remember me");
+      setForm({ ...form, remember: true });
+    } else {
+      setForm({ ...form, remember: false });
+    }
+    await authService
+      .login(form.username, form.password, form.remember)
+      .then((res) => {
+        localStorage.setItem("accessToken", res.data.accessToken);
+        navigate("/");
+      })
       .catch((err) => {
         //change to snackbar maybe
         onShowFail(err.response.data.message);
       });
-    if (rememberMe && response) {
-      console.log("nag remember me");
-      localStorage.setItem("accessToken", response.data.accessToken);
-      navigate("/");
-    }
   };
 
   return (
@@ -111,6 +116,7 @@ export default function Login() {
         overflowY: "scroll",
       }}
     >
+      <GlobalCSS />
       <Paper
         elevation={0}
         sx={{
