@@ -14,9 +14,12 @@ import {
   InputLabel,
   FilledInput,
   InputAdornment,
+  styled,
+  tooltipClasses,
+  Divider,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
@@ -24,7 +27,7 @@ import { PopupContext } from "../context/PopupContext";
 import * as authService from "../services/auth";
 
 export default function Login() {
-  const { onShowFail } = useContext(PopupContext);
+  const { onShowFail, onShowSuccess } = useContext(PopupContext);
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -107,6 +110,9 @@ export default function Login() {
   const handleLogin = async () => {
     let response = await authService
       .login(form.username, form.password)
+      .then((s) => {
+        onShowSuccess("Custom Login Message you suck");
+      })
       .catch((err) => {
         //change to snackbar maybe
         onShowFail(err.response.data.message);
@@ -135,18 +141,17 @@ export default function Login() {
         open={!!errors.username}
         placement="top-end"
         TransitionComponent={Zoom}
-        arrow
+        arrow={true}
       >
         <TextField
           name="username"
           error={!!errors.username}
-          // helperText={errors.username}
           onChange={handleChange}
           value={form.username}
           label="Email / Username"
           variant="filled"
           InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, { mb: "10px" }]}
+          sx={[styles.myTextField, { mb: "20px" }]}
           fullWidth
         />
       </Tooltip>
@@ -162,7 +167,8 @@ export default function Login() {
           open={!!errors.password}
           placement="top-end"
           TransitionComponent={Zoom}
-          arrow
+          arrow={true}
+          id="error-tooltip"
         >
           <FilledInput
             id="filled-adornment-password"
@@ -182,7 +188,6 @@ export default function Login() {
             }
           />
         </Tooltip>
-        {/* <FormHelperText error>{errors.password}</FormHelperText> */}
       </FormControl>
       <Stack
         direction="row"
@@ -210,7 +215,9 @@ export default function Login() {
       >
         Log In
       </Button>
-      <hr />
+      <Divider>
+        <Button disabled>OR</Button>
+      </Divider>
       <Button
         variant="contained"
         color="success"
