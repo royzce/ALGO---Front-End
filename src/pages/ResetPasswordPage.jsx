@@ -30,12 +30,12 @@ export default function ResetPasswordPage() {
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
   const navigate = useNavigate();
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
     async function fetchData() {
-      setLoading(true);
+      setLoading(false);
       await authService
         .resetPassword(token)
-        .then((res) => {
+        .then(() => {
           setLoading(false);
         })
         .catch((err) => {

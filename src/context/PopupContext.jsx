@@ -17,12 +17,18 @@ export const PopupProvider = ({ children }) => {
     setSnackbarMessage(message);
     setAlertType(true);
     setOpenSnackbar(true);
+    setTimeout(() => {
+      handleCloseSnackbar();
+    }, 1000); // 5000ms = 5 seconds
   };
 
   const handleFailMessage = (message) => {
     setSnackbarMessage(message);
     setAlertType(false);
     setOpenSnackbar(true);
+    setTimeout(() => {
+      handleCloseSnackbar();
+    }, 3000); // 5000ms = 5 seconds
   };
 
   function customAlert(message) {}
