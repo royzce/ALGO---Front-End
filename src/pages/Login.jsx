@@ -1,3 +1,4 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,
   Checkbox,
@@ -7,9 +8,18 @@ import {
   Stack,
   Typography,
   TextField,
+  Tooltip,
+  Zoom,
+  FormControl,
+  InputLabel,
+  FilledInput,
+  InputAdornment,
+  styled,
+  tooltipClasses,
+  Divider,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
@@ -21,6 +31,7 @@ import * as userService from "../services/user";
 export default function Login() {
   const { onShowFail } = useContext(PopupContext);
   const { setCurrentUser } = useContext(UserContext);
+
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -36,12 +47,23 @@ export default function Login() {
         },
       },
     },
+    passwordField: {
+      backgroundColor: "rgb(248, 250,252)",
+      border: "1px solid #e2e2e1",
+      overflow: "hidden",
+      borderRadius: "10px",
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "transparent",
+      },
+    },
     paper: {
       borderRadius: "10px",
       padding: "30px",
-      minWidth: "425px",
-      maxWidth: "685px",
-      margin: "70px auto",
+      width: "425px",
+      margin: "84px auto",
     },
     heading: {
       textAlign: "center",
@@ -104,112 +126,107 @@ export default function Login() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "100vh",
-        padding: "50px 0",
-        backgroundColor: "rgb(238,242,246)",
-        overflowY: "scroll",
-      }}
-    >
+    <Paper elevation={3} sx={styles.paper}>
       <GlobalCSS />
-      <Paper
-        elevation={0}
-        sx={{
-          borderRadius: "12px",
-          padding: "30px",
-          minWidth: "425px",
-          my: "auto",
-          maxWidth: "425px",
-        }}
+      <img
+        src={appLogo}
+        className="rounded mx-auto d-block"
+        style={{ height: "8vh", marginTop: "26px" }}
+        alt="Algo app logo"
+      />
+      <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
+        <strong>Hi, Welcome to Algo</strong>
+      </Typography>
+      <Tooltip
+        title={errors.username}
+        open={!!errors.username}
+        placement="top-end"
+        TransitionComponent={Zoom}
+        arrow={true}
       >
-        <img
-          src={appLogo}
-          className="rounded mx-auto d-block"
-          style={{ height: "8vh", marginTop: "26px" }}
-          alt="Algo app logo"
-        />
-        <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
-          <strong>Hi, Welcome to Algo</strong>
-        </Typography>
         <TextField
           name="username"
           error={!!errors.username}
-          helperText={errors.username}
           onChange={handleChange}
           value={form.username}
           label="Email / Username"
           variant="filled"
           InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, { mb: "10px" }]}
+          sx={[styles.myTextField, { mb: "20px" }]}
           fullWidth
         />
-        <IconButton
-          size="small"
-          className="text-secondary bg-transparent float-end border-0"
-          onClick={handlePasswordVisibility}
-          sx={[
-            passwordVisible ? { marginRight: "14px" } : { marginRight: "15px" },
-            { zIndex: 3, mt: "16px" },
-          ]}
+      </Tooltip>
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel
+          htmlFor="filled-adornment-password"
+          error={!!errors.password}
         >
-          <i
-            className={
-              passwordVisible ? "fa-solid fa-eye-slash" : "fa-solid fa-eye" // font awesome icon
+          Password
+        </InputLabel>
+        <Tooltip
+          title={errors.password}
+          open={!!errors.password}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+          id="error-tooltip"
+        >
+          <FilledInput
+            id="filled-adornment-password"
+            name="password"
+            error={!!errors.password}
+            onChange={handleChange}
+            value={form.password}
+            type={passwordVisible ? "text" : "password"}
+            disableUnderline={true}
+            sx={styles.passwordField}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton onClick={handlePasswordVisibility} edge="end">
+                  {passwordVisible ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
             }
           />
-        </IconButton>
-        <TextField
-          name="password"
-          error={!!errors.password}
-          helperText={errors.password}
-          onChange={handleChange}
-          value={form.password}
-          type={passwordVisible ? "text" : "password"}
-          label="Password"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, { mb: "10px", mt: "-44px" }]}
-          fullWidth
+        </Tooltip>
+      </FormControl>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="baseline"
+        spacing={0}
+      >
+        <FormControlLabel
+          control={<Checkbox size="small" />}
+          onChange={(e) => setRememberMe(e.target.checked)}
+          label={<Typography variant="body2">Remember me</Typography>}
         />
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="baseline"
-          spacing={0}
-        >
-          <FormControlLabel
-            control={<Checkbox size="small" />}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            label={<Typography variant="body2">Remember me</Typography>}
-          />
-          <Typography variant="body2">
-            <Link id="forgot" to="/forgot-password" className="float-end">
-              Forgot password?
-            </Link>
-          </Typography>
-        </Stack>
-        <Button
-          variant="contained"
-          size="medium"
-          className="mt-3"
-          fullWidth
-          onClick={handleLogin}
-        >
-          Log In
-        </Button>
-        <hr />
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => navigate("/register")}
-          fullWidth
-        >
-          Create an account
-        </Button>
-      </Paper>
-    </div>
+        <Typography variant="body2">
+          <Link id="forgot" to="/forgot-password" className="float-end">
+            Forgot password?
+          </Link>
+        </Typography>
+      </Stack>
+      <Button
+        variant="contained"
+        size="medium"
+        className="mt-3"
+        fullWidth
+        onClick={handleLogin}
+      >
+        Log In
+      </Button>
+      <Divider>
+        <Button disabled>OR</Button>
+      </Divider>
+      <Button
+        variant="contained"
+        color="success"
+        onClick={() => navigate("/register")}
+        fullWidth
+      >
+        Create an account
+      </Button>
+    </Paper>
   );
 }

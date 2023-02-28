@@ -6,6 +6,8 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
+  Tooltip,
+  Zoom,
 } from "@mui/material";
 import Joi from "joi";
 import React, { useContext, useState } from "react";
@@ -148,20 +150,26 @@ export default function ForgotPasswordPage() {
         <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
           <strong>Forgot Password</strong>
         </Typography>
-        <TextField
-          name="email"
-          error={!!errors.email}
-          helperText={errors.email}
-          onChange={handleChange}
-          value={form.email}
-          label="Email"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, { mb: "10px" }]}
-          placeholder="Enter email"
-          fullWidth
-        />
-
+        <Tooltip
+          title={errors.email}
+          open={!!errors.email}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+        >
+          <TextField
+            name="email"
+            error={!!errors.email}
+            onChange={handleChange}
+            value={form.email}
+            label="Email"
+            variant="filled"
+            InputProps={{ disableUnderline: true }}
+            sx={[styles.myTextField, { mb: "10px" }]}
+            placeholder="Enter email"
+            fullWidth
+          />
+        </Tooltip>
         <Button
           disabled={isFormInvalid()}
           variant="contained"
@@ -172,18 +180,15 @@ export default function ForgotPasswordPage() {
         >
           Continue
         </Button>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="baseline"
-          spacing={0}
+        <br />
+        <Typography
+          variant="body2"
+          sx={{ textAlign: "center", marginTop: "10px" }}
         >
-          <Typography variant="body2">
-            <Link id="forgot" to="/login" className="float-end">
-              Go back login
-            </Link>
-          </Typography>
-        </Stack>
+          <Link id="forgot" to="/login">
+            Go back to Login
+          </Link>
+        </Typography>
       </Paper>
     </div>
   );

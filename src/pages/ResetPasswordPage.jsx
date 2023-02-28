@@ -7,6 +7,12 @@ import {
   Backdrop,
   CircularProgress,
   IconButton,
+  FormControl,
+  InputLabel,
+  Tooltip,
+  Zoom,
+  FilledInput,
+  InputAdornment,
 } from "@mui/material";
 import Joi from "joi";
 import React, { useContext, useEffect, useState } from "react";
@@ -16,6 +22,7 @@ import * as authService from "../services/auth";
 import { joiPasswordExtendCore } from "joi-password";
 import { useParams } from "react-router-dom";
 import { PopupContext } from "../context/PopupContext";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 export default function ResetPasswordPage() {
@@ -39,26 +46,24 @@ export default function ResetPasswordPage() {
     fetchData();
   }, []);
   const styles = {
-    myTextField: {
-      "& .MuiFilledInput-root": {
-        backgroundColor: "rgb(248, 250,252)",
-        border: "1px solid #e2e2e1",
-        overflow: "hidden",
-        borderRadius: "10px",
-        "&:hover": {
-          backgroundColor: "transparent",
-        },
-        "&.Mui-focused": {
-          backgroundColor: "transparent",
-        },
+    passwordField: {
+      backgroundColor: "rgb(248, 250,252)",
+      border: "1px solid #e2e2e1",
+      overflow: "hidden",
+      borderRadius: "10px",
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "transparent",
       },
     },
     paper: {
-      borderRadius: "10px",
+      borderRadius: "12px",
       padding: "30px",
       minWidth: "425px",
-      maxWidth: "685px",
-      margin: "70px auto",
+      margin: "84px auto",
+      width: "425px",
     },
     heading: {
       textAlign: "center",
@@ -155,39 +160,20 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        height: "100vh",
-        padding: "50px 0",
-        backgroundColor: "rgb(238,242,246)",
-        overflowY: "scroll",
-      }}
-    >
+    <Paper elevation={0} sx={styles.paper}>
       <GlobalCSS />
       {loading && <Spinner />}
-      <Paper
-        elevation={0}
-        sx={{
-          borderRadius: "12px",
-          padding: "30px",
-          minWidth: "425px",
-          my: "auto",
-          maxWidth: "425px",
-        }}
-      >
-        <img
-          src={appLogo}
-          className="rounded mx-auto d-block"
-          style={{ height: "8vh", marginTop: "26px" }}
-          alt="Algo app logo"
-        />
-        <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
-          <strong>Please enter new password</strong>
-        </Typography>
+      <img
+        src={appLogo}
+        className="rounded mx-auto d-block"
+        style={{ height: "8vh", marginTop: "26px" }}
+        alt="Algo app logo"
+      />
+      <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
+        <strong>Please enter new password</strong>
+      </Typography>
 
-        <IconButton
+      {/* <IconButton
           size="small"
           className="text-secondary bg-transparent float-end border-0"
           onClick={handlePasswordVisibility}
@@ -215,24 +201,55 @@ export default function ResetPasswordPage() {
           InputProps={{ disableUnderline: true }}
           sx={[styles.myTextField, { mb: "10px", mt: "-44px" }]}
           fullWidth
-        />
-        <Button
-          disabled={isFormInvalid()}
-          variant="contained"
-          size="medium"
-          className="mt-3"
-          fullWidth
-          onClick={handleSubmit}
+        /> */}
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel htmlFor="pass-word" error={!!errors.password}>
+          Password
+        </InputLabel>
+        <Tooltip
+          title={errors.password}
+          open={!!errors.password}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+          id="error-tooltip"
         >
-          Change Password
-        </Button>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="baseline"
-          spacing={0}
-        ></Stack>
-      </Paper>
-    </div>
+          <FilledInput
+            // id="filled-adornment-password"
+            id="pass-word"
+            name="password"
+            error={!!errors.password}
+            onChange={handleChange}
+            value={form.password}
+            type={passwordVisible ? "text" : "password"}
+            disableUnderline={true}
+            sx={styles.passwordField}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton onClick={handlePasswordVisibility} edge="end">
+                  {passwordVisible ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Tooltip>
+      </FormControl>
+      <Button
+        disabled={isFormInvalid()}
+        variant="contained"
+        size="medium"
+        className="mt-3"
+        fullWidth
+        onClick={handleSubmit}
+      >
+        Change Password
+      </Button>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="baseline"
+        spacing={0}
+      ></Stack>
+    </Paper>
   );
 }
