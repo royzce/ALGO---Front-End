@@ -34,10 +34,11 @@ import NotificationPanel from "./NotificationPanel";
 import * as userSvc from "../services/user";
 import { compareByDate } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
+import { UserContext } from "../context/UserContext";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-
+  const { setCurrentUser } = useContext(UserContext);
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -82,6 +83,13 @@ export default function Navbar() {
     setNotifAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    handleMdClose();
+    localStorage.removeItem("accessToken");
+    setCurrentUser(null);
+    navigate("/login");
+  };
+
   return (
     <>
       <AppBar
@@ -110,13 +118,7 @@ export default function Navbar() {
           </Grid>
           <Grid item sm={4}>
             <Toolbar>
-              {/* <Search> */}
-              {/* <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper> */}
-              {/* <StyledInputBase placeholder="Search…" /> */}
               <AutocompleteWithAvatar />
-              {/* </Search> */}
             </Toolbar>
           </Grid>
           <Grid item sm={4} container justifyContent="flex-end">
@@ -126,7 +128,12 @@ export default function Navbar() {
                 color="inherit"
                 onClick={handleNotifClick}
               >
-                <Badge badgeContent={notifs && notifs.length} color="error">
+                <Badge
+                  badgeContent={
+                    notifs && notifs.filter((notif) => !notif.isRead).length
+                  }
+                  color="error"
+                >
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
@@ -201,7 +208,7 @@ export default function Navbar() {
                   </ListItemIcon>
                   Settings
                 </MenuItem>
-                <MenuItem onClick={handleMdClose}>
+                <MenuItem onClick={handleLogout}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
@@ -315,7 +322,7 @@ export default function Navbar() {
 
 function CustomOption({ option }) {
   return (
-    <div
+    <MenuItem
       style={{
         display: "flex",
         alignItems: "center",
@@ -327,14 +334,14 @@ function CustomOption({ option }) {
       <div style={{ marginLeft: "20px", color: "black" }}>
         {option.firstName + " " + option.lastName}
       </div>
-    </div>
+    </MenuItem>
   );
 }
 
 //This will show at the bottom always
 function NoOption({ value }) {
   return (
-    <div
+    <MenuItem
       style={{
         display: "flex",
         alignItems: "center",
@@ -342,14 +349,13 @@ function NoOption({ value }) {
       }}
       onClick={() => console.log(value)}
     >
-      {/* <SearchIcon sx={{ marginLeft: "10px" }} /> */}
       <Avatar sx={{ marginLeft: "10px", bgcolor: "#1976d2" }}>
         <SearchIcon />
       </Avatar>
       <div style={{ marginLeft: "20px", color: "black" }}>
         Search for <strong>{value}</strong>
       </div>
-    </div>
+    </MenuItem>
   );
 }
 function AutocompleteWithAvatar() {
@@ -357,21 +363,7 @@ function AutocompleteWithAvatar() {
   const [inputValue, setInputValue] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate();
-  // function handleInputChange(event, value) {
-  //   setInputValue(value.trim());
-  //   if (value.trim().length >= 3) {
-  //     const users = algo_users
-  //       .filter(
-  //         (user) =>
-  //           user.firstName.toUpperCase().includes(value.toUpperCase()) ||
-  //           user.lastName.toUpperCase().includes(value.toUpperCase())
-  //       )
-  //       .slice(0, 5); //limit of five result
-  //     setOptions(users);
-  //   } else {
-  //     setOptions([]);
-  //   }
-  // }
+
   let timeoutId;
   function handleInput(event) {
     const value = event.target.value;
@@ -400,19 +392,6 @@ function AutocompleteWithAvatar() {
     setShowOptions(false);
     inpuSearchRef.current.blur();
   }
-  /**
-   * Code Below is for implementation in API
-   *
-   */
-  // function handleInputChange(event, value) {
-  //   const val = value.trim();
-  //   setInputValue(val);
-  //   if (val.length >= 3) {
-  //     searchService.getUsersBy(value).then((res) => setOptions(res.data));
-  //   } else {
-  //     setOptions([]);
-  //   }
-  // }
 
   return (
     <Autocomplete

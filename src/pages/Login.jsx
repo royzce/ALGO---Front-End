@@ -14,10 +14,13 @@ import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
 import { PopupContext } from "../context/PopupContext";
+import { UserContext } from "../context/UserContext";
 import * as authService from "../services/auth";
+import * as userService from "../services/user";
 
 export default function Login() {
   const { onShowFail } = useContext(PopupContext);
+  const { setCurrentUser } = useContext(UserContext);
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -89,8 +92,10 @@ export default function Login() {
   const handleLogin = async () => {
     await authService
       .login(form.username, form.password, rememberMe ? true : false)
-      .then((res) => {
+      .then(async (res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
+        const result = await userService.getCurrentUser();
+        setCurrentUser(result.data);
         navigate("/");
       })
       .catch((err) => {

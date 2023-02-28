@@ -75,11 +75,12 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     if (addPhoto) {
       handleClrFiles();
     }
+    console.log("your fiends", friends);
     setAddPhoto(!addPhoto);
   }
 
   function handleTagSel(tagged) {
-    const tags = tagged.map((friend) => friend.id);
+    const tags = tagged.map((friend) => friend.userId);
     setForm({ ...form, tags });
   }
 
@@ -180,7 +181,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                     options={friends}
                     onChange={(event, value) => handleTagSel(value)}
                     getOptionLabel={(option) =>
-                      `${option.user.firstName} ${option.user.lastName}`
+                      `${option.firstName} ${option.lastName}`
                     }
                     filterSelectedOptions
                     renderInput={(params) => (

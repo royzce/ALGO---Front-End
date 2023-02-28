@@ -38,7 +38,7 @@ export default function PostProvider({ children }) {
 
   async function handleAddPost(newPost) {
     newPost.date = new Date();
-
+    console.log("newpost", newPost);
     const res = await postSvc.addPost(newPost);
     console.log("inside handleAddPost", res);
 
