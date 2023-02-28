@@ -13,6 +13,7 @@ import { RegisterProvider } from "./context/RegisterContext";
 import PostProvider from "./context/PostContext";
 import UserProvider from "./context/UserContext";
 import { AuthProvider } from "./context/AuthContext";
+import { NotifProvider } from "./context/NotifContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -22,7 +23,9 @@ root.render(
       <RegisterProvider>
         <UserProvider>
           <PostProvider>
-            <App />
+            <NotifProvider>
+              <App />
+            </NotifProvider>
           </PostProvider>
         </UserProvider>
       </RegisterProvider>

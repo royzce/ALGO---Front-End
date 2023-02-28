@@ -32,3 +32,13 @@ export function getElapsedTime(date) {
   }
   return display;
 }
+
+/**
+ *
+ * items must have a date property
+ */
+export function compareByDate(itemA, itemB) {
+  const timeA = new Date(itemA.date).getTime();
+  const timeB = new Date(itemB.date).getTime();
+  return (timeA - timeB) * -1;
+}
