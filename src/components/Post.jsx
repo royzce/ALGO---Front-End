@@ -240,7 +240,7 @@ export default function Post({ post, page, shared }) {
         <UserList
           open={showShareLi}
           onClose={() => setShowShareLi(false)}
-          list={reactions}
+          list={shares}
         >
           <Typography variant="subtitle1" fontWeight="fontWeightBold">
             People who shared your post
