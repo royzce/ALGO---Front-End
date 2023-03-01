@@ -6,15 +6,19 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
+import React, { useEffect, useState } from "react";
+import * as userService from "../services/user";
 
 const Header = ({ profileName }) => {
-  const { currentUser: user } = useContext(UserContext);
+  const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
-    //get all users here and output data with same profileId
-  });
+    if (profileName) {
+      userService.getProfileData(profileName).then((res) => {
+        setProfileData(res.data);
+      });
+    }
+  }, [profileName]);
 
   const styles = {
     profilePhoto: {
@@ -38,7 +42,7 @@ const Header = ({ profileName }) => {
     },
   };
   return (
-    user && (
+    profileData && (
       <Container disableGutters>
         <CardMedia
           component="img"
@@ -51,7 +55,11 @@ const Header = ({ profileName }) => {
           spacing={3}
           sx={styles.stack1}
         >
-          <Avatar src={user.avatar} alt="profile" sx={styles.profilePhoto} />
+          <Avatar
+            src={profileData.avatar}
+            alt="profile"
+            sx={styles.profilePhoto}
+          />
           <Stack
             direction="column"
             justifyContent="center"
@@ -59,9 +67,9 @@ const Header = ({ profileName }) => {
             spacing={1}
           >
             <Typography variant="h4" fontWeight="fontWeightBold">
-              {user.firstName + " " + user.lastName}
+              {profileData.firstName + " " + profileData.lastName}
             </Typography>
-            <Typography>@{user.username}</Typography>
+            <Typography>@{profileData.username}</Typography>
             <AvatarGroup max={4}>
               <Avatar
                 src="https://i.pinimg.com/originals/a7/d2/e6/a7d2e62776ce45b76a88ae2eeaf44803.jpg"

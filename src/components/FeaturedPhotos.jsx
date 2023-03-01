@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
 import * as postsService from "../services/post";
 
 const FeaturedPhotos = ({ posts }) => {

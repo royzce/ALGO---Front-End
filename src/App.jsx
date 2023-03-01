@@ -26,6 +26,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
 import ColorTheme from "./components/ColorTheme";
 import GlobalCSS from "./components/GlobalCSS";
+import DiscoverFriends from "./components/DiscoverFriends";
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -87,6 +88,10 @@ function App() {
             <Route
               path="/:username/friend-request"
               element={<FriendRequestList />}
+            />
+            <Route
+              path="/:username/discover-friend"
+              element={<DiscoverFriends />}
             />
           </Route>
         </Route>

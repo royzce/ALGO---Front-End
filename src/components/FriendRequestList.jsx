@@ -7,7 +7,8 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import * as userService from "../services/user";
 
 const friendRequest = [
   {
@@ -37,6 +38,37 @@ const friendRequest = [
 ];
 
 const FriendRequestList = () => {
+  const [friendRequest, setFriendRequest] = useState([]);
+
+  useEffect(() => {
+    userService.getFriendRequest().then((res) => {
+      console.log("Friend request", res);
+      setFriendRequest(res.data);
+    });
+  }, []);
+
+  const onAcceptRequest = async (friendId) => {
+    await userService
+      .acceptRequest(friendId)
+      .then((res) => {
+        alert(res.data);
+      })
+      .catch((err) => {
+        console.log("Error");
+      });
+  };
+
+  const onDeleteRequest = async (friendId) => {
+    await userService
+      .rejectRequest(friendId)
+      .then((res) => {
+        alert("Deleted friend request");
+      })
+      .catch((err) => {
+        console.log("Error");
+      });
+  };
+
   const styles = {
     card: {
       height: 150,
@@ -59,14 +91,21 @@ const FriendRequestList = () => {
             <Card sx={styles.card}>
               <CardContent sx={styles.cardContent}>
                 <Avatar
-                  src={friend.img}
-                  alt={friend.name}
+                  src={friend.user.avatar}
+                  alt={friend.user.username}
                   variant="rounded"
                   sx={{ width: 80, height: 86 }}
                 />
-                <Typography variant="h6">{friend.name}</Typography>
+                <Typography variant="h6">
+                  {friend.user.firstName + " " + friend.user.lastName}
+                </Typography>
                 <Box>
-                  <Button color="success" variant="contained" size="small">
+                  <Button
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    onClick={() => onAcceptRequest(friend.user.userId)}
+                  >
                     Confirm
                   </Button>
                   <Button
@@ -74,6 +113,7 @@ const FriendRequestList = () => {
                     variant="contained"
                     size="small"
                     sx={{ margin: "0 0 0 5px" }}
+                    onClick={() => onDeleteRequest(friend.user.userId)}
                   >
                     Delete
                   </Button>
