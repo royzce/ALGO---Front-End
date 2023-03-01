@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import * as userService from "../services/user";
 import {
   Avatar,
   Button,
@@ -6,29 +8,39 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import * as userService from "../services/user";
+import { async } from "q";
 
-const FriendsList = () => {
+const DiscoverFriends = () => {
+  const [allUsers, setAllUsers] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [friendRequest, setFriendRequest] = useState([]);
+  const dateNow = new Date();
 
   useEffect(() => {
+    userService.getFriendRequest().then((res) => {
+      console.log("FRIEND REQUEST", res);
+    });
     userService.getFriends().then((res) => {
-      setFriends(res.data);
+      console.log("FRIENDS", res);
+      // setFriends(res.data)
+    });
+    userService.getUsers().then((res) => {
+      console.log("DISCOVER FRIENDS", res);
+      setAllUsers(res.data);
     });
   }, []);
 
-  const onRemoveFriend = async (friendId) => {
+  const onAdd = async (friendId, dateNow) => {
+    console.log("On Add", friendId);
     await userService
-      .removeFriend(friendId)
+      .addFriend(friendId, dateNow)
       .then((res) => {
-        alert("Unfriended");
+        alert(res.data);
       })
       .catch((err) => {
         console.log("Error");
       });
   };
-
   const styles = {
     card: {
       height: 150,
@@ -45,7 +57,7 @@ const FriendsList = () => {
   };
   return (
     <Grid container spacing={2}>
-      {friends.map((friend, index) => {
+      {allUsers.map((friend, index) => {
         return (
           <Grid item key={index} xs={6}>
             <Card sx={styles.card}>
@@ -63,9 +75,9 @@ const FriendsList = () => {
                   color="error"
                   variant="contained"
                   size="small"
-                  onClick={() => onRemoveFriend(friend.userId)}
+                  onClick={() => onAdd(friend.userId, dateNow)}
                 >
-                  Unfriend
+                  Add
                 </Button>
               </CardContent>
             </Card>
@@ -76,4 +88,4 @@ const FriendsList = () => {
   );
 };
 
-export default FriendsList;
+export default DiscoverFriends;

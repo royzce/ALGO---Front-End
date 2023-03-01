@@ -8,7 +8,8 @@ import {
   ImageListItemBar,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import * as userService from "../services/user";
 
 const itemData = [
   {
@@ -30,6 +31,14 @@ const itemData = [
 ];
 
 const FeaturedFriends = () => {
+  const [friends, setFriends] = useState([]);
+
+  useEffect(() => {
+    userService.getFriends().then((res) => {
+      setFriends(res.data);
+    });
+  });
+
   const styles = {
     borderRadius: {
       borderRadius: "10px",
@@ -37,27 +46,37 @@ const FeaturedFriends = () => {
   };
 
   return (
-    <Card sx={styles.borderRadius}>
-      <CardHeader
-        title={
-          <Typography variant="h5" fontWeight="fontWeightBold">
-            Featured Friends
-          </Typography>
-        }
-        subheader="5 friends"
-        action={<Button underline="hover">See all friends</Button>}
-      />
-      <CardMedia sx={{ padding: "0 15px" }}>
-        <ImageList cols={3} sx={styles.borderRadius}>
-          {itemData.map((item) => (
-            <ImageListItem key={item.img}>
-              <img src={item.img} alt={item.title} />
-              <ImageListItemBar title={item.title} position="bottom" />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      </CardMedia>
-    </Card>
+    friends && (
+      <Card sx={styles.borderRadius}>
+        <CardHeader
+          title={
+            <Typography variant="h5" fontWeight="fontWeightBold">
+              Featured Friends
+            </Typography>
+          }
+          subheader={friends.length + " Friends"}
+          action={<Button underline="hover">See all friends</Button>}
+        />
+        <CardMedia sx={{ padding: "0 15px" }}>
+          <ImageList cols={3} sx={styles.borderRadius}>
+            {friends.map((item) => (
+              <ImageListItem key={item.userId}>
+                <img
+                  src={
+                    item.avatar !== null ? item.avatar : "/assets/Person.png"
+                  }
+                  alt={item.username}
+                />
+                <ImageListItemBar
+                  title={item.firstName + " " + item.lastName}
+                  position="bottom"
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </CardMedia>
+      </Card>
+    )
   );
 };
 

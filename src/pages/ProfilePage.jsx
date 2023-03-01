@@ -4,15 +4,22 @@ import ProfileNavBar from "../components/ProfileNavBar";
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import * as userService from "../services/user";
 
 const ProfilePage = ({ userProfile, friendProfile }) => {
   const [profileName, setProfileName] = useState(null);
+  const [profileData, setProfileData] = useState({});
   const { currentUser: user } = useContext(UserContext);
   useEffect(() => {
     if (user && userProfile === true) {
       setProfileName(user.username);
     } else {
       setProfileName(friendProfile);
+    }
+    if (profileName) {
+      userService.getProfileData(profileName).then((res) => {
+        setProfileData(res.data);
+      });
     }
   }, [profileName, user, userProfile, friendProfile]);
 
@@ -35,8 +42,7 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
         </Container>
       </Container>
       <Container sx={styles.profileContent}>
-        {/* <Outlet context={[profileId, allPosts]} /> */}
-        <Outlet />
+        <Outlet context={[profileName, profileData]} />
       </Container>
     </Container>
   );

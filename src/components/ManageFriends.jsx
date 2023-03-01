@@ -100,6 +100,12 @@ const ManageFriends = () => {
             LinkComponent={Link}
             to={`/${username}/friend-request`}
           />
+          <Tab
+            value="DiscoverFriends"
+            label="Discover Friends"
+            LinkComponent={Link}
+            to={`/${username}/discover-friend`}
+          />
         </Tabs>
         <Outlet />
       </Container>

@@ -6,21 +6,23 @@ import FeaturedFriends from "./FeaturedFriends";
 import AddPost from "../components/AddPost";
 import PostsList from "../components/PostsList";
 import { PostContext } from "../context/PostContext";
-import { UserContext } from "../context/UserContext";
+import { useOutletContext } from "react-router";
 
 const ProfileHome = () => {
+  const [profileName, profileData] = useOutletContext();
   const { allPosts } = useContext(PostContext);
-  const { currentUser } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
-    setPosts(allPosts.filter((post) => post.userId === currentUser.userId));
-  }, [allPosts]);
+    setPosts(allPosts.filter((post) => post.userId === profileData.userId));
+  }, [allPosts, profileName, profileData]);
+
   return (
     <Grid container spacing={2}>
       <Grid item sm={12} md={4}>
         <Grid container spacing={2} direction="column">
           <Grid item>
-            <ProfileBio />
+            <ProfileBio profileData={profileData} />
           </Grid>
           <Grid item>
             <FeaturedPhotos posts={posts} />
