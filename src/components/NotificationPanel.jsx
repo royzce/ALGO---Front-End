@@ -72,48 +72,42 @@ export default function NotificationPanel({ notifs, onClose }) {
 
   return (
     // <Box sx={{ padding: "8px 16px" }}>
-    <List
-      dense={true}
-      subheader={
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography
-            variant="h6"
-            fontWeight="fontWeightBold"
-            marginLeft="20px"
-          >
-            Notifications
-          </Typography>
+    <>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="h6" fontWeight="fontWeightBold" marginLeft="20px">
+          Notifications
+        </Typography>
 
-          <Tabs value={tabIndex} onChange={handleTabChange}>
-            <Tab label="All" value={0} />
-            <Tab label="Unread" value={1} />
+        <Tabs value={tabIndex} onChange={handleTabChange}>
+          <Tab label="All" value={0} />
+          <Tab label="Unread" value={1} />
 
-            <IconButton size="small" onClick={handleMoreVert}>
-              <MoreVertIcon />
-            </IconButton>
-            <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
-              <MenuItem onClick={handleMarkAllAsRead}>
-                Mark all as read
-              </MenuItem>
-            </Menu>
-          </Tabs>
-        </Stack>
-      }
-    >
-      {tabIndex === 0 && (
-        <NotifList notifs={notifs} onClick={handleNotifClick} />
-      )}
-      {tabIndex === 1 && (
-        <NotifList
-          notifs={notifs && notifs.filter((notif) => !notif.isRead)}
-          onClick={handleNotifClick}
-        />
-      )}
-    </List>
+          <IconButton size="small" onClick={handleMoreVert}>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
+            <MenuItem onClick={handleMarkAllAsRead}>Mark all as read</MenuItem>
+          </Menu>
+        </Tabs>
+      </Stack>
+      <List
+        sx={{ maxHeight: "300px", maxWidth: "450px", overflowY: "auto" }}
+        dense={true}
+        // subheader={
+
+        // }
+      >
+        {tabIndex === 0 && (
+          <NotifList notifs={notifs} onClick={handleNotifClick} />
+        )}
+        {tabIndex === 1 && (
+          <NotifList
+            notifs={notifs && notifs.filter((notif) => !notif.isRead)}
+            onClick={handleNotifClick}
+          />
+        )}
+      </List>
+    </>
     // </Box>
   );
 }
