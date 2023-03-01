@@ -2,27 +2,38 @@ import Header from "../components/Header";
 import { Container, Skeleton, Stack } from "@mui/material";
 import ProfileNavBar from "../components/ProfileNavBar";
 import React, { useContext, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import * as userService from "../services/user";
 
 const ProfilePage = ({ userProfile, friendProfile }) => {
-  const [profileName, setProfileName] = useState(null);
+  // const [profileName, setProfileName] = useState(null);
   const [profileData, setProfileData] = useState({});
+  const profileName = profileData && profileData.username;
   const { currentUser: user } = useContext(UserContext);
+  const { username } = useParams();
   useEffect(() => {
-    if (user && userProfile === true) {
+    // if (user && userProfile === true) {
+    //   setProfileName(user.username);
+    // } else {
+    //   setProfileName(friendProfile);
+    // }
+
+    if (user && username && username === user.username) {
       setProfileData(user);
-      setProfileName(user.username);
     } else {
-      setProfileName(friendProfile);
+      userService.getProfileData(profileName).then((res) => {
+        console.log("inside ProfilePage", res);
+        setProfileData(res.data);
+      });
     }
+
     // if (profileName) {
     //   userService.getProfileData(profileName).then((res) => {
     //     setProfileData(res.data);
     //   });
     // }
-  }, [profileName, user, userProfile, friendProfile]);
+  }, [user, username]);
 
   const styles = {
     profileHeader: {

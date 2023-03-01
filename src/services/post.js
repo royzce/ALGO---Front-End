@@ -72,6 +72,9 @@ export function getAllPhotos() {
 export function getPostsByQuery(value) {
   return http.get(`/posts/search?q=${value}`);
 }
+export function getUserPosts(username) {
+  return http.get(`/profiles/${username}/post`);
+}
 
 export const REACTIONS = [
   { text: "fire", img: fireimg, gif: fire },
