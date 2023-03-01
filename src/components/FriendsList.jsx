@@ -6,10 +6,11 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as userService from "../services/user";
 
 const FriendsList = () => {
+  const {} = useContext();
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
