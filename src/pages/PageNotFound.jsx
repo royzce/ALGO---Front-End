@@ -16,7 +16,6 @@ export default function PageNotFound() {
         spacing={5}
         height={"100%"}
       >
-        <GlobalCSS />
         <Typography variant="h2" fontWeight="fontWeightBold">
           Page not Found
         </Typography>

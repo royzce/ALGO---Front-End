@@ -6,7 +6,7 @@ import PostPage from "./pages/PostPage";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Navbar from "./components/Navbar";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import ProfilePage from "./pages/ProfilePage";
 import ProfileAbout from "./components/ProfileAbout";
 import ProfileHome from "./components/ProfileHome";
@@ -26,13 +26,16 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
+import ColorTheme from "./components/ColorTheme";
+import GlobalCSS from "./components/GlobalCSS";
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn);
   useEffect(() => {}, [loggedIn]);
   return (
-    <>
+    <ThemeProvider theme={ColorTheme}>
+      <GlobalCSS />
       <CssBaseline />
       {loggedIn ? <Navbar /> : null}
       <Routes>
@@ -94,7 +97,7 @@ function App() {
         />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 

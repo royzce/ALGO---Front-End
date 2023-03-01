@@ -35,6 +35,7 @@ import * as userSvc from "../services/user";
 import { compareByDate } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import { UserContext } from "../context/UserContext";
+import ColorTheme from "../components/ColorTheme";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -90,14 +91,104 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  function ProfileMenu() {
+    return (
+      <Menu
+        anchorEl={mdAnchorEl}
+        id="md-menu"
+        open={mdOpen}
+        onClose={handleMdClose}
+        onClick={handleMdClose}
+        PaperProps={{
+          sx: {
+            overflow: "visible",
+            borderRadius: "10px",
+            mt: "8px",
+            width: "180px",
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 15,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={handleGoToProfile}>
+          <Avatar /> My Profile
+        </MenuItem>
+        <MenuItem onClick={handleMdClose}>
+          <ListItemIcon>
+            <Settings fontSize="small" color="primary" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <Logout fontSize="small" color="primary" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    );
+  }
+
+  function NotificationsMenu() {
+    return (
+      <Menu
+        anchorEl={notifAnchorEl}
+        open={isNotifOpen}
+        onClose={handleNotifClose}
+        PaperProps={{
+          sx: {
+            overflow: "visible",
+            borderRadius: "10px",
+            mt: "-5px",
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 27,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <NotificationPanel notifs={notifs} onClose={handleNotifClose} />
+      </Menu>
+    );
+  }
+
   return (
     <>
       <AppBar
         position="static"
-        sx={{ display: "flex", justifyContent: "center", minWidth: "xs" }}
+        color="primary"
+        sx={{ display: "flex", justifyContent: "center" }}
       >
-        <Grid container minWidth={"xs"} maxWidth={"xl"} sx={{ mx: "auto" }}>
-          <Grid item sm={4}>
+        <Grid container maxWidth={"xl"} sx={{ mx: "auto" }}>
+          <Grid item sm={3}>
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -109,19 +200,21 @@ export default function Navbar() {
                 <MenuIcon />
               </IconButton>
               <Typography
-                variant="h6"
+                variant="h5"
+                fontWeight={"fontWeightBold"}
+                color={ColorTheme.palette.textLight.main}
                 sx={{ display: { xs: "none", md: "inline-flex" } }}
               >
                 ALGO
               </Typography>
             </Toolbar>
           </Grid>
-          <Grid item sm={4}>
+          <Grid item sm={6}>
             <Toolbar>
               <AutocompleteWithAvatar />
             </Toolbar>
           </Grid>
-          <Grid item sm={4} container justifyContent="flex-end">
+          <Grid item sm={3} container justifyContent="flex-end">
             <Toolbar>
               <IconButton
                 size="large"
@@ -134,23 +227,14 @@ export default function Navbar() {
                   }
                   color="error"
                 >
-                  <NotificationsIcon />
+                  <Avatar sx={{ bgcolor: ColorTheme.palette.secondary.main }}>
+                    <NotificationsIcon color="textLight" />
+                  </Avatar>
                 </Badge>
               </IconButton>
 
               {/**NOTIFICATIONS PANEL */}
-              <Menu
-                anchorEl={notifAnchorEl}
-                open={isNotifOpen}
-                onClose={handleNotifClose}
-                PaperProps={{
-                  style: {
-                    width: "40%",
-                  },
-                }}
-              >
-                <NotificationPanel notifs={notifs} onClose={handleNotifClose} />
-              </Menu>
+              <NotificationsMenu />
               <IconButton
                 onClick={handleMdClick}
                 aria-controls={mdOpen ? "md-menu" : undefined}
@@ -163,58 +247,7 @@ export default function Navbar() {
               >
                 <Avatar alt="U" src="/static/images/avatar/2.jpg" />
               </IconButton>
-              <Menu
-                anchorEl={mdAnchorEl}
-                id="md-menu"
-                open={mdOpen}
-                onClose={handleMdClose}
-                onClick={handleMdClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: "visible",
-                    borderRadius: "10px",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    "& .MuiAvatar-root": {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    "&:before": {
-                      content: '""',
-                      display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: "background.paper",
-                      transform: "translateY(-50%) rotate(45deg)",
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              >
-                <MenuItem onClick={handleGoToProfile}>
-                  <Avatar /> My account
-                </MenuItem>
-                <MenuItem onClick={handleMdClose}>
-                  <ListItemIcon>
-                    <Settings fontSize="small" />
-                  </ListItemIcon>
-                  Settings
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Logout
-                </MenuItem>
-              </Menu>
+              <ProfileMenu />
             </Toolbar>
           </Grid>
         </Grid>
@@ -298,7 +331,7 @@ export default function Navbar() {
               anchorOrigin={{ horizontal: "left", vertical: "top" }}
             >
               <MenuItem onClick={handleGoToProfile}>
-                <Avatar /> My account
+                <Avatar /> My Profile
               </MenuItem>
               <MenuItem onClick={handleDrawerClose}>
                 <ListItemIcon>
@@ -330,8 +363,8 @@ function CustomOption({ option }) {
       }}
       onClick={() => console.log(option)}
     >
-      <Avatar src={option.avatar} sx={{ marginLeft: "10px" }} />
-      <div style={{ marginLeft: "20px", color: "black" }}>
+      <Avatar src={option.avatar} />
+      <div style={{ marginLeft: "12px", color: "black" }}>
         {option.firstName + " " + option.lastName}
       </div>
     </MenuItem>
@@ -349,10 +382,10 @@ function NoOption({ value }) {
       }}
       onClick={() => console.log(value)}
     >
-      <Avatar sx={{ marginLeft: "10px", bgcolor: "#1976d2" }}>
+      <Avatar sx={{ bgcolor: "#1976d2" }}>
         <SearchIcon />
       </Avatar>
-      <div style={{ marginLeft: "20px", color: "black" }}>
+      <div style={{ marginLeft: "12px", color: "black" }}>
         Search for <strong>{value}</strong>
       </div>
     </MenuItem>
@@ -396,23 +429,11 @@ function AutocompleteWithAvatar() {
   return (
     <Autocomplete
       sx={{
-        border: "2px solid #1460ab",
+        width: "80%",
+        margin: "auto",
         borderRadius: "50px",
-        padding: "0px 5px",
+        backgroundColor: ColorTheme.palette.secondary.main,
       }}
-      PaperComponent={({ children }) => (
-        <Paper
-          elevation={1}
-          style={{
-            borderRadius: "8px",
-            marginTop: "4px",
-            maxHeight: "20rem",
-            overflowY: "auto",
-          }}
-        >
-          {children}
-        </Paper>
-      )}
       ref={inpuSearchRef}
       forcePopupIcon={false}
       options={options}
@@ -428,20 +449,14 @@ function AutocompleteWithAvatar() {
       renderInput={(params) => (
         <TextField
           sx={{
-            width: "25rem",
+            width: "100%",
             "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-              backgroundColor: "transparent",
               border: "none",
-              overflow: "hidden",
-              borderRadius: "50px",
             },
-            // "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-            //   color: "white",
-            // },
-            "&.Mui-focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-              {
-                backgroundColor: "transparent",
-              },
+            "& .css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input": {
+              height: "12px",
+              color: ColorTheme.palette.textLight.main,
+            },
           }}
           {...params}
           placeholder="Search Algo"
@@ -450,7 +465,7 @@ function AutocompleteWithAvatar() {
             ...params.InputProps,
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon />
+                <SearchIcon color="textLight" />
               </InputAdornment>
             ),
           }}

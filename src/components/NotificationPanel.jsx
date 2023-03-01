@@ -71,44 +71,50 @@ export default function NotificationPanel({ notifs, onClose }) {
   }
 
   return (
-    <Box sx={{ padding: "8px 16px" }}>
-      <List
-        dense={true}
-        subheader={
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
+    // <Box sx={{ padding: "8px 16px" }}>
+    <List
+      dense={true}
+      subheader={
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography
+            variant="h6"
+            fontWeight="fontWeightBold"
+            marginLeft="20px"
           >
-            <Typography variant="subtitle1">Notifications</Typography>
+            Notifications
+          </Typography>
 
-            <Tabs value={tabIndex} onChange={handleTabChange}>
-              <Tab label="All" value={0} />
-              <Tab label="Unread" value={1} />
+          <Tabs value={tabIndex} onChange={handleTabChange}>
+            <Tab label="All" value={0} />
+            <Tab label="Unread" value={1} />
 
-              <IconButton size="small" onClick={handleMoreVert}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
-                <MenuItem onClick={handleMarkAllAsRead}>
-                  Mark all as read
-                </MenuItem>
-              </Menu>
-            </Tabs>
-          </Stack>
-        }
-      >
-        {tabIndex === 0 && (
-          <NotifList notifs={notifs} onClick={handleNotifClick} />
-        )}
-        {tabIndex === 1 && (
-          <NotifList
-            notifs={notifs && notifs.filter((notif) => !notif.isRead)}
-            onClick={handleNotifClick}
-          />
-        )}
-      </List>
-    </Box>
+            <IconButton size="small" onClick={handleMoreVert}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
+              <MenuItem onClick={handleMarkAllAsRead}>
+                Mark all as read
+              </MenuItem>
+            </Menu>
+          </Tabs>
+        </Stack>
+      }
+    >
+      {tabIndex === 0 && (
+        <NotifList notifs={notifs} onClick={handleNotifClick} />
+      )}
+      {tabIndex === 1 && (
+        <NotifList
+          notifs={notifs && notifs.filter((notif) => !notif.isRead)}
+          onClick={handleNotifClick}
+        />
+      )}
+    </List>
+    // </Box>
   );
 }
 
@@ -133,11 +139,27 @@ function NotifList({ notifs, onClick }) {
         break;
     }
 
-    return `${user.firstName} ${user.lastName} ${
-      count < 2
-        ? ""
-        : `and ${count - 1} ${count - 1 === 1 ? `other` : `others`}`
-    } ${end}.`;
+    return (
+      <>
+        <Typography variant="inherit" component="span">
+          <strong>
+            {user.firstName} {user.lastName}
+          </strong>
+          {count < 2 ? (
+            ""
+          ) : (
+            <span>
+              {" "}
+              and{" "}
+              <strong>
+                {count - 1} {count - 1 === 1 ? `other` : `others`}
+              </strong>{" "}
+            </span>
+          )}{" "}
+          {end}.
+        </Typography>
+      </>
+    );
   }
 
   function displayDate(date) {
@@ -147,30 +169,45 @@ function NotifList({ notifs, onClick }) {
 
   function displayBadge(type) {
     let icon = <></>;
-    let color = null;
     switch (type) {
       case "react":
-        icon = <LocalFireDepartmentIcon sx={{ fontSize: "14px" }} />;
-        color = red[500];
+        icon = (
+          <LocalFireDepartmentIcon sx={{ fontSize: "12px", color: "white" }} />
+        );
         break;
       case "comment":
-        icon = <ModeCommentIcon sx={{ fontSize: "14px" }} />;
-        color = green[500];
+        icon = <ModeCommentIcon sx={{ fontSize: "12px", color: "white" }} />;
         break;
       case "tag":
-        icon = <GroupAddIcon sx={{ fontSize: "14px" }} />;
-        color = blue[500];
+        icon = <GroupAddIcon sx={{ fontSize: "12px", color: "white" }} />;
         break;
       case "frequest":
-        icon = <PersonAddIcon sx={{ fontSize: "14px" }} />;
-        color = blue[500];
+        icon = <PersonAddIcon sx={{ fontSize: "12px", color: "white" }} />;
         break;
       default:
         break;
     }
-    return (
-      <Avatar sx={{ width: 20, height: 20, bgcolor: color }}>{icon}</Avatar>
-    );
+    return icon;
+  }
+  function badgeColor(type) {
+    let color = null;
+    switch (type) {
+      case "react":
+        color = "error";
+        break;
+      case "comment":
+        color = "success";
+        break;
+      case "tag":
+        color = "primary";
+        break;
+      case "frequest":
+        color = "primary";
+        break;
+      default:
+        break;
+    }
+    return color;
   }
 
   return notifs && notifs.length > 0 ? (
@@ -184,11 +221,8 @@ function NotifList({ notifs, onClick }) {
           <Badge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent={
-              <Avatar sx={{ width: 20, height: 20, bgcolor: red[500] }}>
-                {displayBadge(notif.type)}
-              </Avatar>
-            }
+            badgeContent={displayBadge(notif.type)}
+            color={badgeColor(notif.type)}
           >
             <Avatar alt="avatar" src={notif.user.avatar} />
           </Badge>

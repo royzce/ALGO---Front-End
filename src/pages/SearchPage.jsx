@@ -33,7 +33,6 @@ const SearchPage = () => {
       margin={"12px auto"}
       padding={"0 12px"}
     >
-      <GlobalCSS />
       <ButtonGroup>
         <Button onClick={() => navigate(`/search/all/${q}`)}>All</Button>
         <Button onClick={() => navigate(`/search/people/${q}`)}>People</Button>

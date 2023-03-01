@@ -129,7 +129,6 @@ export default function ForgotPasswordPage() {
         overflowY: "scroll",
       }}
     >
-      <GlobalCSS />
       {loading && <Spinner />}
       <Paper
         elevation={0}

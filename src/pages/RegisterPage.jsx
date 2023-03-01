@@ -228,7 +228,6 @@ const RegisterPage = () => {
       elevation={3}
       style={styles.paper}
     >
-      <GlobalCSS />
       {uploading && <Spinner />}
       <Stack
         direction="row"
