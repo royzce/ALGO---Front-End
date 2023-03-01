@@ -15,9 +15,7 @@ import ProfileInterest from "./components/ProfileInterest";
 import ProfileDetails from "./components/ProfileDetails";
 import FriendsList from "./components/FriendsList";
 import FriendRequestList from "./components/FriendRequestList";
-import EditPrivacy from "./components/EditPrivacy";
 import SearchPage from "./pages/SearchPage";
-import PostsList from "./components/PostsList";
 import SearchAll from "./components/SearchAll";
 import SearchPeople from "./components/SearchPeople";
 import SearchPosts from "./components/SearchPosts";
@@ -32,7 +30,9 @@ import GlobalCSS from "./components/GlobalCSS";
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn);
+  const [userProfile] = useState(true);
   useEffect(() => {}, [loggedIn]);
+
   return (
     <ThemeProvider theme={ColorTheme}>
       <GlobalCSS />
@@ -64,19 +64,24 @@ function App() {
           path={"/posts/:postId/:imgIndex"}
           element={loggedIn ? <PostPage /> : <Navigate to="/login" />}
         />
+
         <Route
-          path="/profile"
-          element={loggedIn ? <ProfilePage /> : <Navigate to="/login" />}
+          path="/profile/:id"
+          element={<ProfilePage userProfile={userProfile} />}
         >
-          <Route index element={<ProfileHome />} />
+          <Route
+            index
+            element={loggedIn ? <ProfileHome /> : <Navigate to="/login" />}
+          />
+
           <Route element={<ProfileAbout />}>
-            <Route path="/profile/about" element={<ProfileDetails />} />
-            <Route path="/profile/interest" element={<ProfileInterest />} />
+            <Route path="/profile/:id/about" element={<ProfileDetails />} />
+            <Route path="/profile/:id/interest" element={<ProfileInterest />} />
           </Route>
           <Route element={<ManageFriends />}>
-            <Route path="/profile/friends" element={<FriendsList />} />
+            <Route path="/profile/:id/friends" element={<FriendsList />} />
             <Route
-              path="/profile/friend-request"
+              path="/profile/:id/friend-request"
               element={<FriendRequestList />}
             />
           </Route>

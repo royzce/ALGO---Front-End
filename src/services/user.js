@@ -85,3 +85,6 @@ export const NOTIFS = [
     },
   },
 ];
+export function getUsers() {
+  return http.get("/users");
+}

@@ -2,10 +2,24 @@ import Header from "../components/Header";
 import { Container } from "@mui/material";
 import ProfileNavBar from "../components/ProfileNavBar";
 import GlobalCSS from "../components/GlobalCSS";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { PostContext } from "../context/PostContext";
 
-const ProfilePage = () => {
+const ProfilePage = ({ userProfile, friendProfile }) => {
+  const [profileId, setProfileId] = useState(null);
+  const { currentUser: user } = useContext(UserContext);
+  const { allPosts } = useContext(PostContext);
+
+  useEffect(() => {
+    if (userProfile === true) {
+      setProfileId(user.userId);
+    } else {
+      setProfileId(friendProfile);
+    }
+  }, [profileId, user.userId, userProfile, friendProfile]);
+
   const styles = {
     profileHeader: {
       backgroundColor: "white",
@@ -20,12 +34,12 @@ const ProfilePage = () => {
     <Container maxWidth={false} disableGutters>
       <Container sx={styles.profileHeader} maxWidth={false} disableGutters>
         <Container>
-          <Header />
+          <Header profileId={profileId} />
           <ProfileNavBar />
         </Container>
       </Container>
       <Container sx={styles.profileContent}>
-        <Outlet />
+        <Outlet context={[profileId, allPosts]} />
       </Container>
     </Container>
   );

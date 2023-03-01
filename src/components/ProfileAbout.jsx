@@ -1,9 +1,10 @@
 import { Card, CardHeader, Grid, Tab, Tabs, Typography } from "@mui/material";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import React, { useState } from "react";
 
 const About = () => {
   const [value, setValue] = useState("Details");
+  let { id } = useParams();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -25,13 +26,13 @@ const About = () => {
               value="Details"
               label="Details"
               LinkComponent={Link}
-              to={"/profile/about"}
+              to={`/profile/${id}/about`}
             />
             <Tab
               value="Interest"
               label="Interest"
               LinkComponent={Link}
-              to={"/profile/interest"}
+              to={`/profile/${id}/interest`}
             />
           </Tabs>
           {/* <List>

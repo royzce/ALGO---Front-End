@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useEffect, useState } from "react";
+import React, { createRef, useContext, useState } from "react";
 import {
   Avatar,
   Grid,
@@ -44,6 +44,7 @@ export default function Navbar() {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
+  const { currentUser: user } = useContext(UserContext);
   const [mdAnchorEl, setMdAnchorEl] = React.useState(null);
   const [drawerAnchorEl, setDrawerAnchorEl] = React.useState(null);
   const mdOpen = Boolean(mdAnchorEl);
@@ -65,7 +66,7 @@ export default function Navbar() {
   const handleGoToProfile = () => {
     handleMdClose();
     handleDrawerClose();
-    navigate("/profile");
+    navigate(`/profile/${user.userId}`);
   };
 
   const { notifs } = useContext(NotifContext);
