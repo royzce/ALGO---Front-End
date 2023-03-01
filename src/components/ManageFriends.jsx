@@ -9,9 +9,10 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, Outlet, useParams } from "react-router-dom";
+import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,10 +52,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ManageFriends = () => {
-  const [value, setValue] = useState("AllFriends");
+  const { friendsTab, setFriendsTab } = useContext(ProfileNavContext);
   let { username } = useParams();
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setFriendsTab(newValue);
   };
 
   const styles = {
@@ -84,7 +85,7 @@ const ManageFriends = () => {
       </CardHeader>
       <Container sx={{ padding: "0 20px 20px 20px" }}>
         <Tabs
-          value={value}
+          value={friendsTab}
           onChange={handleChange}
           sx={{ marginBottom: "20px" }}
         >
