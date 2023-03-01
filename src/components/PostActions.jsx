@@ -28,8 +28,18 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
     }
   }, [reaction]);
 
+  let timeout;
   const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    // setAnchorEl(event.currentTarget);
+
+    timeout = setTimeout(() => {
+      setAnchorEl(document.getElementById(`react-${post && post.postId}`));
+    }, 400);
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(timeout);
+    handlePopoverClose();
   };
 
   const handlePopoverClose = () => {
@@ -67,6 +77,8 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
     >
       <Button
         onClick={handleDefault}
+        onMouseLeave={handleMouseLeave}
+        id={`react-${post && post.postId}`}
         sx={{ px: "24px" }}
         startIcon={
           reactBtn ? (

@@ -1,7 +1,6 @@
 import {
   Avatar,
   Badge,
-  Box,
   IconButton,
   List,
   ListItemAvatar,
@@ -72,31 +71,28 @@ export default function NotificationPanel({ notifs, onClose }) {
   }
 
   return (
-    // <Box sx={{ padding: "8px 16px" }}>
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h6" fontWeight="fontWeightBold" marginLeft="20px">
           Notifications
         </Typography>
 
-        <Tabs value={tabIndex} onChange={handleTabChange}>
-          <Tab label="All" value={0} />
-          <Tab label="Unread" value={1} />
-
+        <Stack direction="row">
+          <Tabs value={tabIndex} onChange={handleTabChange}>
+            <Tab label="All" value={0} />
+            <Tab label="Unread" value={1} />
+          </Tabs>
           <IconButton size="small" onClick={handleMoreVert}>
             <MoreVertIcon />
           </IconButton>
           <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
             <MenuItem onClick={handleMarkAllAsRead}>Mark all as read</MenuItem>
           </Menu>
-        </Tabs>
+        </Stack>
       </Stack>
       <List
         sx={{ maxHeight: "300px", maxWidth: "450px", overflowY: "auto" }}
         dense={true}
-        // subheader={
-
-        // }
       >
         {tabIndex === 0 && (
           <NotifList notifs={notifs} onClick={handleNotifClick} />
@@ -109,7 +105,6 @@ export default function NotificationPanel({ notifs, onClose }) {
         )}
       </List>
     </>
-    // </Box>
   );
 }
 
