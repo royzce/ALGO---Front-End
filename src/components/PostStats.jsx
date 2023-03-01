@@ -37,7 +37,7 @@ export default function PostStats({
     >
       <Stack direction="row" alignItems="center" spacing={0.5}>
         {reactions && (
-          <AvatarGroup>
+          <AvatarGroup spacing={4}>
             {REACTIONS.map((react) => {
               const result = reactions.find((r) => r.value === react.text);
               if (result) {
