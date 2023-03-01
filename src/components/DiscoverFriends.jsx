@@ -10,25 +10,29 @@ import {
 } from "@mui/material";
 import { async } from "q";
 
-const DiscoverFriends = () => {
+const DiscoverFriends = ({ users }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [friends, setFriends] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
   const dateNow = new Date();
 
   useEffect(() => {
-    userService.getFriendRequest().then((res) => {
-      console.log("FRIEND REQUEST", res);
-    });
-    userService.getFriends().then((res) => {
-      console.log("FRIENDS", res);
-      // setFriends(res.data)
-    });
-    userService.getUsers().then((res) => {
-      console.log("DISCOVER FRIENDS", res);
-      setAllUsers(res.data);
-    });
-  }, []);
+    if (users) {
+      setAllUsers(users);
+    } else {
+      userService.getFriendRequest().then((res) => {
+        console.log("FRIEND REQUEST", res);
+      });
+      userService.getFriends().then((res) => {
+        console.log("FRIENDS", res);
+        // setFriends(res.data)
+      });
+      userService.getUsers().then((res) => {
+        console.log("DISCOVER FRIENDS", res);
+        setAllUsers(res.data);
+      });
+    }
+  }, [users]);
 
   const onAdd = async (friendId, dateNow) => {
     console.log("On Add", friendId);

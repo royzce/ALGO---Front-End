@@ -56,3 +56,7 @@ export function updateNotif(notifId) {
 export function getUsers() {
   return http.get("/users");
 }
+
+export function getUsersBy(name) {
+  return http.get(`/profiles/search?q=${name}`);
+}

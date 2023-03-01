@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Stack } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Outlet,
   Route,
@@ -14,9 +14,11 @@ import { PostContext } from "../context/PostContext";
 
 const SearchPage = () => {
   const { q } = useParams();
+
   // return <div>My Component with query {q} </div>;
 
   //all, people, posts
+
   const [filter, setFilter] = useState({
     people: true,
     posts: true,

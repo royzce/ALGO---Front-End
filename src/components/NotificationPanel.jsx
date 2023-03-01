@@ -49,7 +49,7 @@ export default function NotificationPanel({ notifs, onClose }) {
     const { notifId, type, typeId } = notif;
     if (type === "requestFriend") {
       console.log("TODO: navigate to friend-request");
-      //   navigate(`/${currentUser.username}/friend-request`);
+      navigate(`/${currentUser.username}/friend-request`);
     } else {
       navigate(`/posts/${typeId}`);
     }

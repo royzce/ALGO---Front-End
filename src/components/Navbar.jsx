@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import * as searchService from "../services/search";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
@@ -34,6 +33,7 @@ import { NotifContext } from "../context/NotifContext";
 import { UserContext } from "../context/UserContext";
 import ColorTheme from "../components/ColorTheme";
 import { AuthContext } from "../context/AuthContext";
+import * as userService from "../services/user";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -373,6 +373,7 @@ function CustomOption({ option }) {
 
 //This will show at the bottom always
 function NoOption({ value }) {
+  const navigate = useNavigate();
   return (
     <MenuItem
       style={{
@@ -380,7 +381,7 @@ function NoOption({ value }) {
         alignItems: "center",
         height: "3.25rem",
       }}
-      onClick={() => console.log(value)}
+      onClick={() => navigate(`/search/all/${value}`)}
     >
       <Avatar sx={{ bgcolor: "#1976d2" }}>
         <SearchIcon />
@@ -404,7 +405,7 @@ function AutocompleteWithAvatar() {
     setInputValue(value.trim());
     timeoutId = setTimeout(() => {
       if (value.trim().length >= 3) {
-        searchService.getUsersBy(value).then((res) => {
+        userService.getUsersBy(value).then((res) => {
           console.log("options are", res.data);
           setOptions(res.data);
         });
