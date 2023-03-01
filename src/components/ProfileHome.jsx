@@ -25,10 +25,10 @@ const ProfileHome = () => {
             <ProfileBio profileData={profileData} />
           </Grid>
           <Grid item>
-            <FeaturedPhotos posts={posts} />
+            <FeaturedPhotos posts={posts} profileName={profileName} />
           </Grid>
           <Grid item>
-            <FeaturedFriends />
+            <FeaturedFriends profileName={profileName} />
           </Grid>
         </Grid>
       </Grid>
