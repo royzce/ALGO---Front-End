@@ -14,15 +14,14 @@ import {
   InputLabel,
   FilledInput,
   InputAdornment,
-  styled,
-  tooltipClasses,
   Divider,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
+import { AuthContext } from "../context/AuthContext";
 import { PopupContext } from "../context/PopupContext";
 import { UserContext } from "../context/UserContext";
 import * as authService from "../services/auth";
@@ -30,7 +29,8 @@ import * as userService from "../services/user";
 
 export default function Login() {
   const { onShowFail } = useContext(PopupContext);
-  const { setCurrentUser, currentUser } = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
+  const { handleLoggedIn } = useContext(AuthContext);
 
   const styles = {
     myTextField: {
@@ -118,8 +118,8 @@ export default function Login() {
         localStorage.setItem("accessToken", res.data.accessToken);
         const result = await userService.getCurrentUser();
         console.log("result", result);
+        handleLoggedIn(true);
         setCurrentUser(result.data);
-        // navigate("/");
       })
       .catch((err) => {
         onShowFail(err.response.data.message);

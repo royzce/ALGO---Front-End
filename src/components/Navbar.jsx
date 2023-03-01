@@ -19,7 +19,6 @@ import {
   MenuItem,
   Menu,
   InputAdornment,
-  Paper,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -31,15 +30,15 @@ import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
 import NotificationPanel from "./NotificationPanel";
-import * as userSvc from "../services/user";
-import { compareByDate } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import { UserContext } from "../context/UserContext";
 import ColorTheme from "../components/ColorTheme";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const { setCurrentUser } = useContext(UserContext);
+  const { handleLoggedIn } = useContext(AuthContext);
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -89,7 +88,7 @@ export default function Navbar() {
     handleMdClose();
     localStorage.removeItem("accessToken");
     setCurrentUser(null);
-    navigate("/login");
+    handleLoggedIn(false);
   };
 
   function ProfileMenu() {
