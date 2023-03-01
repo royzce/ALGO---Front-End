@@ -6,7 +6,7 @@ import PostPage from "./pages/PostPage";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Navbar from "./components/Navbar";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import ProfilePage from "./pages/ProfilePage";
 import ProfileAbout from "./components/ProfileAbout";
 import ProfileHome from "./components/ProfileHome";
@@ -23,10 +23,13 @@ import SearchPeople from "./components/SearchPeople";
 import SearchPosts from "./components/SearchPosts";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ColorTheme from "./components/ColorTheme";
+import GlobalCSS from "./components/GlobalCSS";
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={ColorTheme}>
+      <GlobalCSS />
       <CssBaseline />
       <Navbar />
       <Routes>
@@ -60,7 +63,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 

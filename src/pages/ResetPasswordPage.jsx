@@ -165,7 +165,6 @@ export default function ResetPasswordPage() {
         overflowY: "scroll",
       }}
     >
-      <GlobalCSS />
       {loading && <Spinner />}
       <Paper
         elevation={0}

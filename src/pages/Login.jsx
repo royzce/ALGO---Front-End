@@ -114,7 +114,6 @@ export default function Login() {
         overflowY: "scroll",
       }}
     >
-      <GlobalCSS />
       <Paper
         elevation={0}
         sx={{

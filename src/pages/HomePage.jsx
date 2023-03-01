@@ -18,7 +18,6 @@ export default function HomePage() {
       margin={"12px auto"}
       padding={"0 12px"}
     >
-      <GlobalCSS />
       <AddPost />
       <PostsList posts={allPosts} />
     </Stack>

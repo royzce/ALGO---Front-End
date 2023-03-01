@@ -18,7 +18,6 @@ const ProfilePage = () => {
 
   return (
     <Container maxWidth={false} disableGutters>
-      <GlobalCSS />
       <Container sx={styles.profileHeader} maxWidth={false} disableGutters>
         <Container>
           <Header />

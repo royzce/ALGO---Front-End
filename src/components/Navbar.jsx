@@ -35,6 +35,7 @@ import * as userSvc from "../services/user";
 import { compareByDate } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import { UserContext } from "../context/UserContext";
+import ColorTheme from "../components/ColorTheme";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -90,10 +91,100 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  function ProfileMenu() {
+    return (
+      <Menu
+        anchorEl={mdAnchorEl}
+        id="md-menu"
+        open={mdOpen}
+        onClose={handleMdClose}
+        onClick={handleMdClose}
+        PaperProps={{
+          sx: {
+            overflow: "visible",
+            borderRadius: "10px",
+            mt: "8px",
+            width: "180px",
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 15,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={handleGoToProfile}>
+          <Avatar /> My Profile
+        </MenuItem>
+        <MenuItem onClick={handleMdClose}>
+          <ListItemIcon>
+            <Settings fontSize="small" color="primary" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <Logout fontSize="small" color="primary" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    );
+  }
+
+  function NotificationsMenu() {
+    return (
+      <Menu
+        anchorEl={notifAnchorEl}
+        open={isNotifOpen}
+        onClose={handleNotifClose}
+        PaperProps={{
+          sx: {
+            overflow: "visible",
+            borderRadius: "10px",
+            mt: "-5px",
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 27,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <NotificationPanel notifs={notifs} onClose={handleNotifClose} />
+      </Menu>
+    );
+  }
+
   return (
     <>
       <AppBar
         position="static"
+        color="primary"
         sx={{ display: "flex", justifyContent: "center" }}
       >
         <Grid container maxWidth={"xl"} sx={{ mx: "auto" }}>
@@ -111,6 +202,7 @@ export default function Navbar() {
               <Typography
                 variant="h5"
                 fontWeight={"fontWeightBold"}
+                color={ColorTheme.palette.textLight.main}
                 sx={{ display: { xs: "none", md: "inline-flex" } }}
               >
                 ALGO
@@ -135,23 +227,14 @@ export default function Navbar() {
                   }
                   color="error"
                 >
-                  <NotificationsIcon />
+                  <Avatar sx={{ bgcolor: ColorTheme.palette.secondary.main }}>
+                    <NotificationsIcon color="textLight" />
+                  </Avatar>
                 </Badge>
               </IconButton>
 
               {/**NOTIFICATIONS PANEL */}
-              <Menu
-                anchorEl={notifAnchorEl}
-                open={isNotifOpen}
-                onClose={handleNotifClose}
-                PaperProps={{
-                  style: {
-                    width: "40%",
-                  },
-                }}
-              >
-                <NotificationPanel notifs={notifs} onClose={handleNotifClose} />
-              </Menu>
+              <NotificationsMenu />
               <IconButton
                 onClick={handleMdClick}
                 aria-controls={mdOpen ? "md-menu" : undefined}
@@ -164,58 +247,7 @@ export default function Navbar() {
               >
                 <Avatar alt="U" src="/static/images/avatar/2.jpg" />
               </IconButton>
-              <Menu
-                anchorEl={mdAnchorEl}
-                id="md-menu"
-                open={mdOpen}
-                onClose={handleMdClose}
-                onClick={handleMdClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: "visible",
-                    borderRadius: "10px",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    "& .MuiAvatar-root": {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    "&:before": {
-                      content: '""',
-                      display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: "background.paper",
-                      transform: "translateY(-50%) rotate(45deg)",
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              >
-                <MenuItem onClick={handleGoToProfile}>
-                  <Avatar /> My account
-                </MenuItem>
-                <MenuItem onClick={handleMdClose}>
-                  <ListItemIcon>
-                    <Settings fontSize="small" />
-                  </ListItemIcon>
-                  Settings
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Logout
-                </MenuItem>
-              </Menu>
+              <ProfileMenu />
             </Toolbar>
           </Grid>
         </Grid>
@@ -299,7 +331,7 @@ export default function Navbar() {
               anchorOrigin={{ horizontal: "left", vertical: "top" }}
             >
               <MenuItem onClick={handleGoToProfile}>
-                <Avatar /> My account
+                <Avatar /> My Profile
               </MenuItem>
               <MenuItem onClick={handleDrawerClose}>
                 <ListItemIcon>
@@ -400,7 +432,7 @@ function AutocompleteWithAvatar() {
         width: "80%",
         margin: "auto",
         borderRadius: "50px",
-        backgroundColor: "#4999e7",
+        backgroundColor: ColorTheme.palette.secondary.main,
       }}
       ref={inpuSearchRef}
       forcePopupIcon={false}
@@ -423,7 +455,7 @@ function AutocompleteWithAvatar() {
             },
             "& .css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input": {
               height: "12px",
-              color: "white",
+              color: ColorTheme.palette.textLight.main,
             },
           }}
           {...params}
@@ -432,8 +464,8 @@ function AutocompleteWithAvatar() {
           InputProps={{
             ...params.InputProps,
             startAdornment: (
-              <InputAdornment position="start" sx={{ color: "white" }}>
-                <SearchIcon />
+              <InputAdornment position="start">
+                <SearchIcon color="textLight" />
               </InputAdornment>
             ),
           }}
