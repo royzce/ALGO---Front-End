@@ -83,7 +83,7 @@ function App() {
           />
 
           <Route element={<ProfileAbout />}>
-            <Route path="/:id/about" element={<ProfileDetails />} />
+            <Route path="/profile/:id/about" element={<ProfileDetails />} />
             <Route path="/profile/:id/interest" element={<ProfileInterest />} />
           </Route>
           <Route element={<ManageFriends />}>
