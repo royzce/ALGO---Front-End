@@ -13,17 +13,22 @@ import * as postSvc from "../services/post";
 const ProfileHome = () => {
   const { username } = useParams();
   const [profileName, profileData] = useOutletContext();
-  // const { currentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const { allPosts } = useContext(PostContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    if (username && username === profileData.username) {
-      setPosts(allPosts.filter((post) => post.userId === profileData.userId));
+    if (username && username === currentUser.username) {
+      const posts = allPosts.filter(
+        (post) => post.userId === currentUser.userId
+      );
+      console.log("posts in profile", posts);
+      setPosts(posts);
     } else {
       postSvc.getUserPosts(username).then((res) => setPosts(res.data));
+      console.log("hindi eto");
     }
-  }, [allPosts, profileName, profileData, username]);
+  }, [allPosts, currentUser, username]);
 
   return (
     <Grid container spacing={2}>
