@@ -148,6 +148,7 @@ export default function Navbar() {
   }
 
   function NotificationsMenu() {
+    const navigate = useNavigate();
     return (
       <Menu
         anchorEl={notifAnchorEl}
@@ -204,6 +205,8 @@ export default function Navbar() {
                 fontWeight={"fontWeightBold"}
                 color={ColorTheme.palette.textLight.main}
                 sx={{ display: { xs: "none", md: "inline-flex" } }}
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/")}
               >
                 ALGO
               </Typography>
