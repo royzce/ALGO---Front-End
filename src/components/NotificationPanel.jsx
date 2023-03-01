@@ -26,10 +26,13 @@ import { UserContext } from "../context/UserContext";
 import { getElapsedTime } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import ColorTheme from "../components/ColorTheme";
+import { ProfileNavContext } from "../context/ProfileNavContext";
 
 export default function NotificationPanel({ notifs, onClose }) {
   //TODO: connect to Notifications API
   const navigate = useNavigate();
+  const { friendsTab, setFriendsTab, profileTab, setProfileTab } =
+    useContext(ProfileNavContext);
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -48,7 +51,8 @@ export default function NotificationPanel({ notifs, onClose }) {
     onClose();
     const { notifId, type, typeId } = notif;
     if (type === "requestFriend") {
-      console.log("TODO: navigate to friend-request");
+      setFriendsTab("FriendRequest");
+      setProfileTab("Friends");
       navigate(`/${currentUser.username}/friend-request`);
     } else {
       navigate(`/posts/${typeId}`);

@@ -15,6 +15,7 @@ import UserProvider from "./context/UserContext";
 import { AuthProvider } from "./context/AuthContext";
 import { PopupProvider } from "./context/PopupContext";
 import { NotifProvider } from "./context/NotifContext";
+import ProfileNavProvider from "./context/ProfileNavContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,7 +27,9 @@ root.render(
             <UserProvider>
               <PostProvider>
                 <NotifProvider>
-                  <App />
+                  <ProfileNavProvider>
+                    <App />
+                  </ProfileNavProvider>
                 </NotifProvider>
               </PostProvider>
             </UserProvider>
