@@ -163,7 +163,6 @@ export default function ResetPasswordPage() {
 
   return (
     <Paper elevation={0} sx={styles.paper}>
-      <GlobalCSS />
       {loading && <Spinner />}
       <img
         src={appLogo}

@@ -149,7 +149,6 @@ export default function ChangePasswordPage() {
 
   return (
     <Paper elevation={0} sx={styles.paper}>
-      <GlobalCSS />
       {loading && <Spinner />}
       <img
         src={appLogo}

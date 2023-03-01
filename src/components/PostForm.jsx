@@ -6,6 +6,8 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Container,
+  Divider,
   Grid,
   IconButton,
   ImageList,
@@ -19,10 +21,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useContext, useEffect, useState } from "react";
 import PostFormHeader from "./PostFormHeader";
 import * as userSvc from "../services/user";
-import { Stack } from "@mui/system";
+import { bgcolor, Stack } from "@mui/system";
 import * as firebase from "../services/firebase";
 import { UserContext } from "../context/UserContext";
 import { PostContext } from "../context/PostContext";
+import ColorTheme from "../components/ColorTheme";
 
 export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   const [form, setForm] = useState({
@@ -75,6 +78,25 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     }
     console.log("your fiends", friends);
     setAddPhoto(!addPhoto);
+  }
+
+  function photosButtonBackground() {
+    let bgcolor = null;
+    if (addPhoto) {
+      bgcolor = ColorTheme.palette.body.main;
+    } else {
+      bgcolor = "transparent";
+    }
+    return bgcolor;
+  }
+  function tagButtonBackground() {
+    let bgcolor = null;
+    if (showTagSel) {
+      bgcolor = ColorTheme.palette.body.main;
+    } else {
+      bgcolor = "transparent";
+    }
+    return bgcolor;
   }
 
   function handleTagSel(tagged) {
@@ -135,13 +157,39 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      maxWidth: "768px",
+      margin: "auto",
+      padding: "0 48px",
     },
     card: {
-      width: "50%",
-      maxHeight: "90%",
-      overflowY: "scroll",
+      width: "100%",
+      maxHeight: "450px",
       borderRadius: "10px",
-      padding: "10px",
+    },
+    cardHeader: {
+      textAlign: "center",
+      borderBottom: "1px solid silver",
+    },
+    cardContent: {
+      padding: "0px 30px 0px 20px",
+      margin: "0px",
+    },
+    stackPostContent: {
+      maxHeight: "245px",
+      overflowY: "auto",
+      marginRight: "-20px",
+    },
+    paddingRight: {
+      paddingRight: "10px",
+    },
+    box: {
+      width: "100%",
+      marginBottom: "15px",
+    },
+    textField: {
+      "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+        borderRadius: "10px",
+      },
     },
   };
 
@@ -160,35 +208,40 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                 <CloseIcon />
               </IconButton>
             }
-            sx={{ textAlign: "center" }}
+            sx={styles.cardHeader}
           />
-          <CardContent>
+          <CardContent sx={styles.cardContent}>
             <PostFormHeader
               onSelect={handlePrivSel}
               privacy={form.privacy}
               onToggleTags={handleToggleTags}
               onTogglePhotos={handleTogglePhotos}
+              onTogglePhotosButton={photosButtonBackground}
+              onToggleTagButton={tagButtonBackground}
               totalTags={form.tags.length}
               user={user}
             />
-            <Stack spacing={2} alignItems="center">
+            <Stack spacing={2} alignItems="center" sx={styles.stackPostContent}>
               {showTagSel && (
-                <Grid item width="100%">
-                  <Autocomplete
-                    multiple
-                    options={friends}
-                    onChange={(event, value) => handleTagSel(value)}
-                    getOptionLabel={(option) =>
-                      `${option.firstName} ${option.lastName}`
-                    }
-                    filterSelectedOptions
-                    renderInput={(params) => (
-                      <TextField {...params} placeholder="Tag your friends" />
-                    )}
-                    size="small"
-                    fullWidth
-                  />
-                </Grid>
+                <Autocomplete
+                  sx={styles.paddingRight}
+                  multiple
+                  options={friends}
+                  onChange={(event, value) => handleTagSel(value)}
+                  getOptionLabel={(option) =>
+                    `${option.firstName} ${option.lastName}`
+                  }
+                  filterSelectedOptions
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Tag your friends"
+                      sx={styles.textField}
+                    />
+                  )}
+                  size="small"
+                  fullWidth
+                />
               )}
               <TextField
                 multiline
@@ -196,11 +249,12 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                 rows={4}
                 placeholder={user && `Say something, ${user.firstName}.`}
                 onChange={handleTextChange}
+                sx={[styles.textField, styles.paddingRight]}
                 fullWidth
               />
               {addPhoto && (
-                <>
-                  <Box sx={{ width: "100%" }}>
+                <Container disableGutters>
+                  <Box sx={styles.box}>
                     <Button variant="contained" component="label">
                       <input
                         hidden
@@ -222,11 +276,11 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                       </ImageListItem>
                     ))}
                   </ImageList>
-                </>
+                </Container>
               )}
             </Stack>
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ padding: "15px" }}>
             <Button variant="contained" fullWidth onClick={handleSubmit}>
               {post ? "SAVE" : "POST"}
             </Button>
