@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as postSvc from "../services/post";
-import { getCurrentUser } from "../services/user";
-import { compareByDate } from "../services/util";
+import { compareByDateDesc } from "../services/util";
 import { UserContext } from "./UserContext";
 
 export const PostContext = createContext({
@@ -25,12 +24,15 @@ export default function PostProvider({ children }) {
 
   useEffect(() => {
     if (user) {
-      postSvc.getPosts().then((res) => {
-        const posts = res.data.sort(compareByDate);
-        setAllPosts(posts);
-      });
+      getAllPosts();
     }
   }, [user]);
+
+  async function getAllPosts() {
+    const res = await postSvc.getPosts();
+    const posts = res.data.sort(compareByDateDesc);
+    setAllPosts(posts);
+  }
 
   function handlePosting(completed) {
     setPosting(completed);
@@ -50,22 +52,21 @@ export default function PostProvider({ children }) {
 
     const post = { ...res.data, media, tags: newPost.tags, user };
 
-    setAllPosts([...allPosts, post].sort(compareByDate));
+    setAllPosts([...allPosts, post].sort(compareByDateDesc));
     handlePosting(false);
   }
 
   async function handleEditPost(editedPost) {
     const res = await postSvc.editPost(editedPost);
     console.log("inside handleEditPost", res);
-    setAllPosts(
-      allPosts
-        .map((post) => {
-          return post.postId === res.data.postId
-            ? { ...post, ...res.data }
-            : post;
-        })
-        .sort(compareByDate)
-    );
+    getAllPosts();
+    handlePosting(false);
+  }
+
+  async function handleEditPrivacy(editedPost) {
+    const res = await postSvc.editPrivacy(editedPost);
+    console.log("inside handleEditPrivacy", res);
+    getAllPosts();
     handlePosting(false);
   }
 
@@ -73,7 +74,9 @@ export default function PostProvider({ children }) {
     const res = await postSvc.deletePost(postId);
     if (res) {
       setAllPosts(
-        allPosts.filter((post) => post.postId !== postId).sort(compareByDate)
+        allPosts
+          .filter((post) => post.postId !== postId)
+          .sort(compareByDateDesc)
       );
     }
   }
@@ -84,6 +87,7 @@ export default function PostProvider({ children }) {
         allPosts,
         onAddPost: handleAddPost,
         onEditPost: handleEditPost,
+        onEditPrivacy: handleEditPrivacy,
         onDeletePost: handleDeletePost,
         onPosting: handlePosting,
         posting,

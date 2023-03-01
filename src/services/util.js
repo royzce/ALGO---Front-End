@@ -37,8 +37,13 @@ export function getElapsedTime(date) {
  *
  * items must have a date property
  */
-export function compareByDate(itemA, itemB) {
+export function compareByDateDesc(itemA, itemB) {
   const timeA = new Date(itemA.date).getTime();
   const timeB = new Date(itemB.date).getTime();
   return (timeA - timeB) * -1;
+}
+export function compareByDateAsc(itemA, itemB) {
+  const timeA = new Date(itemA.date).getTime();
+  const timeB = new Date(itemB.date).getTime();
+  return timeA - timeB;
 }

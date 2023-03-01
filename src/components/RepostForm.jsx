@@ -41,9 +41,7 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
     }
   }, [showTagSel]);
 
-  function handlePrivSel(event) {
-    const { value } = event.target;
-
+  function handlePrivSel(value) {
     if (value === "private") {
       setShowTagSel(false);
       setForm({ ...form, tags: [] });
@@ -71,6 +69,8 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
 
   function handleSubmit() {
     onSubmit(form);
+    onClose();
+    onPosting(true);
   }
 
   const styles = {
@@ -95,7 +95,7 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
           <CardHeader
             title={
               <Typography variant="h5" fontWeight="fontWeightBold">
-                SHARE POST
+                {post ? "EDIT POST" : "SHARE POST"}
               </Typography>
             }
             action={
@@ -146,7 +146,7 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
           </CardContent>
           <CardActions>
             <Button variant="contained" fullWidth onClick={handleSubmit}>
-              Share
+              {post ? "SAVE" : "SUBMIT"}
             </Button>
           </CardActions>
         </Card>

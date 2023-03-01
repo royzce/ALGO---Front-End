@@ -21,10 +21,15 @@ export function register(user) {
 }
 
 export function getNotifications() {
-  return new Promise((resolve) => {
-    resolve({ data: NOTIFS });
-  });
+  return http.get("/notifications");
 }
+
+// TEST FUNCTION ONLY
+// export function getNotifications() {
+//   return new Promise((resolve) => {
+//     resolve({ data: NOTIFS });
+//   });
+// }
 
 // TEST NOTIFS
 export const NOTIFS = [

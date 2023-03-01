@@ -5,12 +5,16 @@ import ShareOutlined from "@mui/icons-material/ShareOutlined";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 
 import PostReactions from "./PostReactions";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { REACTIONS } from "../services/post";
+import { UserContext } from "../context/UserContext";
 
-export default function PostActions({ onReact, reaction, onShare, privacy }) {
+export default function PostActions({ post, onReact, reaction, onShare }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [reactBtn, setReactBtn] = useState(null);
+
+  const { currentUser: user } = useContext(UserContext);
+  const canShare = post && user && post.userId !== user.userId;
 
   useEffect(() => {
     if (reaction) {
@@ -66,7 +70,7 @@ export default function PostActions({ onReact, reaction, onShare, privacy }) {
         sx={{ px: "24px" }}
         startIcon={
           reactBtn ? (
-            <img src={reactBtn.img} height={18} />
+            <img alt={reactBtn.text} src={reactBtn.img} height={18} />
           ) : (
             <LocalFireDepartmentIcon />
           )
@@ -78,7 +82,7 @@ export default function PostActions({ onReact, reaction, onShare, privacy }) {
       <Button sx={styles.buttonPadding} startIcon={<ChatOutlined />}>
         Comment
       </Button>
-      {privacy !== "private" && (
+      {canShare && (
         <Button
           sx={{ px: "24px" }}
           startIcon={<ShareOutlined />}

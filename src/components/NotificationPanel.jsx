@@ -18,6 +18,7 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import ModeCommentIcon from "@mui/icons-material/ModeComment";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { blue, green, red } from "@mui/material/colors";
 import React, { useContext, useState } from "react";
@@ -71,66 +72,73 @@ export default function NotificationPanel({ notifs, onClose }) {
   }
 
   return (
-    // <Box sx={{ padding: "8px 16px" }}>
-    <List
-      dense={true}
-      subheader={
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Typography
-            variant="h6"
-            fontWeight="fontWeightBold"
-            marginLeft="20px"
+    <Box sx={{ padding: "8px 16px" }}>
+      <List
+        dense={true}
+        subheader={
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            Notifications
-          </Typography>
-
-          <Tabs value={tabIndex} onChange={handleTabChange}>
-            <Tab label="All" value={0} />
-            <Tab label="Unread" value={1} />
-
-            <IconButton size="small" onClick={handleMoreVert}>
-              <MoreVertIcon />
-            </IconButton>
-            <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
-              <MenuItem onClick={handleMarkAllAsRead}>
-                Mark all as read
-              </MenuItem>
-            </Menu>
-          </Tabs>
-        </Stack>
-      }
-    >
-      {tabIndex === 0 && (
-        <NotifList notifs={notifs} onClick={handleNotifClick} />
-      )}
-      {tabIndex === 1 && (
-        <NotifList
-          notifs={notifs && notifs.filter((notif) => !notif.isRead)}
-          onClick={handleNotifClick}
-        />
-      )}
-    </List>
-    // </Box>
+            <Typography
+              variant="h6"
+              fontWeight="fontWeightBold"
+              marginLeft="20px"
+            >
+              Notifications
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Tabs value={tabIndex} onChange={handleTabChange}>
+                <Tab label="All" value={0} />
+                <Tab label="Unread" value={1} />
+              </Tabs>
+              <IconButton size="small" onClick={handleMoreVert}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
+                <MenuItem onClick={handleMarkAllAsRead}>
+                  Mark all as read
+                </MenuItem>
+              </Menu>
+            </Stack>
+          </Stack>
+        }
+      >
+        {tabIndex === 0 && (
+          <NotifList notifs={notifs} onClick={handleNotifClick} />
+        )}
+        {tabIndex === 1 && (
+          <NotifList
+            notifs={notifs && notifs.filter((notif) => !notif.isRead)}
+            onClick={handleNotifClick}
+          />
+        )}
+      </List>
+    </Box>
   );
 }
 
 function NotifList({ notifs, onClick }) {
   function displayNotifText(notif) {
-    const { user, type, count } = notif;
+    const { from, type, count } = notif;
     let end = "";
     switch (type) {
-      case "react":
+      case "reaction":
         end = "reacted to your post";
         break;
-      case "comment":
+      case "comments":
         end = "commented on your post";
         break;
       case "tag":
         end = "tagged you in a post";
+        break;
+      case "share":
+        end = "shared your post";
         break;
       case "frequest":
         end = "sent you a friend request";
@@ -143,7 +151,7 @@ function NotifList({ notifs, onClick }) {
       <>
         <Typography variant="inherit" component="span">
           <strong>
-            {user.firstName} {user.lastName}
+            {from.firstName} {from.lastName}
           </strong>
           {count < 2 ? (
             ""
@@ -170,19 +178,20 @@ function NotifList({ notifs, onClick }) {
   function displayBadge(type) {
     let icon = <></>;
     switch (type) {
-      case "react":
-        icon = (
-          <LocalFireDepartmentIcon sx={{ fontSize: "12px", color: "white" }} />
-        );
+      case "reaction":
+        icon = <LocalFireDepartmentIcon sx={{ fontSize: "12px" }} />;
         break;
-      case "comment":
-        icon = <ModeCommentIcon sx={{ fontSize: "12px", color: "white" }} />;
+      case "comments":
+        icon = <ModeCommentIcon sx={{ fontSize: "12px" }} />;
         break;
       case "tag":
-        icon = <GroupAddIcon sx={{ fontSize: "12px", color: "white" }} />;
+        icon = <GroupAddIcon sx={{ fontSize: "12px" }} />;
+        break;
+      case "share":
+        icon = <ShareIcon sx={{ fontSize: "12px" }} />;
         break;
       case "frequest":
-        icon = <PersonAddIcon sx={{ fontSize: "12px", color: "white" }} />;
+        icon = <PersonAddIcon sx={{ fontSize: "12px" }} />;
         break;
       default:
         break;
@@ -192,14 +201,17 @@ function NotifList({ notifs, onClick }) {
   function badgeColor(type) {
     let color = null;
     switch (type) {
-      case "react":
+      case "reaction":
         color = "error";
         break;
-      case "comment":
+      case "comments":
         color = "success";
         break;
       case "tag":
         color = "primary";
+        break;
+      case "share":
+        color = "success";
         break;
       case "frequest":
         color = "primary";
@@ -224,7 +236,7 @@ function NotifList({ notifs, onClick }) {
             badgeContent={displayBadge(notif.type)}
             color={badgeColor(notif.type)}
           >
-            <Avatar alt="avatar" src={notif.user.avatar} />
+            <Avatar alt="avatar" src={notif.from.avatar} />
           </Badge>
         </ListItemAvatar>
         <ListItemText

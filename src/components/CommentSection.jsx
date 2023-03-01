@@ -1,22 +1,21 @@
 import { List } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { CommentContext } from "../context/CommentContext";
 import * as postSvc from "../services/post";
-import { compareByDate } from "../services/util";
+import { compareByDateAsc } from "../services/util";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 
-export default function CommentSection({ show, onShowComments, post, user }) {
-  const [comments, setComments] = useState([]);
+export default function CommentSection({
+  show,
+  onShowComments,
+  post,
+  setPost,
+  user,
+  comments,
+}) {
   const onlyComments =
     comments && comments.filter((comment) => !comment.replyTo);
-
-  useEffect(() => {
-    if (post && post.comment) {
-      setComments(post.comment.sort(compareByDate));
-      console.log("CommentSection", post.comment);
-    }
-  }, [post]);
 
   async function handleAddComment({ value, replyTo }) {
     // TODO
@@ -29,20 +28,22 @@ export default function CommentSection({ show, onShowComments, post, user }) {
     };
     const res = await postSvc.addComment(newComment);
     console.log("inside handleAddComment", res);
-    setComments([...comments, res.data].sort(compareByDate));
+
+    const updatedComm = [...comments, res.data].sort(compareByDateAsc);
+    setPost({ ...post, comment: updatedComm });
   }
 
   async function handleEditComment(editedComm) {
     // TODO
     const res = await postSvc.editComment(editedComm);
     console.log("inside handleEditComment", res);
-    setComments(
-      comments.map((comment) => {
-        return comment.commentId === res.data.commentId
-          ? { ...comment, ...res.data }
-          : comment;
-      })
-    );
+
+    const updatedComm = comments.map((comment) => {
+      return comment.commentId === res.data.commentId
+        ? { ...comment, ...res.data }
+        : comment;
+    });
+    setPost({ ...post, comment: updatedComm });
   }
 
   async function handleDeleteComment(commentId) {
@@ -52,7 +53,10 @@ export default function CommentSection({ show, onShowComments, post, user }) {
     console.log("inside handleDeleteComment response", res);
 
     // TODO: server response data has no commentId
-    setComments(comments.filter((comment) => comment.commentId !== commentId));
+    const updatedComm = comments.filter(
+      (comment) => comment.commentId !== commentId
+    );
+    setPost({ ...post, comment: updatedComm });
   }
 
   return (

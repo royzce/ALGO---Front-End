@@ -64,6 +64,10 @@ function App() {
           path={"/posts/:postId/:imgIndex"}
           element={loggedIn ? <PostPage /> : <Navigate to="/login" />}
         />
+        <Route
+          path={"/posts/:postId"}
+          element={loggedIn ? <PostPage /> : <Navigate to="/login" />}
+        />
 
         <Route
           path="/profile/:id"

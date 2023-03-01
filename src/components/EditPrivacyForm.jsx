@@ -12,7 +12,7 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import React from "react";
 
-export default function EditPrivacyForm({ choice, onSelect }) {
+export default function EditPrivacyForm({ choice, onSelect, isRepost }) {
   return (
     <List
       subheader="Choose the audience for this post:"
@@ -57,25 +57,27 @@ export default function EditPrivacyForm({ choice, onSelect }) {
           )}
         </IconButton>
       </ListItemButton>
-      <ListItemButton
-        selected={choice === "private"}
-        onClick={() => onSelect("private")}
-      >
-        <ListItemIcon>
-          <LockIcon />
-        </ListItemIcon>
-        <ListItemText
-          primary="Private"
-          secondary="Only you can see this post."
-        />
-        <IconButton>
-          {choice === "private" ? (
-            <RadioButtonCheckedIcon />
-          ) : (
-            <RadioButtonUncheckedIcon />
-          )}
-        </IconButton>
-      </ListItemButton>
+      {!isRepost && (
+        <ListItemButton
+          selected={choice === "private"}
+          onClick={() => onSelect("private")}
+        >
+          <ListItemIcon>
+            <LockIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary="Private"
+            secondary="Only you can see this post."
+          />
+          <IconButton>
+            {choice === "private" ? (
+              <RadioButtonCheckedIcon />
+            ) : (
+              <RadioButtonUncheckedIcon />
+            )}
+          </IconButton>
+        </ListItemButton>
+      )}
     </List>
   );
 }

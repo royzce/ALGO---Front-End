@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import * as userSvc from "../services/user";
-import { compareByDate } from "../services/util";
+import { compareByDateDesc } from "../services/util";
 
 export const NotifContext = createContext({
   notifs: [],
@@ -15,14 +15,14 @@ export function NotifProvider({ children }) {
     getAllNotifs();
     const refreshNotifs = setInterval(() => {
       getAllNotifs();
-      console.log("getting new notifications...");
     }, 60000);
     return () => clearInterval(refreshNotifs);
   }, []);
 
   async function getAllNotifs() {
     const res = await userSvc.getNotifications();
-    setNotifs(res.data.sort(compareByDate));
+    console.log("inside getAllNotifs", res);
+    setNotifs(res.data.sort(compareByDateDesc));
   }
 
   function handleMarkAsRead(notifId) {

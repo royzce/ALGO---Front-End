@@ -19,13 +19,16 @@ import CommentForm from "./CommentForm";
 import { CommentContext } from "../context/CommentContext";
 import AddComment from "./AddComment";
 import { getElapsedTime } from "../services/util";
+import { UserContext } from "../context/UserContext";
 
 export default function Comment({ comment, replies, reply }) {
-  const { value, date, user } = comment || {};
+  const { value, date, user, isEdited } = comment || {};
   const [viewReplies, setViewReplies] = useState(false);
   const [replying, setReplying] = useState(false);
   const [editing, setEditing] = useState(false);
   const { onEdit, onDelete } = useContext(CommentContext);
+
+  const { currentUser } = useContext(UserContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -76,12 +79,14 @@ export default function Comment({ comment, replies, reply }) {
       ) : (
         <>
           <ListItem
-            sx={{ bgcolor: "#f0f2f5", borderRadius: "12px" }}
+            sx={{ bgcolor: "#f0f2f5", borderRadius: "12px", my: "8px" }}
             alignItems="flex-start"
             secondaryAction={
-              <IconButton size="small" onClick={handleMoreClick}>
-                <MoreHorizIcon />
-              </IconButton>
+              currentUser.userId === user.userId && (
+                <IconButton size="small" onClick={handleMoreClick}>
+                  <MoreHorizIcon />
+                </IconButton>
+              )
             }
           >
             <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
@@ -104,6 +109,9 @@ export default function Comment({ comment, replies, reply }) {
               secondary={
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Typography variant="caption">{displayDate()}</Typography>
+                  {isEdited && (
+                    <Typography variant="caption">{"(edited)"}</Typography>
+                  )}
                 </Stack>
               }
             />
@@ -113,6 +121,7 @@ export default function Comment({ comment, replies, reply }) {
               <ListItemText
                 inset
                 disableTypography
+                sx={{ my: 0 }}
                 primary={
                   <Stack direction="row" spacing={1}>
                     {!reply && (
@@ -158,7 +167,7 @@ export default function Comment({ comment, replies, reply }) {
         <ListItem disableGutters disablePadding>
           <ListItemText
             disableTypography
-            sx={{ marginLeft: 5 }}
+            sx={{ marginLeft: 5, my: 0 }}
             primary={
               <AddComment comment={comment} onShowComments={setViewReplies} />
             }

@@ -17,11 +17,15 @@ import { Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
 import { getElapsedTime } from "../services/util";
+import { UserContext } from "../context/UserContext";
 
-export default function PostHeader({ post, onEdit, onEditPrivacy, shared }) {
+export default function PostHeader({ post, onMenuEdit, onPrivIcon, shared }) {
   const { onDeletePost } = useContext(PostContext);
-  const { postId, date, privacy, tags } = post || {};
-  const { firstName, lastName, username, avatar } = (post && post.user) || {};
+  const { postId, date, privacy, tags, isEdited } = post || {};
+  const { userId, firstName, lastName, username, avatar } =
+    (post && post.user) || {};
+
+  const { currentUser } = useContext(UserContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -31,7 +35,7 @@ export default function PostHeader({ post, onEdit, onEditPrivacy, shared }) {
   }
 
   function handleEdit() {
-    onEdit();
+    onMenuEdit();
     handleClose();
   }
 
@@ -75,50 +79,60 @@ export default function PostHeader({ post, onEdit, onEditPrivacy, shared }) {
 
   return (
     <List>
-      <ListItem
-        disableGutters
-        disablePadding
-        alignItems="flex-start"
-        secondaryAction={
-          <IconButton onClick={handleMore}>
-            <MoreHorizIcon />
-          </IconButton>
-        }
-      >
-        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <MenuItem onClick={handleEdit}>Edit</MenuItem>
-          <MenuItem onClick={handleDelete}>Delete</MenuItem>
-        </Menu>
-        <ListItemAvatar>
-          <Avatar alt="avatar" src={avatar} />
-        </ListItemAvatar>
-        <ListItemText
-          disableTypography
-          primary={
-            <Typography variant="body1">
-              {firstName} {lastName}
-              {tags && tags.length > 0 && ` and ${tags.length} others`}
-            </Typography>
-          }
-          secondary={
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography component="span" variant="body2">
-                @{username}
-              </Typography>
-              <Typography component="span" variant="body2">
-                {date && displayDate()}
-              </Typography>
-              <IconButton
-                size="small"
-                onClick={onEditPrivacy}
-                disabled={shared}
-              >
-                {displayPrivacy()}
+      {currentUser && (
+        <ListItem
+          disableGutters
+          disablePadding
+          alignItems="flex-start"
+          secondaryAction={
+            currentUser.userId === userId &&
+            !shared && (
+              <IconButton onClick={handleMore}>
+                <MoreHorizIcon />
               </IconButton>
-            </Stack>
+            )
           }
-        />
-      </ListItem>
+        >
+          <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+            <MenuItem onClick={handleEdit}>Edit</MenuItem>
+            <MenuItem onClick={handleDelete}>Delete</MenuItem>
+          </Menu>
+          <ListItemAvatar>
+            <Avatar alt="avatar" src={avatar} />
+          </ListItemAvatar>
+          <ListItemText
+            disableTypography
+            primary={
+              <Typography variant="body1">
+                {firstName} {lastName}
+                {tags && tags.length > 0 && ` and ${tags.length} others`}
+              </Typography>
+            }
+            secondary={
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography component="span" variant="body2">
+                  @{username}
+                </Typography>
+                <Typography component="span" variant="body2">
+                  {date && displayDate()}
+                </Typography>
+                {isEdited && (
+                  <Typography component="span" variant="body2">
+                    {"(edited)"}
+                  </Typography>
+                )}
+                <IconButton
+                  size="small"
+                  onClick={onPrivIcon}
+                  disabled={shared || currentUser.userId !== userId}
+                >
+                  {displayPrivacy()}
+                </IconButton>
+              </Stack>
+            }
+          />
+        </ListItem>
+      )}
     </List>
   );
 }
