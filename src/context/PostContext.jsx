@@ -52,7 +52,8 @@ export default function PostProvider({ children }) {
 
     const post = { ...res.data, media, tags: newPost.tags, user };
 
-    setAllPosts([...allPosts, post].sort(compareByDateDesc));
+    // setAllPosts([...allPosts, post].sort(compareByDateDesc));
+    getAllPosts();
     handlePosting(false);
   }
 

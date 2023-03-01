@@ -9,7 +9,7 @@ import * as userService from "../services/user";
 const ProfilePage = ({ userProfile, friendProfile }) => {
   // const [profileName, setProfileName] = useState(null);
   const [profileData, setProfileData] = useState({});
-  const profileName = profileData && profileData.username;
+  // const profileName = profileData && profileData.username;
   const { currentUser: user } = useContext(UserContext);
   const { username } = useParams();
   useEffect(() => {
@@ -18,16 +18,18 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
     // } else {
     //   setProfileName(friendProfile);
     // }
-
-    if (user && username && username === user.username) {
-      setProfileData(user);
-    } else {
-      userService.getProfileData(profileName).then((res) => {
-        console.log("inside ProfilePage", res);
-        setProfileData(res.data);
-      });
+    console.log("username parameter", username);
+    console.log("currentUser in ProfilePage", user);
+    if (user && username) {
+      if (username === user.username) {
+        setProfileData(user);
+      } else {
+        userService.getProfileData(username).then((res) => {
+          console.log("inside ProfilePage", res);
+          setProfileData(res.data);
+        });
+      }
     }
-
     // if (profileName) {
     //   userService.getProfileData(profileName).then((res) => {
     //     setProfileData(res.data);
@@ -49,12 +51,12 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
     <Container maxWidth={false} disableGutters>
       <Container sx={styles.profileHeader} maxWidth={false} disableGutters>
         <Container>
-          <Header profileName={profileName} profileData={profileData} />
-          <ProfileNavBar profileName={profileName} />
+          <Header profileData={profileData} />
+          <ProfileNavBar profileName={username} />
         </Container>
       </Container>
       <Container sx={styles.profileContent}>
-        <Outlet context={[profileName, profileData]} />
+        <Outlet context={[username, profileData]} />
       </Container>
     </Container>
   );
