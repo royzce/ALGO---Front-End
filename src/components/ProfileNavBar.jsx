@@ -2,7 +2,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 
-const ProfileNavBar = ({ profileName }) => {
+const ProfileNavBar = ({ profileName, isCurrentUser }) => {
   const [value, setValue] = useState("Post");
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -14,6 +14,7 @@ const ProfileNavBar = ({ profileName }) => {
       borderTop: "1px solid silver",
     },
   };
+
   return (
     <Box sx={styles.box}>
       <Tabs value={value} onChange={handleChange}>
@@ -23,18 +24,22 @@ const ProfileNavBar = ({ profileName }) => {
           LinkComponent={Link}
           to={`/${profileName}`}
         />
-        <Tab
-          value="About"
-          label="About"
-          LinkComponent={Link}
-          to={`/${profileName}/about`}
-        />
-        <Tab
-          value="Friends"
-          label="Friends"
-          LinkComponent={Link}
-          to={`/${profileName}/friends`}
-        />
+        {isCurrentUser && (
+          <>
+            <Tab
+              value="About"
+              label="About"
+              LinkComponent={Link}
+              to={`/${profileName}/about`}
+            />
+            <Tab
+              value="Friends"
+              label="Friends"
+              LinkComponent={Link}
+              to={`/${profileName}/friends`}
+            />
+          </>
+        )}
       </Tabs>
     </Box>
   );

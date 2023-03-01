@@ -7,35 +7,21 @@ import { UserContext } from "../context/UserContext";
 import * as userService from "../services/user";
 
 const ProfilePage = ({ userProfile, friendProfile }) => {
-  // const [profileName, setProfileName] = useState(null);
-  const [profileData, setProfileData] = useState({});
-  // const profileName = profileData && profileData.username;
-  const { currentUser: user } = useContext(UserContext);
   const { username } = useParams();
+  const { currentUser } = useContext(UserContext);
+  const isCurrentUser = currentUser && username === currentUser.username;
+  const [profileData, setProfileData] = useState({});
+  const { currentUser: user } = useContext(UserContext);
+
   useEffect(() => {
-    // if (user && userProfile === true) {
-    //   setProfileName(user.username);
-    // } else {
-    //   setProfileName(friendProfile);
-    // }
-    console.log("username parameter", username);
-    console.log("currentUser in ProfilePage", user);
-    if (user && username) {
-      if (username === user.username) {
-        setProfileData(user);
-      } else {
-        userService.getProfileData(username).then((res) => {
-          console.log("inside ProfilePage", res);
-          setProfileData(res.data);
-        });
-      }
+    if (isCurrentUser) {
+      setProfileData(user);
+    } else {
+      userService.getProfileData(username).then((res) => {
+        setProfileData(res.data);
+      });
     }
-    // if (profileName) {
-    //   userService.getProfileData(profileName).then((res) => {
-    //     setProfileData(res.data);
-    //   });
-    // }
-  }, [user, username]);
+  }, [user, username, currentUser]);
 
   const styles = {
     profileHeader: {
@@ -52,7 +38,7 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
       <Container sx={styles.profileHeader} maxWidth={false} disableGutters>
         <Container>
           <Header profileData={profileData} />
-          <ProfileNavBar profileName={username} />
+          <ProfileNavBar profileName={username} isCurrentUser={isCurrentUser} />
         </Container>
       </Container>
       <Container sx={styles.profileContent}>
