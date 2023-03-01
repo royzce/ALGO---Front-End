@@ -1,5 +1,5 @@
 import RegisterPage from "./pages/RegisterPage";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import PostPage from "./pages/PostPage";
@@ -29,48 +29,45 @@ import GlobalCSS from "./components/GlobalCSS";
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
-  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
   const [userProfile] = useState(true);
-  useEffect(() => {
-    setLoggedIn(isLoggedIn);
-    console.log("isloggedIn", isLoggedIn);
-    console.log("loggedIn", loggedIn);
-  }, [isLoggedIn]);
+  useEffect(() => {}, [isLoggedIn]);
 
   return (
     <ThemeProvider theme={ColorTheme}>
       <GlobalCSS />
       <CssBaseline />
-      {loggedIn ? <Navbar /> : null}
+      {isLoggedIn ? <Navbar /> : null}
       <Routes>
         <Route
           path="/register"
-          element={loggedIn ? <Navigate to="/" /> : <RegisterPage />}
+          element={isLoggedIn ? <Navigate to="/" /> : <RegisterPage />}
         />
         <Route
           path="/login"
-          element={loggedIn ? <Navigate to="/" /> : <Login />}
+          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
         />
         <Route
           path="/forgot-password"
-          element={loggedIn ? <Navigate to="/" /> : <ForgotPasswordPage />}
+          element={isLoggedIn ? <Navigate to="/" /> : <ForgotPasswordPage />}
         />
         <Route
           path="/reset-password/:token"
-          element={loggedIn ? <Navigate to="/" /> : <ResetPasswordPage />}
+          element={isLoggedIn ? <Navigate to="/" /> : <ResetPasswordPage />}
         />
 
         <Route
           path="/change-password"
-          element={loggedIn ? <ChangePasswordPage /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn ? <ChangePasswordPage /> : <Navigate to="/login" />
+          }
         />
         <Route
           path={"/posts/:postId/:imgIndex"}
-          element={loggedIn ? <PostPage /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <PostPage /> : <Navigate to="/login" />}
         />
         <Route
           path={"/posts/:postId"}
-          element={loggedIn ? <PostPage /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <PostPage /> : <Navigate to="/login" />}
         />
 
         <Route
@@ -79,7 +76,7 @@ function App() {
         >
           <Route
             index
-            element={loggedIn ? <ProfileHome /> : <Navigate to="/login" />}
+            element={isLoggedIn ? <ProfileHome /> : <Navigate to="/login" />}
           />
 
           <Route element={<ProfileAbout />}>
@@ -97,7 +94,7 @@ function App() {
         <Route path="/not-found" element={<PageNotFound />} />
         <Route
           path="/search"
-          element={loggedIn ? <SearchPage /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <SearchPage /> : <Navigate to="/login" />}
         >
           <Route path="/search/all/:q" element={<SearchAll />} />
           <Route path="/search/people/:q" element={<SearchPeople />} />
@@ -106,7 +103,7 @@ function App() {
         </Route>
         <Route
           path="/"
-          element={loggedIn ? <HomePage /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>

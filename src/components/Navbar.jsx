@@ -36,10 +36,12 @@ import { compareByDate } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import { UserContext } from "../context/UserContext";
 import ColorTheme from "../components/ColorTheme";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const { setCurrentUser } = useContext(UserContext);
+  const { handleLoggedIn } = useContext(AuthContext);
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -89,6 +91,7 @@ export default function Navbar() {
     handleMdClose();
     localStorage.removeItem("accessToken");
     setCurrentUser(null);
+    handleLoggedIn(false);
     navigate("/login");
   };
 
