@@ -19,7 +19,6 @@ import {
   MenuItem,
   Menu,
   InputAdornment,
-  Paper,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -31,8 +30,6 @@ import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
 import NotificationPanel from "./NotificationPanel";
-import * as userSvc from "../services/user";
-import { compareByDate } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import { UserContext } from "../context/UserContext";
 import ColorTheme from "../components/ColorTheme";
@@ -92,7 +89,6 @@ export default function Navbar() {
     localStorage.removeItem("accessToken");
     setCurrentUser(null);
     handleLoggedIn(false);
-    navigate("/login");
   };
 
   function ProfileMenu() {

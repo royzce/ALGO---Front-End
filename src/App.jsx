@@ -22,7 +22,7 @@ import SearchPosts from "./components/SearchPosts";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
 import ColorTheme from "./components/ColorTheme";
 import GlobalCSS from "./components/GlobalCSS";
@@ -30,7 +30,6 @@ import GlobalCSS from "./components/GlobalCSS";
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
   const [userProfile] = useState(true);
-  useEffect(() => {}, [isLoggedIn]);
 
   return (
     <ThemeProvider theme={ColorTheme}>
