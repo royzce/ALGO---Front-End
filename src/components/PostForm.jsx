@@ -21,7 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useContext, useEffect, useState } from "react";
 import PostFormHeader from "./PostFormHeader";
 import * as userSvc from "../services/user";
-import { Stack } from "@mui/system";
+import { bgcolor, Stack } from "@mui/system";
 import * as firebase from "../services/firebase";
 import { UserContext } from "../context/UserContext";
 import { PostContext } from "../context/PostContext";
@@ -144,10 +144,33 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     },
     card: {
       width: "100%",
-      maxHeight: "435px",
+      maxHeight: "450px",
       borderRadius: "10px",
-      // padding: "10px",
-      // overflowY: "auto",
+    },
+    cardHeader: {
+      textAlign: "center",
+      borderBottom: "1px solid silver",
+    },
+    cardContent: {
+      padding: "0px 30px 0px 20px",
+      margin: "0px",
+    },
+    stackPostContent: {
+      maxHeight: "245px",
+      overflowY: "auto",
+      marginRight: "-20px",
+    },
+    paddingRight: {
+      paddingRight: "10px",
+    },
+    box: {
+      width: "100%",
+      marginBottom: "15px",
+    },
+    textField: {
+      "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+        borderRadius: "10px",
+      },
     },
   };
 
@@ -159,11 +182,6 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
             title={
               <Typography variant="h5" fontWeight="fontWeightBold">
                 {post ? "EDIT POST" : "NEW POST"}
-                {/* <Divider
-                  sx={{
-                    borderBottom: "1px solid black",
-                  }}
-                /> */}
               </Typography>
             }
             action={
@@ -171,18 +189,9 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                 <CloseIcon />
               </IconButton>
             }
-            sx={{
-              textAlign: "center",
-              borderBottom: "1px solid silver",
-              // , margin: "-10px auto"
-            }}
+            sx={styles.cardHeader}
           />
-          <CardContent
-            sx={{
-              padding: "0px 30px 0px 20px",
-              margin: "0px",
-            }}
-          >
+          <CardContent sx={styles.cardContent}>
             <PostFormHeader
               onSelect={handlePrivSel}
               privacy={form.privacy}
@@ -191,19 +200,10 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
               totalTags={form.tags.length}
               user={user}
             />
-            <Stack
-              spacing={2}
-              alignItems="center"
-              sx={{
-                maxHeight: "220px",
-                overflowY: "auto",
-                marginRight: "-20px",
-              }}
-            >
+            <Stack spacing={2} alignItems="center" sx={styles.stackPostContent}>
               {showTagSel && (
-                // <Grid item width="100%">
                 <Autocomplete
-                  sx={{ paddingRight: "10px" }}
+                  sx={styles.paddingRight}
                   multiple
                   options={friends}
                   onChange={(event, value) => handleTagSel(value)}
@@ -212,12 +212,15 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                   }
                   filterSelectedOptions
                   renderInput={(params) => (
-                    <TextField {...params} placeholder="Tag your friends" />
+                    <TextField
+                      {...params}
+                      placeholder="Tag your friends"
+                      sx={styles.textField}
+                    />
                   )}
                   size="small"
                   fullWidth
                 />
-                // </Grid>
               )}
               <TextField
                 multiline
@@ -225,17 +228,12 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                 rows={4}
                 placeholder={user && `Say something, ${user.firstName}.`}
                 onChange={handleTextChange}
-                sx={{ paddingRight: "10px" }}
+                sx={[styles.textField, styles.paddingRight]}
                 fullWidth
               />
               {addPhoto && (
                 <Container disableGutters>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      marginBottom: "15px",
-                    }}
-                  >
+                  <Box sx={styles.box}>
                     <Button variant="contained" component="label">
                       <input
                         hidden
