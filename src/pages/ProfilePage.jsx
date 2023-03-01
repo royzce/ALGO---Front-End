@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import { Container } from "@mui/material";
+import { Container, Skeleton, Stack } from "@mui/material";
 import ProfileNavBar from "../components/ProfileNavBar";
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -12,15 +12,16 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
   const { currentUser: user } = useContext(UserContext);
   useEffect(() => {
     if (user && userProfile === true) {
+      setProfileData(user);
       setProfileName(user.username);
     } else {
       setProfileName(friendProfile);
     }
-    if (profileName) {
-      userService.getProfileData(profileName).then((res) => {
-        setProfileData(res.data);
-      });
-    }
+    // if (profileName) {
+    //   userService.getProfileData(profileName).then((res) => {
+    //     setProfileData(res.data);
+    //   });
+    // }
   }, [profileName, user, userProfile, friendProfile]);
 
   const styles = {
@@ -37,7 +38,7 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
     <Container maxWidth={false} disableGutters>
       <Container sx={styles.profileHeader} maxWidth={false} disableGutters>
         <Container>
-          <Header profileName={profileName} />
+          <Header profileName={profileName} profileData={profileData} />
           <ProfileNavBar profileName={profileName} />
         </Container>
       </Container>

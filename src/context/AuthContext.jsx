@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 export const AuthContext = createContext({
-  isLoggedIn: false,
   handleLoggedIn: () => {},
+  isAuthenticated: () => {},
 });
 
 function isExpired(token) {
@@ -17,30 +17,46 @@ function isExpired(token) {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  function handleLoggedIn(value) {
-    setLoggedIn(value);
-  }
+  // function handleLoggedIn(value) {
+  //   setLoggedIn(value);
+  // }
 
   useEffect(() => {
     isAuthenticated();
-  }, [isLoggedIn]);
+  }, []);
 
+  // function isAuthenticated() {
+  //   const accessToken = localStorage.getItem("accessToken");
+  //   if (accessToken) {
+  //     if (!isExpired(accessToken)) {
+  //       console.log("is logged in");
+  //       setLoggedIn(true);
+  //     }
+  //   } else {
+  //     console.log("is logged out");
+  //     setLoggedIn(false);
+  //   }
+  // }
   function isAuthenticated() {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       if (!isExpired(accessToken)) {
         console.log("is logged in");
-        setLoggedIn(true);
+        // setLoggedIn(true);
+        return true;
       }
     } else {
       console.log("is logged out");
-      setLoggedIn(false);
+      // setLoggedIn(false);
+      return false;
     }
   }
   return (
-    <AuthContext.Provider value={{ isLoggedIn, handleLoggedIn: setLoggedIn }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: isAuthenticated,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

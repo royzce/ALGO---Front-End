@@ -21,7 +21,6 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
 import GlobalCSS from "../components/GlobalCSS";
-import { AuthContext } from "../context/AuthContext";
 import { PopupContext } from "../context/PopupContext";
 import { UserContext } from "../context/UserContext";
 import * as authService from "../services/auth";
@@ -30,7 +29,6 @@ import * as userService from "../services/user";
 export default function Login() {
   const { onShowFail } = useContext(PopupContext);
   const { setCurrentUser } = useContext(UserContext);
-  const { handleLoggedIn } = useContext(AuthContext);
 
   const styles = {
     myTextField: {
@@ -112,13 +110,13 @@ export default function Login() {
     setPasswordVisible(!passwordVisible);
   };
   const handleLogin = async () => {
+    console.log("form is", form);
     await authService
       .login(form.username, form.password, rememberMe ? true : false)
       .then(async (res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
         const result = await userService.getCurrentUser();
         console.log("result", result);
-        handleLoggedIn(true);
         setCurrentUser(result.data);
       })
       .catch((err) => {

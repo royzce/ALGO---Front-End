@@ -88,7 +88,6 @@ export default function Navbar() {
     handleMdClose();
     localStorage.removeItem("accessToken");
     setCurrentUser(null);
-    handleLoggedIn(false);
   };
 
   function ProfileMenu() {
@@ -354,6 +353,7 @@ export default function Navbar() {
 }
 
 function CustomOption({ option }) {
+  const navigate = useNavigate();
   return (
     <MenuItem
       style={{
@@ -361,7 +361,7 @@ function CustomOption({ option }) {
         alignItems: "center",
         height: "3.25rem",
       }}
-      onClick={() => console.log(option)}
+      onClick={() => navigate("/" + option.username)}
     >
       <Avatar src={option.avatar} />
       <div style={{ marginLeft: "12px", color: "black" }}>
@@ -443,7 +443,7 @@ function AutocompleteWithAvatar() {
       open={inputValue.length > 0 && showOptions}
       getOptionLabel={(option) => option.firstName + " " + option.lastName}
       renderOption={(props, option) => {
-        if (option.userId) {
+        if (option.username) {
           return <CustomOption {...props} option={option} />;
         } else {
           return <NoOption {...props} value={inputValue} />;

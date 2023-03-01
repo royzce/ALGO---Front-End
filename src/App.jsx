@@ -22,68 +22,91 @@ import SearchPosts from "./components/SearchPosts";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
 import ColorTheme from "./components/ColorTheme";
 import GlobalCSS from "./components/GlobalCSS";
 import DiscoverFriends from "./components/DiscoverFriends";
+import { UserContext } from "./context/UserContext";
 
 function App() {
-  const { isLoggedIn } = useContext(AuthContext);
-  const [userProfile] = useState(true);
-
+  const { isAuthenticated } = useContext(AuthContext);
+  const { currentUser } = useContext(UserContext);
+  const [userProfile, setUserProfile] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const isAuthorized = isAuthenticated();
+  useEffect(() => {
+    if (currentUser) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [currentUser]);
+  console.log("is auth", isAuthorized);
   return (
     <ThemeProvider theme={ColorTheme}>
       <GlobalCSS />
       <CssBaseline />
-      {isLoggedIn ? <Navbar /> : null}
+      {isAuthorized ? <Navbar /> : null}
       <Routes>
         <Route
           path="/register"
-          element={isLoggedIn ? <Navigate to="/" /> : <RegisterPage />}
+          element={isAuthorized ? <Navigate to="/" /> : <RegisterPage />}
         />
         <Route
           path="/login"
-          element={isLoggedIn ? <Navigate to="/" /> : <Login />}
+          element={isAuthorized ? <Navigate to="/" /> : <Login />}
         />
         <Route
           path="/forgot-password"
-          element={isLoggedIn ? <Navigate to="/" /> : <ForgotPasswordPage />}
+          element={isAuthorized ? <Navigate to="/" /> : <ForgotPasswordPage />}
         />
         <Route
           path="/reset-password/:token"
-          element={isLoggedIn ? <Navigate to="/" /> : <ResetPasswordPage />}
+          element={isAuthorized ? <Navigate to="/" /> : <ResetPasswordPage />}
         />
 
         <Route
           path="/change-password"
           element={
-            isLoggedIn ? <ChangePasswordPage /> : <Navigate to="/login" />
+            isAuthorized ? <ChangePasswordPage /> : <Navigate to="/login" />
           }
         />
         <Route
           path={"/posts/:postId/:imgIndex"}
-          element={isLoggedIn ? <PostPage /> : <Navigate to="/login" />}
+          element={isAuthorized ? <PostPage /> : <Navigate to="/login" />}
         />
         <Route
           path={"/posts/:postId"}
-          element={isLoggedIn ? <PostPage /> : <Navigate to="/login" />}
+          element={isAuthorized ? <PostPage /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/:username"
-          element={<ProfilePage userProfile={userProfile} />}
+          element={
+            isAuthorized ? (
+              <ProfilePage userProfile={userProfile} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         >
           <Route
             index
-            element={isLoggedIn ? <ProfileHome /> : <Navigate to="/login" />}
+            element={isAuthorized ? <ProfileHome /> : <Navigate to="/login" />}
           />
 
-          <Route element={<ProfileAbout />}>
+          <Route
+            element={isAuthorized ? <ProfileAbout /> : <Navigate to="/login" />}
+          >
             <Route path="/:username/about" element={<ProfileDetails />} />
             <Route path="/:username/interest" element={<ProfileInterest />} />
           </Route>
-          <Route element={<ManageFriends />}>
+          <Route
+            element={
+              isAuthorized ? <ManageFriends /> : <Navigate to="/login" />
+            }
+          >
             <Route path="/:username/friends" element={<FriendsList />} />
             <Route
               path="/:username/friend-request"
@@ -98,7 +121,7 @@ function App() {
         <Route path="/not-found" element={<PageNotFound />} />
         <Route
           path="/search"
-          element={isLoggedIn ? <SearchPage /> : <Navigate to="/login" />}
+          element={isAuthorized ? <SearchPage /> : <Navigate to="/login" />}
         >
           <Route path="/search/all/:q" element={<SearchAll />} />
           <Route path="/search/people/:q" element={<SearchPeople />} />
@@ -107,7 +130,7 @@ function App() {
         </Route>
         <Route
           path="/"
-          element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />}
+          element={isAuthorized ? <HomePage /> : <Navigate to="/login" />}
         />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
