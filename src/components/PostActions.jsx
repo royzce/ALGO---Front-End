@@ -39,11 +39,12 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
 
   const handleMouseLeave = () => {
     clearTimeout(timeout);
-    handlePopoverClose();
   };
 
   const handlePopoverClose = () => {
-    setAnchorEl(null);
+    setTimeout(() => {
+      setAnchorEl(null);
+    }, 400);
   };
 
   const handleReact = (value) => {

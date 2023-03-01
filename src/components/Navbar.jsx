@@ -404,7 +404,10 @@ function AutocompleteWithAvatar() {
     setInputValue(value.trim());
     timeoutId = setTimeout(() => {
       if (value.trim().length >= 3) {
-        searchService.getUsersBy(value).then((res) => setOptions(res.data));
+        searchService.getUsersBy(value).then((res) => {
+          console.log("options are", res.data);
+          setOptions(res.data);
+        });
       } else {
         setOptions([]);
       }
