@@ -65,7 +65,7 @@ export default function Navbar() {
   const handleGoToProfile = () => {
     handleMdClose();
     handleDrawerClose();
-    navigate(`/profile/${user.userId}`);
+    navigate(`/${user.username}`);
   };
 
   const { notifs } = useContext(NotifContext);

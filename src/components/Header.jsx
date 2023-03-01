@@ -9,7 +9,7 @@ import {
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 
-const Header = (profileId) => {
+const Header = ({ profileName }) => {
   const { currentUser: user } = useContext(UserContext);
 
   useEffect(() => {

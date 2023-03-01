@@ -1,10 +1,9 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 
-const ProfileNavBar = () => {
+const ProfileNavBar = ({ profileName }) => {
   const [value, setValue] = useState("Post");
-  let { id } = useParams();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -22,33 +21,22 @@ const ProfileNavBar = () => {
           value="Post"
           label="Post"
           LinkComponent={Link}
-          to={`/profile/${id}`}
+          to={`/${profileName}`}
         />
         <Tab
           value="About"
           label="About"
           LinkComponent={Link}
-          to={`/profile/${id}/about`}
+          to={`/${profileName}/about`}
         />
         <Tab
           value="Friends"
           label="Friends"
           LinkComponent={Link}
-          to={`/profile/${id}/friends`}
+          to={`/${profileName}/friends`}
         />
       </Tabs>
     </Box>
-    // <Stack direction="row" spacing={2}>
-    //   <Button size="large" LinkComponent={Link} to={"/profile"}>
-    //     Post
-    //   </Button>
-    //   <Button size="large" LinkComponent={Link} to={"/profile/about"}>
-    //     About
-    //   </Button>
-    //   <Button size="large" LinkComponent={Link} to={"/profile/friends"}>
-    //     Friends
-    //   </Button>
-    // </Stack>
   );
 };
 

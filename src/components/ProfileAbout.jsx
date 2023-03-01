@@ -4,11 +4,10 @@ import React, { useState } from "react";
 
 const About = () => {
   const [value, setValue] = useState("Details");
-  let { id } = useParams();
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  let { username } = useParams();
 
   return (
     <Grid container spacing={2}>
@@ -26,27 +25,15 @@ const About = () => {
               value="Details"
               label="Details"
               LinkComponent={Link}
-              to={`/profile/${id}/about`}
+              to={`/${username}/about`}
             />
             <Tab
               value="Interest"
               label="Interest"
               LinkComponent={Link}
-              to={`/profile/${id}/interest`}
+              to={`/${username}/interest`}
             />
           </Tabs>
-          {/* <List>
-            <ListItem>
-              <ListItemButton LinkComponent={Link} to={"/profile/about"}>
-                <ListItemText>Details</ListItemText>
-              </ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton LinkComponent={Link} to={"/profile/interest"}>
-                <ListItemText>Interest</ListItemText>
-              </ListItemButton>
-            </ListItem>
-          </List> */}
         </Card>
       </Grid>
       <Grid item xs={8}>

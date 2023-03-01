@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -52,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ManageFriends = () => {
   const [value, setValue] = useState("AllFriends");
-
+  let { username } = useParams();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -92,13 +92,13 @@ const ManageFriends = () => {
             value="AllFriends"
             label="All Friends"
             LinkComponent={Link}
-            to={"/profile/friends"}
+            to={`/${username}/friends`}
           />
           <Tab
             value="FriendRequest"
             label="Friend Request"
             LinkComponent={Link}
-            to={"/profile/friend-request"}
+            to={`/${username}/friend-request`}
           />
         </Tabs>
         <Outlet />
