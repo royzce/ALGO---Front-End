@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, IconButton } from "@mui/material";
+import { Button, CircularProgress, Grid, IconButton } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import React, { useEffect, useState } from "react";
@@ -10,11 +10,20 @@ import { Stack } from "@mui/system";
 export default function PostPage() {
   const { postId, imgIndex } = useParams();
   const [post, setPost] = useState(null);
+
+  const showPhotos = !!imgIndex;
+  console.log(showPhotos);
   const navigate = useNavigate();
 
   useEffect(() => {
-    postSvc.getPost(+postId).then((res) => setPost(res.data));
-  }, [postId]);
+    postSvc.getPost(+postId).then((res) => {
+      const p = res.data;
+      if (p && p.media && p.media.length > 0 && !imgIndex) {
+        navigate(`/posts/${postId}/0`);
+      }
+      setPost(p);
+    });
+  }, [postId, imgIndex]);
 
   function handleNext() {
     const max = post.media.length - 1;
@@ -39,35 +48,49 @@ export default function PostPage() {
   }
 
   return (
-    <Grid container justifyContent="center" alignItems="center">
-      <Grid item width="55%">
-        {post ? (
-          <Stack direction="row" alignItems="center" width="100%">
-            {post.media.length > 1 && (
-              <IconButton onClick={handlePrev}>
-                <ChevronLeftIcon />
-              </IconButton>
-            )}
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      spacing={2}
+      marginY={2}
+      width="100%"
+    >
+      {showPhotos && (
+        <Grid item width="70%">
+          {post ? (
+            <Stack direction="row" alignItems="center" width="100%" spacing={2}>
+              {post.media.length > 1 && (
+                <IconButton onClick={handlePrev}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              )}
 
-            <div>
-              <img
-                alt={`post-${post.id}-${imgIndex}`}
-                src={post.media[+imgIndex].mediaLink}
-                className="img-post-page"
-              />
-            </div>
-            {post.media.length > 1 && (
-              <IconButton onClick={handleNext}>
-                <ChevronRightIcon />
-              </IconButton>
-            )}
-          </Stack>
-        ) : (
-          <CircularProgress />
-        )}
-      </Grid>
-      <Grid item width="40%">
+              <div>
+                <img
+                  alt={`post-${post.id}-${imgIndex}`}
+                  src={post.media[+imgIndex].mediaLink}
+                  className="img-post-page"
+                />
+              </div>
+              {post.media.length > 1 && (
+                <IconButton onClick={handleNext}>
+                  <ChevronRightIcon />
+                </IconButton>
+              )}
+            </Stack>
+          ) : (
+            <CircularProgress />
+          )}
+        </Grid>
+      )}
+      <Grid item width="70%">
         <Post post={post} page={!!postId} />
+      </Grid>
+      <Grid item width="70%" textAlign="center">
+        <Button variant="contained" onClick={() => navigate("/")}>
+          Back to Home
+        </Button>
       </Grid>
     </Grid>
   );

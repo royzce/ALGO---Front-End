@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { PostContext } from "../context/PostContext";
 import { UserContext } from "../context/UserContext";
 import * as postSvc from "../services/post";
+import { compareByDateAsc } from "../services/util";
 import CommentSection from "./CommentSection";
 import EditPrivacy from "./EditPrivacy";
 import PostActions from "./PostActions";
@@ -11,31 +12,40 @@ import PostHeader from "./PostHeader";
 import PostMedia from "./PostMedia";
 import PostStats from "./PostStats";
 import RepostForm from "./RepostForm";
+import UserList from "./UserList";
 
 export default function Post({ post, page, shared }) {
-  const [editPrivacy, setEditPrivacy] = useState(false);
-
-  const [editing, setEditing] = useState(false);
-  const { onEditPost, onAddPost } = useContext(PostContext);
+  const [thisPost, setThisPost] = useState(null);
+  const { reactions, comment, shares, isRepost } = thisPost || {};
 
   const { currentUser: user } = useContext(UserContext);
 
-  const [showComments, setShowComments] = useState(false);
-
-  const [reactions, setReactions] = useState([]);
   const reaction =
     reactions && reactions.find((react) => react.userId === user.userId);
 
+  const [editPrivacy, setEditPrivacy] = useState(false);
+
+  const [editing, setEditing] = useState(false);
+  const editingRepost = editing && thisPost.isRepost;
+  const editingPost = editing && !thisPost.isRepost;
+
+  const { onEditPost, onEditPrivacy, onAddPost } = useContext(PostContext);
+
+  const [showComments, setShowComments] = useState(false);
+  const [showReactLi, setShowReactLi] = useState(false);
+  const [showShareLi, setShowShareLi] = useState(false);
+
   const [srcPost, setSrcPost] = useState(null);
+  // const isPostVisible = srcPost
   const [reposting, setReposting] = useState(false);
 
   useEffect(() => {
     if (post) {
-      setReactions(post.reactions);
-    }
+      setThisPost(post);
 
-    if (post && post.isRepost) {
-      postSvc.getPost(post.repostId).then((res) => setSrcPost(res.data));
+      if (post.isRepost) {
+        postSvc.getPost(post.repostId).then((res) => setSrcPost(res.data));
+      }
     }
   }, [post]);
 
@@ -43,11 +53,11 @@ export default function Post({ post, page, shared }) {
     setShowComments(!showComments);
   }
 
-  function handleEdit() {
+  function handleMenuEdit() {
     setEditing(true);
   }
 
-  function handleEditPriv() {
+  function handlePrivIcon() {
     setEditPrivacy(true);
   }
 
@@ -55,22 +65,33 @@ export default function Post({ post, page, shared }) {
     setEditPrivacy(false);
   }
 
-  function handleCloseEdit() {
+  function handleCloseEditForm() {
     setEditing(false);
   }
 
   function handleEditSubmit(submitBody) {
     if (!submitBody.media) {
-      submitBody.media = post.media.map((media) => media.mediaLink);
+      submitBody.media = thisPost.media.map((media) => media.mediaLink);
     }
-    const editedPost = { ...post, ...submitBody };
-    console.log("Inside handleSubmit in Post.jsx", editedPost);
+    const editedPost = { ...thisPost, ...submitBody };
+    console.log("Inside handleEditSubmit in Post.jsx", editedPost);
     onEditPost(editedPost);
   }
 
+  function handlePrivChange(submitBody) {
+    const editedPost = { ...thisPost, ...submitBody };
+    console.log("Inside handlePrivChange in Post.jsx", editedPost);
+    onEditPrivacy(editedPost);
+  }
+
   function handleRepostSubmit(submitBody) {
-    console.log("Inside handleSubmit in Post.jsx", submitBody);
-    onAddPost(submitBody);
+    console.log("Inside handleRepostSubmit in Post.jsx", submitBody);
+    if (editingRepost) {
+      const editedPost = { ...thisPost, ...submitBody };
+      onEditPost(editedPost);
+    } else {
+      onAddPost(submitBody);
+    }
   }
 
   const styles = {
@@ -85,34 +106,36 @@ export default function Post({ post, page, shared }) {
   };
 
   async function handleReact(value) {
+    let updatedReacts = [];
     if (value && reaction) {
       // edit reaction
-      const react = { postId: post.postId, value };
+      const react = { postId: thisPost.postId, value };
       const res = await postSvc.editReaction(react);
       console.log("inside handleReact ", res);
-      setReactions(
-        reactions.map((r) => {
-          return r.userId === user.userId ? { ...reaction, value } : r;
-        })
-      );
+
+      updatedReacts = reactions.map((r) => {
+        return r.userId === user.userId ? { ...reaction, value } : r;
+      });
     } else if (value && !reaction) {
       // add reaction
-      const react = { postId: post.postId, value, date: new Date() };
+      let react = { postId: thisPost.postId, value, date: new Date() };
       const res = await postSvc.addReaction(react);
       console.log("inside handleAddReact", res);
-      setReactions(reactions ? [...reactions, res.data] : [res.data]);
+      react = { ...res.data, user };
+      updatedReacts = reactions ? [...reactions, react] : [react];
     } else {
       // delete reaction
-      const res = await postSvc.deleteReaction(post.postId);
+      const res = await postSvc.deleteReaction(thisPost.postId);
       console.log("deleting reaction", res);
-      setReactions(
-        reactions.filter((react) => react.reactionId !== reaction.reactionId)
+
+      updatedReacts = reactions.filter(
+        (react) => react.reactionId !== reaction.reactionId
       );
     }
+    setThisPost({ ...thisPost, reactions: updatedReacts });
   }
 
   function handleShare() {
-    // TODO
     setReposting(true);
   }
 
@@ -120,27 +143,31 @@ export default function Post({ post, page, shared }) {
     setReposting(false);
   }
 
-  return post ? (
+  return thisPost ? (
     <>
       <Card sx={styles.card}>
         <CardContent sx={styles.cardContent}>
           <PostHeader
-            post={post}
-            onEdit={handleEdit}
-            onEditPrivacy={handleEditPriv}
+            post={thisPost}
+            onMenuEdit={handleMenuEdit}
+            onPrivIcon={handlePrivIcon}
             user={user}
             shared={shared}
           />
-          <Typography paragraph>{post.value}</Typography>
-          {!page && <PostMedia post={post} srcPost={srcPost} />}
+          <Typography paragraph>{thisPost.value}</Typography>
+          {(!page || (page && isRepost)) && (
+            <PostMedia post={thisPost} srcPost={srcPost} />
+          )}
           {!shared && (
             <>
               <PostStats
-                post={post}
+                post={thisPost}
                 reactions={reactions}
                 onToggleComments={handleToggleComments}
-                totalReacts={post.reactions && post.reactions.length}
-                totalComments={post.comment && post.comment.length}
+                totalComments={comment && comment.length}
+                totalShares={shares && shares.length}
+                setShowReactLi={setShowReactLi}
+                setShowShareLi={setShowShareLi}
                 user={user}
               />
               <hr style={{ marginBottom: "12px" }} />
@@ -149,12 +176,14 @@ export default function Post({ post, page, shared }) {
                 reaction={reaction}
                 onShare={handleShare}
                 user={user}
-                privacy={post && post.privacy}
+                post={thisPost}
               />
               <hr style={{ marginTop: "12px" }} />
               <CommentSection
+                comments={comment && comment.sort(compareByDateAsc)}
                 show={showComments}
-                post={post}
+                post={thisPost}
+                setPost={setThisPost}
                 user={user}
                 onShowComments={setShowComments}
               />
@@ -162,31 +191,61 @@ export default function Post({ post, page, shared }) {
           )}
         </CardContent>
       </Card>
-      {editing && (
+      {editingPost && (
         <PostForm
-          post={post}
-          open={editing}
-          onClose={handleCloseEdit}
-          withPhoto={post && post.media.length > 0}
+          post={thisPost}
+          open={editingPost}
+          onClose={handleCloseEditForm}
+          withPhoto={thisPost && thisPost.media.length > 0}
           onSubmit={handleEditSubmit}
         />
       )}
       {editPrivacy && (
         <EditPrivacy
+          post={thisPost}
           open={editPrivacy}
-          onSelect={handleEditSubmit}
+          onSelect={handlePrivChange}
           onClose={handleClosePriv}
-          privacy={post.privacy}
         />
       )}
       {reposting && (
         <RepostForm
           open={reposting}
           onClose={handleCloseRepost}
-          srcPost={post.isRepost ? srcPost : post}
-          post={post.isRepost ? post : null}
+          srcPost={thisPost.isRepost ? srcPost : thisPost}
           onSubmit={handleRepostSubmit}
         />
+      )}
+      {editingRepost && (
+        <RepostForm
+          open={editingRepost}
+          onClose={handleCloseEditForm}
+          srcPost={srcPost}
+          post={thisPost.isRepost ? thisPost : null}
+          onSubmit={handleRepostSubmit}
+        />
+      )}
+      {showReactLi && (
+        <UserList
+          open={showReactLi}
+          onClose={() => setShowReactLi(false)}
+          list={reactions}
+        >
+          <Typography variant="subtitle1" fontWeight="fontWeightBold">
+            People who reacted to your post
+          </Typography>
+        </UserList>
+      )}
+      {showShareLi && (
+        <UserList
+          open={showShareLi}
+          onClose={() => setShowShareLi(false)}
+          list={reactions}
+        >
+          <Typography variant="subtitle1" fontWeight="fontWeightBold">
+            People who shared your post
+          </Typography>
+        </UserList>
       )}
     </>
   ) : (

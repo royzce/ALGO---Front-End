@@ -27,6 +27,12 @@ export function editPost(editedPost) {
   return http.put(`/posts/${editedPost.postId}/edit`, editedPost);
 }
 
+export function editPrivacy(editedPost) {
+  return http.put(`/posts/${editedPost.postId}/editPrivacy`, {
+    privacy: editedPost.privacy,
+  });
+}
+
 export function deletePost(postId) {
   return http.delete(`/posts/${postId}`);
 }

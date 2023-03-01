@@ -5,8 +5,8 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Menu,
   MenuItem,
-  Select,
   Typography,
 } from "@mui/material";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
@@ -14,7 +14,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import GroupIcon from "@mui/icons-material/Group";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import React from "react";
+import React, { useState } from "react";
 import { Stack } from "@mui/system";
 
 export default function PostFormHeader({
@@ -26,6 +26,40 @@ export default function PostFormHeader({
   user,
   isRepost,
 }) {
+  const [privAnchorEl, setPrivAnchorEl] = useState(null);
+  const openPrivMenu = !!privAnchorEl;
+
+  function handlePrivMenu(event) {
+    setPrivAnchorEl(event.currentTarget);
+  }
+
+  function handlePrivMenuClose() {
+    setPrivAnchorEl(null);
+  }
+
+  function handlePrivSelect(value) {
+    onSelect(value);
+    handlePrivMenuClose();
+  }
+
+  function displayPrivacy() {
+    let icon = <></>;
+    switch (privacy) {
+      case "private":
+        icon = <LockIcon />;
+        break;
+      case "friends":
+        icon = <GroupIcon />;
+        break;
+      case "public":
+        icon = <PublicOutlinedIcon />;
+        break;
+      default:
+        break;
+    }
+    return icon;
+  }
+
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <ListItem>
@@ -60,18 +94,30 @@ export default function PostFormHeader({
             <GroupAddIcon />
           </IconButton>
         )}
+        <IconButton onClick={handlePrivMenu} size="small">
+          {displayPrivacy()}
+        </IconButton>
         <FormControl size="small">
-          <Select value={privacy} onChange={onSelect}>
-            <MenuItem value="public">
-              <PublicOutlinedIcon /> Public
+          <Menu
+            open={openPrivMenu}
+            anchorEl={privAnchorEl}
+            onClose={handlePrivMenuClose}
+          >
+            <MenuItem onClick={() => handlePrivSelect("public")}>
+              <PublicOutlinedIcon />
+              {` Public`}
             </MenuItem>
-            <MenuItem value="friends">
-              <GroupIcon /> Friends
+            <MenuItem onClick={() => handlePrivSelect("friends")}>
+              <GroupIcon />
+              {` Friends`}
             </MenuItem>
-            <MenuItem value="private">
-              <LockIcon /> Private
-            </MenuItem>
-          </Select>
+            {!isRepost && (
+              <MenuItem onClick={() => handlePrivSelect("private")}>
+                <LockIcon />
+                {` Private`}
+              </MenuItem>
+            )}
+          </Menu>
         </FormControl>
       </Stack>
     </Stack>

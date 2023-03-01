@@ -7,10 +7,12 @@ import { REACTIONS } from "../services/post";
 
 export default function PostStats({
   onToggleComments,
-  post,
   reactions,
   totalComments,
+  totalShares,
   user,
+  setShowReactLi,
+  setShowShareLi,
 }) {
   const styles = {
     avatarSize: {
@@ -31,24 +33,32 @@ export default function PostStats({
       alignItems="center"
       spacing={1}
       justifyContent="space-between"
+      paddingTop={2}
     >
       <Stack direction="row" alignItems="center" spacing={0.5}>
-        <AvatarGroup>
-          {reactions &&
-            REACTIONS.map((react) => {
-              const result = reactions.find((r) => r.value === react.text);
-              if (result) {
-                return (
-                  <Avatar
-                    sx={{ width: 20, height: 20 }}
-                    src={react.img}
-                    key={react.text}
-                  />
-                );
-              }
-              return "";
-            })}
-        </AvatarGroup>
+        {reactions && (
+          <Button
+            onClick={() => setShowReactLi(true)}
+            size="small"
+            sx={{ padding: 0, minWidth: "24px" }}
+          >
+            <AvatarGroup>
+              {REACTIONS.map((react) => {
+                const result = reactions.find((r) => r.value === react.text);
+                if (result) {
+                  return (
+                    <Avatar
+                      sx={{ width: 20, height: 20 }}
+                      src={react.img}
+                      key={react.text}
+                    />
+                  );
+                }
+                return "";
+              })}
+            </AvatarGroup>
+          </Button>
+        )}
         {reactions && (
           <Typography variant="body2">
             {reactions.length === 0
@@ -63,30 +73,37 @@ export default function PostStats({
           </Typography>
         )}
       </Stack>
-      <Stack direction="row">
-        <Stack
-          component={Button}
-          size="small"
-          direction="row"
-          alignItems="center"
-          spacing={1}
-          onClick={onToggleComments}
-        >
-          {totalComments > 0 && (
+      <Stack direction="row" spacing={1}>
+        {totalComments > 0 && (
+          <Stack
+            component={Button}
+            size="small"
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            onClick={onToggleComments}
+            sx={{ padding: 0, minWidth: "24px" }}
+          >
             <Typography variant="body2">{totalComments}</Typography>
-          )}
-          <ModeCommentOutlinedIcon sx={{ fontSize: 18 }} />
-        </Stack>
-        <Stack
-          component={Button}
-          size="small"
-          direction="row"
-          alignItems="center"
-          spacing={1}
-        >
-          <Typography variant="body2">4</Typography>
-          <ShareOutlinedIcon sx={styles.statsIconSize} />
-        </Stack>
+
+            <ModeCommentOutlinedIcon sx={{ fontSize: 18 }} />
+          </Stack>
+        )}
+        {totalShares > 0 && (
+          <Stack
+            component={Button}
+            sx={{ padding: 0, minWidth: "24px" }}
+            size="small"
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            onClick={() => setShowShareLi(true)}
+          >
+            <Typography variant="body2">{totalShares}</Typography>
+
+            <ShareOutlinedIcon sx={styles.statsIconSize} />
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );

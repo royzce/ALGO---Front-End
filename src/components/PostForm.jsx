@@ -53,9 +53,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     }
   }, [showTagSel, post]);
 
-  function handlePrivSel(event) {
-    const { value } = event.target;
-
+  function handlePrivSel(value) {
     if (value === "private") {
       setShowTagSel(false);
       setForm({ ...form, tags: [] });
@@ -230,7 +228,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
           </CardContent>
           <CardActions>
             <Button variant="contained" fullWidth onClick={handleSubmit}>
-              Post
+              {post ? "SAVE" : "POST"}
             </Button>
           </CardActions>
         </Card>

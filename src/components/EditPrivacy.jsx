@@ -6,11 +6,17 @@ import {
   Modal,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditPrivacyForm from "./EditPrivacyForm";
 
-export default function EditPrivacy({ open, privacy, onSelect, onClose }) {
-  const [choice, setChoice] = useState(privacy);
+export default function EditPrivacy({ open, post, onSelect, onClose }) {
+  const [choice, setChoice] = useState(null);
+
+  useEffect(() => {
+    if (post) {
+      setChoice(post.privacy);
+    }
+  }, [post]);
 
   function handleSelect(choice) {
     setChoice(choice);
@@ -38,7 +44,11 @@ export default function EditPrivacy({ open, privacy, onSelect, onClose }) {
           }
         />
         <CardContent sx={{ paddingY: 0 }}>
-          <EditPrivacyForm choice={choice} onSelect={handleSelect} />
+          <EditPrivacyForm
+            choice={choice}
+            onSelect={handleSelect}
+            isRepost={post && post.isRepost}
+          />
         </CardContent>
       </Card>
     </Modal>

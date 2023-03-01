@@ -18,6 +18,7 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import ModeCommentIcon from "@mui/icons-material/ModeComment";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { blue, green, red } from "@mui/material/colors";
 import React, { useContext, useState } from "react";
@@ -81,11 +82,15 @@ export default function NotificationPanel({ notifs, onClose }) {
             alignItems="center"
           >
             <Typography variant="subtitle1">Notifications</Typography>
-
-            <Tabs value={tabIndex} onChange={handleTabChange}>
-              <Tab label="All" value={0} />
-              <Tab label="Unread" value={1} />
-
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Tabs value={tabIndex} onChange={handleTabChange}>
+                <Tab label="All" value={0} />
+                <Tab label="Unread" value={1} />
+              </Tabs>
               <IconButton size="small" onClick={handleMoreVert}>
                 <MoreVertIcon />
               </IconButton>
@@ -94,7 +99,7 @@ export default function NotificationPanel({ notifs, onClose }) {
                   Mark all as read
                 </MenuItem>
               </Menu>
-            </Tabs>
+            </Stack>
           </Stack>
         }
       >
@@ -114,17 +119,20 @@ export default function NotificationPanel({ notifs, onClose }) {
 
 function NotifList({ notifs, onClick }) {
   function displayNotifText(notif) {
-    const { user, type, count } = notif;
+    const { from, type, count } = notif;
     let end = "";
     switch (type) {
-      case "react":
+      case "reaction":
         end = "reacted to your post";
         break;
-      case "comment":
+      case "comments":
         end = "commented on your post";
         break;
       case "tag":
         end = "tagged you in a post";
+        break;
+      case "share":
+        end = "shared your post";
         break;
       case "frequest":
         end = "sent you a friend request";
@@ -133,7 +141,7 @@ function NotifList({ notifs, onClick }) {
         break;
     }
 
-    return `${user.firstName} ${user.lastName} ${
+    return `${from.firstName} ${from.lastName} ${
       count < 2
         ? ""
         : `and ${count - 1} ${count - 1 === 1 ? `other` : `others`}`
@@ -149,17 +157,21 @@ function NotifList({ notifs, onClick }) {
     let icon = <></>;
     let color = null;
     switch (type) {
-      case "react":
+      case "reaction":
         icon = <LocalFireDepartmentIcon sx={{ fontSize: "14px" }} />;
         color = red[500];
         break;
-      case "comment":
+      case "comments":
         icon = <ModeCommentIcon sx={{ fontSize: "14px" }} />;
         color = green[500];
         break;
       case "tag":
         icon = <GroupAddIcon sx={{ fontSize: "14px" }} />;
         color = blue[500];
+        break;
+      case "share":
+        icon = <ShareIcon sx={{ fontSize: "14px" }} />;
+        color = green[500];
         break;
       case "frequest":
         icon = <PersonAddIcon sx={{ fontSize: "14px" }} />;
@@ -190,7 +202,7 @@ function NotifList({ notifs, onClick }) {
               </Avatar>
             }
           >
-            <Avatar alt="avatar" src={notif.user.avatar} />
+            <Avatar alt="avatar" src={notif.from.avatar} />
           </Badge>
         </ListItemAvatar>
         <ListItemText

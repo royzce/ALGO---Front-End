@@ -31,6 +31,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
+        <Route path={"/posts/:postId"} element={<PostPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
