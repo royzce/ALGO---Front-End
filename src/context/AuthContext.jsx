@@ -1,28 +1,39 @@
 import { createContext, useEffect, useState } from "react";
-
+import jwtDecode from "jwt-decode";
 export const AuthContext = createContext({
-  accessToken: null,
   isLoggedIn: false,
 });
 
+function isExpired(token) {
+  const decoded = jwtDecode(token);
+  const expirationTime = decoded.exp;
+  const currentTime = Date.now() / 1000;
+  if (expirationTime < currentTime) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export const AuthProvider = ({ children }) => {
-  const [accessToken, setAccessToken] = useState(null);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
 
   useEffect(() => {
-    setAccessToken(localStorage.getItem("accessToken"));
-    setLoggedIn(true);
-    // console.log("accessToken is ", accessToken);
-    if (!accessToken) {
-      // Perform logout logic
-      //....
-      setAccessToken(null);
+    console.log("auth context");
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      if (!isExpired(accessToken)) {
+        setLoggedIn(true);
+        console.log("is logged in", isLoggedIn);
+      }
+    } else {
+      console.log("is not logged in", isLoggedIn);
       setLoggedIn(false);
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ accessToken, isLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

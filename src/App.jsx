@@ -24,21 +24,48 @@ import SearchPosts from "./components/SearchPosts";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
+  const { isLoggedIn } = useContext(AuthContext);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
+  useEffect(() => {}, [loggedIn]);
   return (
     <>
       <CssBaseline />
-      <Navbar />
+      {loggedIn ? <Navbar /> : null}
       <Routes>
-        <Route path={"/posts/:postId/:imgIndex"} element={<PostPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/change-password" element={<ChangePasswordPage />} />
-        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-        <Route path="/profile" element={<ProfilePage />}>
-          <Route path="/profile" element={<ProfileHome />} />
+        <Route
+          path="/register"
+          element={loggedIn ? <Navigate to="/" /> : <RegisterPage />}
+        />
+        <Route
+          path="/login"
+          element={loggedIn ? <Navigate to="/" /> : <Login />}
+        />
+        <Route
+          path="/forgot-password"
+          element={loggedIn ? <Navigate to="/" /> : <ForgotPasswordPage />}
+        />
+        <Route
+          path="/reset-password/:token"
+          element={loggedIn ? <Navigate to="/" /> : <ResetPasswordPage />}
+        />
+
+        <Route
+          path="/change-password"
+          element={loggedIn ? <ChangePasswordPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path={"/posts/:postId/:imgIndex"}
+          element={loggedIn ? <PostPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/profile"
+          element={loggedIn ? <ProfilePage /> : <Navigate to="/login" />}
+        >
+          <Route index element={<ProfileHome />} />
           <Route element={<ProfileAbout />}>
             <Route path="/profile/about" element={<ProfileDetails />} />
             <Route path="/profile/interest" element={<ProfileInterest />} />
@@ -52,14 +79,19 @@ function App() {
           </Route>
         </Route>
         <Route path="/not-found" element={<PageNotFound />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/search" element={<SearchPage />}>
+        <Route
+          path="/search"
+          element={loggedIn ? <SearchPage /> : <Navigate to="/login" />}
+        >
           <Route path="/search/all/:q" element={<SearchAll />} />
           <Route path="/search/people/:q" element={<SearchPeople />} />
           <Route path="/search/posts/:q" element={<SearchPosts />} />
           <Route path="/search/*" element={<Navigate to="/not-found" />} />
         </Route>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={loggedIn ? <HomePage /> : <Navigate to="/login" />}
+        />
         <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
     </>
