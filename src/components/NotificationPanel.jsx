@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { getElapsedTime } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
+import ColorTheme from "../components/ColorTheme";
 
 export default function NotificationPanel({ notifs, onClose }) {
   //TODO: connect to Notifications API
@@ -187,19 +188,19 @@ function NotifList({ notifs, onClick }) {
     let color = null;
     switch (type) {
       case "reaction":
-        color = "error";
+        color = ColorTheme.palette.error.main;
         break;
       case "comments":
-        color = "success";
+        color = ColorTheme.palette.success.main;
         break;
       case "tag":
-        color = "primary";
+        color = ColorTheme.palette.primary.main;
         break;
       case "share":
-        color = "success";
+        color = ColorTheme.palette.success.main;
         break;
       case "requestFriend":
-        color = "primary";
+        color = ColorTheme.palette.primary.main;
         break;
       default:
         break;
@@ -218,8 +219,14 @@ function NotifList({ notifs, onClick }) {
           <Badge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent={displayBadge(notif.type)}
-            color={badgeColor(notif.type)}
+            badgeContent={
+              <Avatar
+                sx={{ bgcolor: badgeColor(notif.type), width: 20, height: 20 }}
+              >
+                {displayBadge(notif.type)}
+              </Avatar>
+            }
+            // color={badgeColor(notif.type)}
           >
             <Avatar alt="avatar" src={notif.from.avatar} />
           </Badge>
