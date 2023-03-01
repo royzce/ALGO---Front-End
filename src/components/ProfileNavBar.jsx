@@ -24,21 +24,22 @@ const ProfileNavBar = ({ profileName, isCurrentUser }) => {
           LinkComponent={Link}
           to={`/${profileName}`}
         />
+
         {isCurrentUser && (
-          <>
-            <Tab
-              value="About"
-              label="About"
-              LinkComponent={Link}
-              to={`/${profileName}/about`}
-            />
-            <Tab
-              value="Friends"
-              label="Friends"
-              LinkComponent={Link}
-              to={`/${profileName}/friends`}
-            />
-          </>
+          <Tab
+            value="About"
+            label="About"
+            LinkComponent={Link}
+            to={`/${profileName}/about`}
+          />
+        )}
+        {isCurrentUser && (
+          <Tab
+            value="Friends"
+            label="Friends"
+            LinkComponent={Link}
+            to={`/${profileName}/friends`}
+          />
         )}
       </Tabs>
     </Box>

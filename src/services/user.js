@@ -60,3 +60,7 @@ export function getUsers() {
 export function getUsersBy(name) {
   return http.get(`/profiles/search?q=${name}`);
 }
+
+export function getNonFriend() {
+  return http.get(`/profiles/discover`);
+}

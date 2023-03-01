@@ -128,7 +128,8 @@ export default function Navbar() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleGoToProfile}>
-          <Avatar /> My Profile
+          <Avatar src={user && user.avatar} alt={user && user.username} /> My
+          Profile
         </MenuItem>
         <MenuItem onClick={handleMdClose}>
           <ListItemIcon>
@@ -244,7 +245,7 @@ export default function Navbar() {
                   display: { xs: "none", md: "inline-flex" },
                 }}
               >
-                <Avatar alt="U" src="/static/images/avatar/2.jpg" />
+                <Avatar src={user && user.avatar} alt={user && user.username} />
               </IconButton>
               <ProfileMenu />
             </Toolbar>

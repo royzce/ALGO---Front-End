@@ -10,33 +10,6 @@ import {
 import React, { useEffect, useState } from "react";
 import * as userService from "../services/user";
 
-const friendRequest = [
-  {
-    name: "John Smith",
-    img: "https://i.pinimg.com/originals/a7/d2/e6/a7d2e62776ce45b76a88ae2eeaf44803.jpg",
-  },
-  {
-    name: "Destinee Owens",
-    img: "https://i.pinimg.com/474x/cb/33/d8/cb33d80fe655e221ae05f41c8edd0cdb.jpg",
-  },
-  {
-    name: "Ricky Dougherty",
-    img: "https://i.pinimg.com/474x/ee/e6/51/eee651694ba2b3112ffb3eb4525547e9--denzel-washington-cinema.jpg",
-  },
-  {
-    name: "Terrance Andrade",
-    img: "https://i.pinimg.com/originals/9d/13/b0/9d13b0ef9e1a3bce90c3946842a8592f.jpg",
-  },
-  {
-    name: "Alfredo Kane",
-    img: "https://i.pinimg.com/736x/65/8e/4e/658e4eef6027fe5cfbd580b21d10fc1e--male-portraits-photography-portraits.jpg",
-  },
-  {
-    name: "Issac Hansen",
-    img: "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-  },
-];
-
 const FriendRequestList = () => {
   const [friendRequest, setFriendRequest] = useState([]);
 
@@ -52,9 +25,12 @@ const FriendRequestList = () => {
       .acceptRequest(friendId)
       .then((res) => {
         alert(res.data);
+        setFriendRequest(
+          friendRequest.filter((req) => req.userId !== friendId)
+        );
       })
       .catch((err) => {
-        console.log("Error");
+        console.log("Error", err);
       });
   };
 
@@ -63,6 +39,9 @@ const FriendRequestList = () => {
       .rejectRequest(friendId)
       .then((res) => {
         alert("Deleted friend request");
+        setFriendRequest(
+          friendRequest.filter((req) => req.userId !== friendId)
+        );
       })
       .catch((err) => {
         console.log("Error");

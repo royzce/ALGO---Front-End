@@ -23,6 +23,7 @@ const FriendsList = () => {
       .removeFriend(friendId)
       .then((res) => {
         alert("Unfriended");
+        setFriends(friends.filter((friend) => friend.userId !== friendId));
       })
       .catch((err) => {
         console.log("Error");
