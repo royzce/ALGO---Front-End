@@ -1,14 +1,20 @@
 import { Container, Grid, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProfileBio from "./ProfileBio";
 import FeaturedPhotos from "./FeaturedPhotos";
 import FeaturedFriends from "./FeaturedFriends";
 import AddPost from "../components/AddPost";
 import PostsList from "../components/PostsList";
 import { PostContext } from "../context/PostContext";
+import { UserContext } from "../context/UserContext";
 
 const ProfileHome = () => {
   const { allPosts } = useContext(PostContext);
+  const { currentUser } = useContext(UserContext);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    setPosts(allPosts.filter((post) => post.userId === currentUser.userId));
+  }, [allPosts]);
   return (
     <Grid container spacing={2}>
       <Grid item sm={12} md={4}>
@@ -17,7 +23,7 @@ const ProfileHome = () => {
             <ProfileBio />
           </Grid>
           <Grid item>
-            <FeaturedPhotos />
+            <FeaturedPhotos posts={posts} />
           </Grid>
           <Grid item>
             <FeaturedFriends />
@@ -34,7 +40,7 @@ const ProfileHome = () => {
           >
             Posts
           </Typography>
-          <PostsList posts={allPosts} />
+          <PostsList posts={posts} />
         </Container>
       </Grid>
     </Grid>

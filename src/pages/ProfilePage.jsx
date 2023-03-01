@@ -13,12 +13,12 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
   const { allPosts } = useContext(PostContext);
 
   useEffect(() => {
-    if (userProfile === true) {
+    if (user && userProfile === true) {
       setProfileId(user.userId);
     } else {
       setProfileId(friendProfile);
     }
-  }, [profileId, user.userId, userProfile, friendProfile]);
+  }, [profileId, user, userProfile, friendProfile]);
 
   const styles = {
     profileHeader: {
@@ -39,7 +39,8 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
         </Container>
       </Container>
       <Container sx={styles.profileContent}>
-        <Outlet context={[profileId, allPosts]} />
+        {/* <Outlet context={[profileId, allPosts]} /> */}
+        <Outlet />
       </Container>
     </Container>
   );

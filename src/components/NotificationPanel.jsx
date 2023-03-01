@@ -47,7 +47,7 @@ export default function NotificationPanel({ notifs, onClose }) {
   function handleNotifClick(notif) {
     onClose();
     const { notifId, type, typeId } = notif;
-    if (type === "frequest") {
+    if (type === "requestFriend") {
       console.log("TODO: navigate to friend-request");
       //   navigate(`/${currentUser.username}/friend-request`);
     } else {
@@ -72,54 +72,52 @@ export default function NotificationPanel({ notifs, onClose }) {
   }
 
   return (
-    <Box sx={{ padding: "8px 16px" }}>
-      <List
-        dense={true}
-        subheader={
+    <List
+      dense={true}
+      subheader={
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography
+            variant="h6"
+            fontWeight="fontWeightBold"
+            marginLeft="20px"
+          >
+            Notifications
+          </Typography>
           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography
-              variant="h6"
-              fontWeight="fontWeightBold"
-              marginLeft="20px"
-            >
-              Notifications
-            </Typography>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Tabs value={tabIndex} onChange={handleTabChange}>
-                <Tab label="All" value={0} />
-                <Tab label="Unread" value={1} />
-              </Tabs>
-              <IconButton size="small" onClick={handleMoreVert}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
-                <MenuItem onClick={handleMarkAllAsRead}>
-                  Mark all as read
-                </MenuItem>
-              </Menu>
-            </Stack>
+            <Tabs value={tabIndex} onChange={handleTabChange}>
+              <Tab label="All" value={0} />
+              <Tab label="Unread" value={1} />
+            </Tabs>
+            <IconButton size="small" onClick={handleMoreVert}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
+              <MenuItem onClick={handleMarkAllAsRead}>
+                Mark all as read
+              </MenuItem>
+            </Menu>
           </Stack>
-        }
-      >
-        {tabIndex === 0 && (
-          <NotifList notifs={notifs} onClick={handleNotifClick} />
-        )}
-        {tabIndex === 1 && (
-          <NotifList
-            notifs={notifs && notifs.filter((notif) => !notif.isRead)}
-            onClick={handleNotifClick}
-          />
-        )}
-      </List>
-    </Box>
+        </Stack>
+      }
+    >
+      {tabIndex === 0 && (
+        <NotifList notifs={notifs} onClick={handleNotifClick} />
+      )}
+      {tabIndex === 1 && (
+        <NotifList
+          notifs={notifs && notifs.filter((notif) => !notif.isRead)}
+          onClick={handleNotifClick}
+        />
+      )}
+    </List>
   );
 }
 
@@ -140,7 +138,7 @@ function NotifList({ notifs, onClick }) {
       case "share":
         end = "shared your post";
         break;
-      case "frequest":
+      case "requestFriend":
         end = "sent you a friend request";
         break;
       default:
@@ -190,7 +188,7 @@ function NotifList({ notifs, onClick }) {
       case "share":
         icon = <ShareIcon sx={{ fontSize: "12px" }} />;
         break;
-      case "frequest":
+      case "requestFriend":
         icon = <PersonAddIcon sx={{ fontSize: "12px" }} />;
         break;
       default:
@@ -213,7 +211,7 @@ function NotifList({ notifs, onClick }) {
       case "share":
         color = "success";
         break;
-      case "frequest":
+      case "requestFriend":
         color = "primary";
         break;
       default:
@@ -225,7 +223,7 @@ function NotifList({ notifs, onClick }) {
   return notifs && notifs.length > 0 ? (
     notifs.map((notif) => (
       <ListItemButton
-        key={`notif-${notif.type}-${notif.typeId}-${notif.userId}`}
+        key={notif.notifId}
         onClick={() => onClick(notif)}
         selected={!notif.isRead}
       >

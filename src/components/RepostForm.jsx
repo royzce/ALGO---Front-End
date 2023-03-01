@@ -22,12 +22,13 @@ import { PostContext } from "../context/PostContext";
 import * as userSvc from "../services/user";
 
 export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
+  console.log("scr post", srcPost);
   const [form, setForm] = useState({
-    value: post ? post.value : "",
-    tags: post ? post.tags : [],
-    privacy: post ? post.privacy : "friends",
+    value: "",
+    tags: [],
+    privacy: "friends",
     isRepost: true,
-    repostId: post ? post.repostId : srcPost ? srcPost.postId : 0,
+    repostId: 0,
   });
 
   const [showTagSel, setShowTagSel] = useState(false);
@@ -36,10 +37,17 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
   const { onPosting } = useContext(PostContext);
 
   useEffect(() => {
+    if (srcPost) {
+      setForm({
+        ...form,
+        repostId: srcPost.postId,
+      });
+    }
+
     if (showTagSel) {
       userSvc.getFriends().then((res) => setFriends(res.data));
     }
-  }, [showTagSel]);
+  }, [showTagSel, srcPost, post]);
 
   function handlePrivSel(value) {
     if (value === "private") {

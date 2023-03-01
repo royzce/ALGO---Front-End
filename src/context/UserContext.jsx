@@ -10,16 +10,18 @@ export const UserContext = createContext({
 
 export default function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const isLoggedIn = !!currentUser;
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
+    console.log("user", currentUser);
     if (localStorage.getItem("accessToken")) {
       userSvc.getCurrentUser().then((res) => setCurrentUser(res.data));
       userSvc.getUsers().then((res) => {
         setAllUsers(res.data);
       });
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser, allUsers }}>

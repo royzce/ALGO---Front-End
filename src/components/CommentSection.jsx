@@ -28,8 +28,9 @@ export default function CommentSection({
     };
     const res = await postSvc.addComment(newComment);
     console.log("inside handleAddComment", res);
-
+    console.log("comments", comments);
     const updatedComm = [...comments, res.data].sort(compareByDateAsc);
+
     setPost({ ...post, comment: updatedComm });
   }
 

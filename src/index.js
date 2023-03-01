@@ -18,23 +18,23 @@ import { NotifProvider } from "./context/NotifContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  // <React.StrictMode>
-  <BrowserRouter>
-    <AuthProvider>
-      <PopupProvider>
-        <RegisterProvider>
-          <UserProvider>
-            <PostProvider>
-              <NotifProvider>
-                <App />
-              </NotifProvider>
-            </PostProvider>
-          </UserProvider>
-        </RegisterProvider>
-      </PopupProvider>
-    </AuthProvider>
-  </BrowserRouter>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <PopupProvider>
+          <RegisterProvider>
+            <UserProvider>
+              <PostProvider>
+                <NotifProvider>
+                  <App />
+                </NotifProvider>
+              </PostProvider>
+            </UserProvider>
+          </RegisterProvider>
+        </PopupProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -7,41 +7,21 @@ import {
   ImageListItem,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import * as postsService from "../services/post";
 
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
-  },
-];
-
-const FeaturedPhotos = () => {
-  const [profileId, allPosts] = useOutletContext();
+const FeaturedPhotos = ({ posts }) => {
+  const [photos, setPhotos] = useState([]);
+  console.log("post inside featrue", posts);
   const styles = {
     borderRadius: {
       borderRadius: "10px",
     },
   };
-
   useEffect(() => {
-    // console.log(allPosts);
-    //TODO: filter out all user post
-  });
-
+    postsService.getAllPhotos().then((res) => setPhotos(res.data));
+  }, [posts]);
   return (
     <Card sx={styles.borderRadius}>
       <CardHeader
@@ -53,12 +33,13 @@ const FeaturedPhotos = () => {
         action={<Button underline="hover">See all photos</Button>}
       />
       <CardMedia sx={{ padding: "0 15px" }}>
-        <ImageList cols={3} sx={styles.borderRadius}>
-          {allPosts.map((media, index) => (
-            <ImageListItem key={index}>
-              <img src={media.mediaLink} alt={`post-${index}`} />
-            </ImageListItem>
-          ))}
+        <ImageList cols={3} rows={2} sx={styles.borderRadius}>
+          {photos &&
+            photos.map((media, index) => (
+              <ImageListItem key={index}>
+                <img src={media.mediaLink} alt={`post-${index}`} />
+              </ImageListItem>
+            ))}
         </ImageList>
       </CardMedia>
     </Card>

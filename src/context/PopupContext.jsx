@@ -19,7 +19,7 @@ export const PopupProvider = ({ children }) => {
     setOpenSnackbar(true);
     setTimeout(() => {
       handleCloseSnackbar();
-    }, 1000);
+    }, 3000);
   };
 
   const handleFailMessage = (message) => {

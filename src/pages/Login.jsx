@@ -30,7 +30,7 @@ import * as userService from "../services/user";
 
 export default function Login() {
   const { onShowFail } = useContext(PopupContext);
-  const { setCurrentUser } = useContext(UserContext);
+  const { setCurrentUser, currentUser } = useContext(UserContext);
 
   const styles = {
     myTextField: {
@@ -117,8 +117,9 @@ export default function Login() {
       .then(async (res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
         const result = await userService.getCurrentUser();
+        console.log("result", result);
         setCurrentUser(result.data);
-        navigate("/");
+        // navigate("/");
       })
       .catch((err) => {
         onShowFail(err.response.data.message);
