@@ -92,7 +92,7 @@ export default function NotificationPanel({ notifs, onClose }) {
         </Stack>
       </Stack>
       <List
-        sx={{ maxHeight: "300px", maxWidth: "450px", overflowY: "auto" }}
+        sx={{ maxHeight: "300px", width: "450px", overflowY: "auto" }}
         dense={true}
       >
         {tabIndex === 0 && (
@@ -243,6 +243,8 @@ function NotifList({ notifs, onClick }) {
       </ListItemButton>
     ))
   ) : (
-    <Typography variant="subtitle2">No new notifications</Typography>
+    <Typography variant="subtitle2" sx={{ padding: "20px", width: "450px" }}>
+      No new notifications
+    </Typography>
   );
 }
