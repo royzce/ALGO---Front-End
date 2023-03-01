@@ -31,7 +31,11 @@ function App() {
   const { isLoggedIn } = useContext(AuthContext);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn);
   const [userProfile] = useState(true);
-  useEffect(() => {}, [loggedIn]);
+  useEffect(() => {
+    setLoggedIn(isLoggedIn);
+    console.log("isloggedIn", isLoggedIn);
+    console.log("loggedIn", loggedIn);
+  }, [isLoggedIn]);
 
   return (
     <ThemeProvider theme={ColorTheme}>
@@ -79,7 +83,7 @@ function App() {
           />
 
           <Route element={<ProfileAbout />}>
-            <Route path="/profile/:id/about" element={<ProfileDetails />} />
+            <Route path="/:id/about" element={<ProfileDetails />} />
             <Route path="/profile/:id/interest" element={<ProfileInterest />} />
           </Route>
           <Route element={<ManageFriends />}>
