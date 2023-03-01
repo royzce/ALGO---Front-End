@@ -6,16 +6,24 @@ import FeaturedFriends from "./FeaturedFriends";
 import AddPost from "../components/AddPost";
 import PostsList from "../components/PostsList";
 import { PostContext } from "../context/PostContext";
-import { useOutletContext } from "react-router";
+import { useOutletContext, useParams } from "react-router";
+import { UserContext } from "../context/UserContext";
+import * as postSvc from "../services/post";
 
 const ProfileHome = () => {
+  const { username } = useParams();
   const [profileName, profileData] = useOutletContext();
+  // const { currentUser } = useContext(UserContext);
   const { allPosts } = useContext(PostContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    setPosts(allPosts.filter((post) => post.userId === profileData.userId));
-  }, [allPosts, profileName, profileData]);
+    if (username && username === profileData.username) {
+      setPosts(allPosts.filter((post) => post.userId === profileData.userId));
+    } else {
+      postSvc.getUserPosts(username).then((res) => setPosts(res.data));
+    }
+  }, [allPosts, profileName, profileData, username]);
 
   return (
     <Grid container spacing={2}>

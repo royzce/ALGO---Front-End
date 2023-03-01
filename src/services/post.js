@@ -68,6 +68,11 @@ export function deleteComment(postId, commentId) {
 export function getAllPhotos() {
   return http.get("/profiles/photos");
 }
+
+export function getUserPosts(username) {
+  return http.get(`/profiles/${username}/post`);
+}
+
 export const REACTIONS = [
   { text: "fire", img: fireimg, gif: fire },
   { text: "broken", img: brokenimg, gif: broken },

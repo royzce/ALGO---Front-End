@@ -118,7 +118,7 @@ export default function Login() {
         localStorage.setItem("accessToken", res.data.accessToken);
         const result = await userService.getCurrentUser();
         console.log("result", result);
-        handleLoggedIn(true);
+        // handleLoggedIn(true);
         setCurrentUser(result.data);
       })
       .catch((err) => {
