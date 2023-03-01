@@ -74,7 +74,7 @@ function App() {
         />
 
         <Route
-          path="/profile/:id"
+          path="/:username"
           element={<ProfilePage userProfile={userProfile} />}
         >
           <Route
@@ -83,13 +83,13 @@ function App() {
           />
 
           <Route element={<ProfileAbout />}>
-            <Route path="/:id/about" element={<ProfileDetails />} />
-            <Route path="/profile/:id/interest" element={<ProfileInterest />} />
+            <Route path="/:username/about" element={<ProfileDetails />} />
+            <Route path="/:username/interest" element={<ProfileInterest />} />
           </Route>
           <Route element={<ManageFriends />}>
-            <Route path="/profile/:id/friends" element={<FriendsList />} />
+            <Route path="/:username/friends" element={<FriendsList />} />
             <Route
-              path="/profile/:id/friend-request"
+              path="/:username/friend-request"
               element={<FriendRequestList />}
             />
           </Route>
