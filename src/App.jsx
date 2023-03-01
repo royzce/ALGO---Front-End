@@ -28,6 +28,7 @@ import ColorTheme from "./components/ColorTheme";
 import GlobalCSS from "./components/GlobalCSS";
 import DiscoverFriends from "./components/DiscoverFriends";
 import { UserContext } from "./context/UserContext";
+import PhotosPage from "./components/PhotosPage";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -102,6 +103,7 @@ function App() {
             <Route path="/:username/about" element={<ProfileDetails />} />
             <Route path="/:username/interest" element={<ProfileInterest />} />
           </Route>
+          <Route path="/:username/photos" element={<PhotosPage />} />
           <Route
             element={
               isAuthorized ? <ManageFriends /> : <Navigate to="/login" />

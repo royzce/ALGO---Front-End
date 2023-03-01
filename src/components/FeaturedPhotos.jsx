@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import * as postsService from "../services/post";
 import { Link } from "react-router-dom";
 
-const FeaturedPhotos = ({ posts }) => {
+const FeaturedPhotos = ({ posts, profileName }) => {
   const [photos, setPhotos] = useState([]);
   const [isDisabled, setDisabled] = useState(false);
   const styles = {
@@ -42,7 +42,12 @@ const FeaturedPhotos = ({ posts }) => {
           </Typography>
         }
         action={
-          <Button underline="hover" disabled={isDisabled}>
+          <Button
+            underline="hover"
+            LinkComponent={Link}
+            to={`/${profileName}/photos`}
+            disabled={isDisabled}
+          >
             See all photos
           </Button>
         }
@@ -50,7 +55,7 @@ const FeaturedPhotos = ({ posts }) => {
       <CardMedia sx={{ padding: "0 15px" }}>
         <ImageList cols={3} rows={2} sx={styles.borderRadius}>
           {photos && photos.length > 0 ? (
-            photos.map((media, index) => (
+            photos.slice(0, 6).map((media, index) => (
               <ImageListItem
                 key={index}
                 component={Link}

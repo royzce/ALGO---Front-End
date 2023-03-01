@@ -62,10 +62,14 @@ const FeaturedFriends = ({ profileName }) => {
           <ImageList cols={3} sx={styles.borderRadius}>
             {friends.length > 0 ? (
               friends.map((friend, index) => (
-                <ImageListItem key={index}>
+                <ImageListItem
+                  key={index}
+                  component={Link}
+                  to={`/${friend.username}`}
+                >
                   <img
                     src={friend.avatar ? friend.avatar : defaultAvatar}
-                    alt={friend.userName}
+                    alt={friend.username}
                   />
                   <ImageListItemBar
                     title={friend.firstName + " " + friend.lastName}
