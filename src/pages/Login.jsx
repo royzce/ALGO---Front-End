@@ -128,7 +128,6 @@ export default function Login() {
 
   return (
     <Paper elevation={3} sx={styles.paper}>
-      <GlobalCSS />
       <img
         src={appLogo}
         className="rounded mx-auto d-block"

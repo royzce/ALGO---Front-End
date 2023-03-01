@@ -6,6 +6,8 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Container,
+  Divider,
   Grid,
   IconButton,
   ImageList,
@@ -23,6 +25,7 @@ import { Stack } from "@mui/system";
 import * as firebase from "../services/firebase";
 import { UserContext } from "../context/UserContext";
 import { PostContext } from "../context/PostContext";
+import ColorTheme from "../components/ColorTheme";
 
 export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   const [form, setForm] = useState({
@@ -135,13 +138,16 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      maxWidth: "768px",
+      margin: "auto",
+      padding: "0 48px",
     },
     card: {
-      width: "50%",
-      maxHeight: "90%",
-      overflowY: "scroll",
+      width: "100%",
+      maxHeight: "435px",
       borderRadius: "10px",
-      padding: "10px",
+      // padding: "10px",
+      // overflowY: "auto",
     },
   };
 
@@ -153,6 +159,11 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
             title={
               <Typography variant="h5" fontWeight="fontWeightBold">
                 {post ? "EDIT POST" : "NEW POST"}
+                {/* <Divider
+                  sx={{
+                    borderBottom: "1px solid black",
+                  }}
+                /> */}
               </Typography>
             }
             action={
@@ -160,9 +171,18 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                 <CloseIcon />
               </IconButton>
             }
-            sx={{ textAlign: "center" }}
+            sx={{
+              textAlign: "center",
+              borderBottom: "1px solid silver",
+              // , margin: "-10px auto"
+            }}
           />
-          <CardContent>
+          <CardContent
+            sx={{
+              padding: "0px 30px 0px 20px",
+              margin: "0px",
+            }}
+          >
             <PostFormHeader
               onSelect={handlePrivSel}
               privacy={form.privacy}
@@ -171,24 +191,33 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
               totalTags={form.tags.length}
               user={user}
             />
-            <Stack spacing={2} alignItems="center">
+            <Stack
+              spacing={2}
+              alignItems="center"
+              sx={{
+                maxHeight: "220px",
+                overflowY: "auto",
+                marginRight: "-20px",
+              }}
+            >
               {showTagSel && (
-                <Grid item width="100%">
-                  <Autocomplete
-                    multiple
-                    options={friends}
-                    onChange={(event, value) => handleTagSel(value)}
-                    getOptionLabel={(option) =>
-                      `${option.firstName} ${option.lastName}`
-                    }
-                    filterSelectedOptions
-                    renderInput={(params) => (
-                      <TextField {...params} placeholder="Tag your friends" />
-                    )}
-                    size="small"
-                    fullWidth
-                  />
-                </Grid>
+                // <Grid item width="100%">
+                <Autocomplete
+                  sx={{ paddingRight: "10px" }}
+                  multiple
+                  options={friends}
+                  onChange={(event, value) => handleTagSel(value)}
+                  getOptionLabel={(option) =>
+                    `${option.firstName} ${option.lastName}`
+                  }
+                  filterSelectedOptions
+                  renderInput={(params) => (
+                    <TextField {...params} placeholder="Tag your friends" />
+                  )}
+                  size="small"
+                  fullWidth
+                />
+                // </Grid>
               )}
               <TextField
                 multiline
@@ -196,11 +225,17 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                 rows={4}
                 placeholder={user && `Say something, ${user.firstName}.`}
                 onChange={handleTextChange}
+                sx={{ paddingRight: "10px" }}
                 fullWidth
               />
               {addPhoto && (
-                <>
-                  <Box sx={{ width: "100%" }}>
+                <Container disableGutters>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      marginBottom: "15px",
+                    }}
+                  >
                     <Button variant="contained" component="label">
                       <input
                         hidden
@@ -222,11 +257,11 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
                       </ImageListItem>
                     ))}
                   </ImageList>
-                </>
+                </Container>
               )}
             </Stack>
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ padding: "15px" }}>
             <Button variant="contained" fullWidth onClick={handleSubmit}>
               {post ? "SAVE" : "POST"}
             </Button>
