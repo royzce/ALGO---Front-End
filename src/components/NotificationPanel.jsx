@@ -51,11 +51,9 @@ export default function NotificationPanel({ notifs, onClose }) {
       console.log("TODO: navigate to friend-request");
       //   navigate(`/${currentUser.username}/friend-request`);
     } else {
-      console.log("TODO: navigate to post page");
       navigate(`/posts/${typeId}`);
     }
     onMarkAsRead(notifId);
-    console.log("TODO: mark the notification as read");
   }
 
   function handleMoreVert(event) {
@@ -72,7 +70,6 @@ export default function NotificationPanel({ notifs, onClose }) {
   }
 
   return (
-    // <Box sx={{ padding: "8px 16px" }}>
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="h6" fontWeight="fontWeightBold" marginLeft="20px">
@@ -82,21 +79,19 @@ export default function NotificationPanel({ notifs, onClose }) {
         <Tabs value={tabIndex} onChange={handleTabChange}>
           <Tab label="All" value={0} />
           <Tab label="Unread" value={1} />
-
+        </Tabs>
+        <Stack direction="row">
           <IconButton size="small" onClick={handleMoreVert}>
             <MoreVertIcon />
           </IconButton>
           <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
             <MenuItem onClick={handleMarkAllAsRead}>Mark all as read</MenuItem>
           </Menu>
-        </Tabs>
+        </Stack>
       </Stack>
       <List
         sx={{ maxHeight: "300px", maxWidth: "450px", overflowY: "auto" }}
         dense={true}
-        // subheader={
-
-        // }
       >
         {tabIndex === 0 && (
           <NotifList notifs={notifs} onClick={handleNotifClick} />
@@ -109,7 +104,6 @@ export default function NotificationPanel({ notifs, onClose }) {
         )}
       </List>
     </>
-    // </Box>
   );
 }
 

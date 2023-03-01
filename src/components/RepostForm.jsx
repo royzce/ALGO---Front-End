@@ -22,7 +22,6 @@ import { PostContext } from "../context/PostContext";
 import * as userSvc from "../services/user";
 
 export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
-  console.log("scr post", srcPost);
   const [form, setForm] = useState({
     value: "",
     tags: [],
@@ -42,6 +41,17 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
         ...form,
         repostId: srcPost.postId,
       });
+    }
+
+    if (post) {
+      const oldValue = {
+        value: post.value,
+        tags: post.tags,
+        privacy: post.privacy,
+        isRepost: true,
+        repostId: post.repostId,
+      };
+      setForm(oldValue);
     }
 
     if (showTagSel) {

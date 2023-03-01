@@ -16,7 +16,7 @@ import UserList from "./UserList";
 
 export default function Post({ post, page, shared }) {
   const [thisPost, setThisPost] = useState(null);
-  const { reactions, comment, shares, isRepost } = thisPost || {};
+  const { reactions, comment, shares, isRepost, tags } = thisPost || {};
 
   const { currentUser: user } = useContext(UserContext);
 
@@ -34,6 +34,7 @@ export default function Post({ post, page, shared }) {
   const [showComments, setShowComments] = useState(false);
   const [showReactLi, setShowReactLi] = useState(false);
   const [showShareLi, setShowShareLi] = useState(false);
+  const [showTagLi, setShowTagLi] = useState(false);
 
   const [srcPost, setSrcPost] = useState(null);
   // const isPostVisible = srcPost
@@ -153,6 +154,7 @@ export default function Post({ post, page, shared }) {
             onPrivIcon={handlePrivIcon}
             user={user}
             shared={shared}
+            setShowTagLi={setShowTagLi}
           />
           <Typography paragraph>{thisPost.value}</Typography>
           {(!page || (page && isRepost)) && (
@@ -232,7 +234,7 @@ export default function Post({ post, page, shared }) {
           list={reactions}
         >
           <Typography variant="subtitle1" fontWeight="fontWeightBold">
-            People who reacted to your post
+            People who reacted to this post
           </Typography>
         </UserList>
       )}
@@ -243,7 +245,18 @@ export default function Post({ post, page, shared }) {
           list={shares}
         >
           <Typography variant="subtitle1" fontWeight="fontWeightBold">
-            People who shared your post
+            People who shared this post
+          </Typography>
+        </UserList>
+      )}
+      {showTagLi && (
+        <UserList
+          open={showTagLi}
+          onClose={() => setShowTagLi(false)}
+          list={tags}
+        >
+          <Typography variant="subtitle1" fontWeight="fontWeightBold">
+            People tagged in this post
           </Typography>
         </UserList>
       )}

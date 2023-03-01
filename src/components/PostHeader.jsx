@@ -12,14 +12,24 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Button,
+  Box,
+  Link,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { PostContext } from "../context/PostContext";
 import { getElapsedTime } from "../services/util";
 import { UserContext } from "../context/UserContext";
+import { Link as RouterLink } from "react-router-dom";
 
-export default function PostHeader({ post, onMenuEdit, onPrivIcon, shared }) {
+export default function PostHeader({
+  post,
+  onMenuEdit,
+  onPrivIcon,
+  shared,
+  setShowTagLi,
+}) {
   const { onDeletePost } = useContext(PostContext);
   const { postId, date, privacy, tags, isEdited } = post || {};
   const { userId, firstName, lastName, username, avatar } =
@@ -98,15 +108,35 @@ export default function PostHeader({ post, onMenuEdit, onPrivIcon, shared }) {
             <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </Menu>
           <ListItemAvatar>
-            <Avatar alt="avatar" src={avatar} />
+            <RouterLink to={`/${username}`}>
+              <Avatar alt="avatar" src={avatar} />
+            </RouterLink>
           </ListItemAvatar>
           <ListItemText
             disableTypography
             primary={
-              <Typography variant="body1">
-                {firstName} {lastName}
-                {tags && tags.length > 0 && ` and ${tags.length} others`}
-              </Typography>
+              <Stack direction="row" spacing={1}>
+                <Link
+                  component={RouterLink}
+                  to={`/${username}`}
+                  variant="body1"
+                  underline="hover"
+                >
+                  {firstName} {lastName}
+                </Link>
+
+                {tags && tags.length > 0 && (
+                  <Link
+                    component="button"
+                    variant="body1"
+                    underline="none"
+                    onClick={() => setShowTagLi(true)}
+                  >
+                    {`and `}
+                    {tags.length} {tags.length === 1 ? "other" : "others"}
+                  </Link>
+                )}
+              </Stack>
             }
             secondary={
               <Stack direction="row" alignItems="center" spacing={1}>

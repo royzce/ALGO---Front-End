@@ -5,10 +5,10 @@ import {
   CardContent,
   IconButton,
   LinearProgress,
-  Paper,
   TextField,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { Link as RouterLink } from "react-router-dom";
 import { Stack } from "@mui/system";
 import React, { useContext, useState } from "react";
 import PostForm from "./PostForm";
@@ -58,7 +58,9 @@ export default function AddPost() {
             spacing={2}
             style={styles.stack}
           >
-            <Avatar alt="avatar" src={user && user.avatar} />
+            <RouterLink to={user && `/${user.username}`}>
+              <Avatar alt="avatar" src={user && user.avatar} />
+            </RouterLink>
             <TextField
               placeholder={user && `Say something, ${user.firstName}.`}
               fullWidth

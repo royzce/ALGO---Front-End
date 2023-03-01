@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Button, Typography } from "@mui/material";
+import { Avatar, AvatarGroup, Button, Link, Typography } from "@mui/material";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Stack } from "@mui/system";
@@ -37,30 +37,29 @@ export default function PostStats({
     >
       <Stack direction="row" alignItems="center" spacing={0.5}>
         {reactions && (
-          <Button
-            onClick={() => setShowReactLi(true)}
-            size="small"
-            sx={{ padding: 0, minWidth: "24px" }}
-          >
-            <AvatarGroup>
-              {REACTIONS.map((react) => {
-                const result = reactions.find((r) => r.value === react.text);
-                if (result) {
-                  return (
-                    <Avatar
-                      sx={{ width: 20, height: 20 }}
-                      src={react.img}
-                      key={react.text}
-                    />
-                  );
-                }
-                return "";
-              })}
-            </AvatarGroup>
-          </Button>
+          <AvatarGroup>
+            {REACTIONS.map((react) => {
+              const result = reactions.find((r) => r.value === react.text);
+              if (result) {
+                return (
+                  <Avatar
+                    sx={{ width: 20, height: 20 }}
+                    src={react.img}
+                    key={react.text}
+                  />
+                );
+              }
+              return "";
+            })}
+          </AvatarGroup>
         )}
         {reactions && (
-          <Typography variant="body2">
+          <Link
+            variant="body2"
+            underline="none"
+            component="button"
+            onClick={() => setShowReactLi(true)}
+          >
             {reactions.length === 0
               ? ""
               : !reactions.find((react) => react.userId === user.userId)
@@ -70,7 +69,7 @@ export default function PostStats({
               : reactions.length < 3
               ? "You and 1 other"
               : `You and ${reactions.length} others`}
-          </Typography>
+          </Link>
         )}
       </Stack>
       <Stack direction="row" spacing={1}>
