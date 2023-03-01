@@ -16,17 +16,19 @@ const ProfileHome = () => {
   const { currentUser } = useContext(UserContext);
   const { allPosts } = useContext(PostContext);
   const [posts, setPosts] = useState([]);
-
+  const isCurrentUser = currentUser && username === currentUser.username;
   useEffect(() => {
-    if (username && username === currentUser.username) {
-      const posts = allPosts.filter(
-        (post) => post.userId === currentUser.userId
-      );
-      console.log("posts in profile", posts);
-      setPosts(posts);
-    } else {
-      postSvc.getUserPosts(username).then((res) => setPosts(res.data));
-      console.log("hindi eto");
+    if (username && currentUser) {
+      if (username === currentUser.username) {
+        const posts = allPosts.filter(
+          (post) => post.userId === currentUser.userId
+        );
+        console.log("posts in profile", posts);
+        setPosts(posts);
+      } else {
+        postSvc.getUserPosts(username).then((res) => setPosts(res.data));
+        console.log("hindi eto");
+      }
     }
   }, [allPosts, currentUser, username]);
 
@@ -47,7 +49,7 @@ const ProfileHome = () => {
       </Grid>
       <Grid item sm={12} md={8}>
         <Container disableGutters>
-          <AddPost />
+          {isCurrentUser && <AddPost />}
           <Typography
             variant="h5"
             fontWeight="fontWeightBold"

@@ -35,6 +35,7 @@ export default function CommentSection({
   }
 
   async function handleEditComment(editedComm) {
+    console.log("edited com", editedComm);
     // TODO
     const res = await postSvc.editComment(editedComm);
     console.log("inside handleEditComment", res);
