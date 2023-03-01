@@ -35,6 +35,14 @@ const ProfileNavBar = ({ profileName, isCurrentUser }) => {
         )}
         {isCurrentUser && (
           <Tab
+            value="Photos"
+            label="Photos"
+            LinkComponent={Link}
+            to={`/${profileName}/photos`}
+          />
+        )}
+        {isCurrentUser && (
+          <Tab
             value="Friends"
             label="Friends"
             LinkComponent={Link}
