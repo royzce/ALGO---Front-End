@@ -23,8 +23,11 @@ import SearchPeople from "./components/SearchPeople";
 import SearchPosts from "./components/SearchPosts";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import { useContext, useState } from "react";
+import { UserContext } from "./context/UserContext";
 
 function App() {
+  const [userProfile] = useState(true);
   return (
     <>
       <CssBaseline />
@@ -35,16 +38,19 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-        <Route path="/profile" element={<ProfilePage />}>
-          <Route path="/profile" element={<ProfileHome />} />
+        <Route
+          path="/profile/:id"
+          element={<ProfilePage userProfile={userProfile} />}
+        >
+          <Route path="/profile/:id" element={<ProfileHome />} />
           <Route element={<ProfileAbout />}>
-            <Route path="/profile/about" element={<ProfileDetails />} />
-            <Route path="/profile/interest" element={<ProfileInterest />} />
+            <Route path="/profile/:id/about" element={<ProfileDetails />} />
+            <Route path="/profile/:id/interest" element={<ProfileInterest />} />
           </Route>
           <Route element={<ManageFriends />}>
-            <Route path="/profile/friends" element={<FriendsList />} />
+            <Route path="/profile/:id/friends" element={<FriendsList />} />
             <Route
-              path="/profile/friend-request"
+              path="/profile/:id/friend-request"
               element={<FriendRequestList />}
             />
           </Route>

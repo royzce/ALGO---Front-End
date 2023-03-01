@@ -7,7 +7,8 @@ import {
   ImageListItem,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
 const itemData = [
   {
@@ -29,27 +30,33 @@ const itemData = [
 ];
 
 const FeaturedPhotos = () => {
+  const [profileId, allPosts] = useOutletContext();
   const styles = {
     borderRadius: {
       borderRadius: "10px",
     },
   };
 
+  useEffect(() => {
+    // console.log(allPosts);
+    //TODO: filter out all user post
+  });
+
   return (
     <Card sx={styles.borderRadius}>
       <CardHeader
         title={
           <Typography variant="h5" fontWeight="fontWeightBold">
-            Featured Photos
+            Recent Photos
           </Typography>
         }
         action={<Button underline="hover">See all photos</Button>}
       />
       <CardMedia sx={{ padding: "0 15px" }}>
         <ImageList cols={3} sx={styles.borderRadius}>
-          {itemData.map((item) => (
-            <ImageListItem key={item.img}>
-              <img src={item.img} alt={item.title} />
+          {allPosts.map((media, index) => (
+            <ImageListItem key={index}>
+              <img src={media.mediaLink} alt={`post-${index}`} />
             </ImageListItem>
           ))}
         </ImageList>

@@ -6,9 +6,16 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
 
-const Header = () => {
+const Header = (profileId) => {
+  const { currentUser: user } = useContext(UserContext);
+
+  useEffect(() => {
+    //get all users here and output data with same profileId
+  });
+
   const styles = {
     profilePhoto: {
       border: "5px solid white",
@@ -43,11 +50,7 @@ const Header = () => {
         spacing={3}
         sx={styles.stack1}
       >
-        <Avatar
-          src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80"
-          alt="profile"
-          sx={styles.profilePhoto}
-        />
+        <Avatar src={user.avatar} alt="profile" sx={styles.profilePhoto} />
         <Stack
           direction="column"
           justifyContent="center"
@@ -55,9 +58,9 @@ const Header = () => {
           spacing={1}
         >
           <Typography variant="h4" fontWeight="fontWeightBold">
-            Name FamilyName
+            {user.firstName + " " + user.lastName}
           </Typography>
-          <Typography>@Username</Typography>
+          <Typography>@{user.username}</Typography>
           <AvatarGroup max={4}>
             <Avatar
               src="https://i.pinimg.com/originals/a7/d2/e6/a7d2e62776ce45b76a88ae2eeaf44803.jpg"

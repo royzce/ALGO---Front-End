@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useContext, useState } from "react";
 import {
   Avatar,
   Grid,
@@ -30,6 +30,7 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout, Settings } from "@mui/icons-material";
+import { UserContext } from "../context/UserContext";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -38,6 +39,7 @@ export default function Navbar() {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
+  const { currentUser: user } = useContext(UserContext);
   const [mdAnchorEl, setMdAnchorEl] = React.useState(null);
   const [drawerAnchorEl, setDrawerAnchorEl] = React.useState(null);
   const mdOpen = Boolean(mdAnchorEl);
@@ -59,7 +61,7 @@ export default function Navbar() {
   const handleGoToProfile = () => {
     handleMdClose();
     handleDrawerClose();
-    navigate("/profile");
+    navigate(`/profile/${user.userId}`);
   };
 
   return (

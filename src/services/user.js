@@ -21,3 +21,7 @@ export function register(user) {
 export function getCurrentUser() {
   return http.get("/users/me");
 }
+
+export function getUsers() {
+  return http.get("/users");
+}
