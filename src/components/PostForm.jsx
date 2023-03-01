@@ -80,6 +80,25 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     setAddPhoto(!addPhoto);
   }
 
+  function photosButtonBackground() {
+    let bgcolor = null;
+    if (addPhoto) {
+      bgcolor = ColorTheme.palette.body.main;
+    } else {
+      bgcolor = "transparent";
+    }
+    return bgcolor;
+  }
+  function tagButtonBackground() {
+    let bgcolor = null;
+    if (showTagSel) {
+      bgcolor = ColorTheme.palette.body.main;
+    } else {
+      bgcolor = "transparent";
+    }
+    return bgcolor;
+  }
+
   function handleTagSel(tagged) {
     const tags = tagged.map((friend) => friend.userId);
     setForm({ ...form, tags });
@@ -197,6 +216,8 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
               privacy={form.privacy}
               onToggleTags={handleToggleTags}
               onTogglePhotos={handleTogglePhotos}
+              onTogglePhotosButton={photosButtonBackground}
+              onToggleTagButton={tagButtonBackground}
               totalTags={form.tags.length}
               user={user}
             />

@@ -16,12 +16,15 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import React, { useState } from "react";
 import { Stack } from "@mui/system";
+import ColorTheme from "../components/ColorTheme";
 
 export default function PostFormHeader({
   onSelect,
   privacy,
   onToggleTags,
   onTogglePhotos,
+  onTogglePhotosButton,
+  onToggleTagButton,
   totalTags,
   user,
   isRepost,
@@ -60,6 +63,18 @@ export default function PostFormHeader({
     return icon;
   }
 
+  const styles = {
+    photoAvatar: {
+      bgcolor: onTogglePhotosButton,
+    },
+    tagAvatar: {
+      bgcolor: onToggleTagButton,
+    },
+    privacyAvatar: {
+      bgcolor: ColorTheme.palette.body.main,
+    },
+  };
+
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       <ListItem>
@@ -83,20 +98,31 @@ export default function PostFormHeader({
           secondary={user && `@${user.username}`}
         />
       </ListItem>
-      <Stack direction="row" justifyContent="center" alignItems="center">
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={1}
+      >
         {!isRepost && (
-          <IconButton onClick={onTogglePhotos} size="small">
-            <AddPhotoAlternateIcon />
-          </IconButton>
+          <Avatar sx={styles.photoAvatar}>
+            <IconButton onClick={onTogglePhotos} color="primary" size="small">
+              <AddPhotoAlternateIcon />
+            </IconButton>
+          </Avatar>
         )}
         {privacy !== "private" && (
-          <IconButton onClick={onToggleTags} size="small">
-            <GroupAddIcon />
-          </IconButton>
+          <Avatar sx={styles.tagAvatar}>
+            <IconButton onClick={onToggleTags} color="primary" size="small">
+              <GroupAddIcon />
+            </IconButton>
+          </Avatar>
         )}
-        <IconButton onClick={handlePrivMenu} size="small">
-          {displayPrivacy()}
-        </IconButton>
+        <Avatar sx={styles.privacyAvatar}>
+          <IconButton onClick={handlePrivMenu} color="primary" size="small">
+            {displayPrivacy()}
+          </IconButton>
+        </Avatar>
         <FormControl size="small">
           <Menu
             open={openPrivMenu}
