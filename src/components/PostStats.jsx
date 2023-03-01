@@ -42,7 +42,7 @@ export default function PostStats({
             size="small"
             sx={{ padding: 0, minWidth: "24px" }}
           >
-            <AvatarGroup>
+            <AvatarGroup spacing={4}>
               {REACTIONS.map((react) => {
                 const result = reactions.find((r) => r.value === react.text);
                 if (result) {

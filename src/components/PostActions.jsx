@@ -64,14 +64,14 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
   const id = open ? "popover" : undefined;
 
   const styles = {
-    buttonPadding: {
-      px: "24px",
+    buttonSize: {
+      width: "120px",
     },
   };
   return (
     <Stack
       direction="row"
-      justifyContent="space-between"
+      justifyContent="space-around"
       alignItems="center"
       spacing={1}
     >
@@ -79,7 +79,7 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
         onClick={handleDefault}
         onMouseLeave={handleMouseLeave}
         id={`react-${post && post.postId}`}
-        sx={{ px: "24px" }}
+        sx={styles.buttonSize}
         startIcon={
           reactBtn ? (
             <img alt={reactBtn.text} src={reactBtn.img} height={18} />
@@ -91,12 +91,12 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
       >
         {reactBtn ? reactBtn.text : "Fire"}
       </Button>
-      <Button sx={styles.buttonPadding} startIcon={<ChatOutlined />}>
+      <Button sx={styles.buttonSize} startIcon={<ChatOutlined />}>
         Comment
       </Button>
       {canShare && (
         <Button
-          sx={{ px: "24px" }}
+          sx={styles.buttonSize}
           startIcon={<ShareOutlined />}
           onClick={onShare}
         >
