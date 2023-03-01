@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Card,
   CardHeader,
@@ -10,34 +11,25 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import * as userService from "../services/user";
+import { Link } from "react-router-dom";
+import defaultAvatar from "../assets/avatar.jpg";
 
-const itemData = [
-  {
-    img: "https://i.pinimg.com/originals/a7/d2/e6/a7d2e62776ce45b76a88ae2eeaf44803.jpg",
-    title: "Joan Doe",
-  },
-  {
-    img: "https://i.pinimg.com/474x/cb/33/d8/cb33d80fe655e221ae05f41c8edd0cdb.jpg",
-    title: "John Doe",
-  },
-  {
-    img: "https://i.pinimg.com/736x/65/8e/4e/658e4eef6027fe5cfbd580b21d10fc1e--male-portraits-photography-portraits.jpg",
-    title: "John Doe",
-  },
-  {
-    img: "https://i.pinimg.com/originals/9d/13/b0/9d13b0ef9e1a3bce90c3946842a8592f.jpg",
-    title: "John Doe",
-  },
-];
-
-const FeaturedFriends = () => {
+const FeaturedFriends = ({ profileName }) => {
   const [friends, setFriends] = useState([]);
-
+  const [isDisabled, setDisabled] = useState(false);
   useEffect(() => {
     userService.getFriends().then((res) => {
       setFriends(res.data);
     });
-  });
+  }, []);
+
+  useEffect(() => {
+    if (friends.length === 0) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [friends]);
 
   const styles = {
     borderRadius: {
@@ -55,24 +47,35 @@ const FeaturedFriends = () => {
             </Typography>
           }
           subheader={friends.length + " Friends"}
-          action={<Button underline="hover">See all friends</Button>}
+          action={
+            <Button
+              underline="hover"
+              LinkComponent={Link}
+              to={`/${profileName}/friends`}
+              disabled={isDisabled}
+            >
+              See all friends
+            </Button>
+          }
         />
         <CardMedia sx={{ padding: "0 15px" }}>
           <ImageList cols={3} sx={styles.borderRadius}>
-            {friends.map((item) => (
-              <ImageListItem key={item.userId}>
-                <img
-                  src={
-                    item.avatar !== null ? item.avatar : "/assets/Person.png"
-                  }
-                  alt={item.username}
-                />
-                <ImageListItemBar
-                  title={item.firstName + " " + item.lastName}
-                  position="bottom"
-                />
-              </ImageListItem>
-            ))}
+            {friends.length > 0 ? (
+              friends.map((friend, index) => (
+                <ImageListItem key={index}>
+                  <img
+                    src={friend.avatar ? friend.avatar : defaultAvatar}
+                    alt={friend.userName}
+                  />
+                  <ImageListItemBar
+                    title={friend.firstName + " " + friend.lastName}
+                    position="bottom"
+                  />
+                </ImageListItem>
+              ))
+            ) : (
+              <Typography variant="subtitle2">No Friends To Show</Typography>
+            )}
           </ImageList>
         </CardMedia>
       </Card>

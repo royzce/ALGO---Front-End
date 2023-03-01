@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  CardActionArea,
   CardHeader,
   CardMedia,
   ImageList,
@@ -9,10 +10,11 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import * as postsService from "../services/post";
+import { Link } from "react-router-dom";
 
 const FeaturedPhotos = ({ posts }) => {
   const [photos, setPhotos] = useState([]);
-  console.log("post inside featrue", posts);
+  const [isDisabled, setDisabled] = useState(false);
   const styles = {
     borderRadius: {
       borderRadius: "10px",
@@ -21,6 +23,16 @@ const FeaturedPhotos = ({ posts }) => {
   useEffect(() => {
     postsService.getAllPhotos().then((res) => setPhotos(res.data));
   }, [posts]);
+
+  useEffect(() => {
+    console.log(photos);
+    if (photos.length === 0) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [photos]);
+
   return (
     <Card sx={styles.borderRadius}>
       <CardHeader
@@ -29,16 +41,27 @@ const FeaturedPhotos = ({ posts }) => {
             Recent Photos
           </Typography>
         }
-        action={<Button underline="hover">See all photos</Button>}
+        action={
+          <Button underline="hover" disabled={isDisabled}>
+            See all photos
+          </Button>
+        }
       />
       <CardMedia sx={{ padding: "0 15px" }}>
         <ImageList cols={3} rows={2} sx={styles.borderRadius}>
-          {photos &&
+          {photos && photos.length > 0 ? (
             photos.map((media, index) => (
-              <ImageListItem key={index}>
+              <ImageListItem
+                key={index}
+                component={Link}
+                to={`/posts/${media.postId}`}
+              >
                 <img src={media.mediaLink} alt={`post-${index}`} />
               </ImageListItem>
-            ))}
+            ))
+          ) : (
+            <Typography variant="subtitle2">No Photos To Show</Typography>
+          )}
         </ImageList>
       </CardMedia>
     </Card>
