@@ -26,7 +26,7 @@ const Header = ({ profileName }) => {
     coverPhoto: {
       objectFit: "cover",
       width: "100%",
-      height: "400px",
+      height: { lg: "400px", md: "300px", sm: "200px", xs: "100px" },
       marginBottom: "10px",
       borderBottomLeftRadius: "12px",
       borderBottomRightRadius: "12px",
