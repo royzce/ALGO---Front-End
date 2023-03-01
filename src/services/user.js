@@ -24,6 +24,10 @@ export function getNotifications() {
   return http.get("/notifications");
 }
 
+export function updateNotif(notifId) {
+  return http.put("/notifications/update", { notifId });
+}
+
 export function getUsers() {
   return http.get("/users");
 }

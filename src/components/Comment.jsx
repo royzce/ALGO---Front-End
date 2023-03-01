@@ -8,6 +8,7 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Link,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -20,6 +21,7 @@ import { CommentContext } from "../context/CommentContext";
 import AddComment from "./AddComment";
 import { getElapsedTime } from "../services/util";
 import { UserContext } from "../context/UserContext";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function Comment({ comment, replies, reply }) {
   const { value, date, user, isEdited } = comment || {};
@@ -94,15 +96,22 @@ export default function Comment({ comment, replies, reply }) {
               <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
             <ListItemAvatar>
-              <Avatar src={user && user.avatar} />
+              <RouterLink to={user && `/${user.username}`}>
+                <Avatar src={user && user.avatar} />
+              </RouterLink>
             </ListItemAvatar>
             <ListItemText
               disableTypography
               primary={
                 <>
-                  <Typography variant="subtitle2">
+                  <Link
+                    component={RouterLink}
+                    variant="subtitle2"
+                    to={user && `/${user.username}`}
+                    underline="hover"
+                  >
                     {user && `${user.firstName} ${user.lastName}`}
-                  </Typography>
+                  </Link>
                   <Typography variant="body2">{value}</Typography>
                 </>
               }

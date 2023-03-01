@@ -5,6 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import React, { useContext, useEffect, useState } from "react";
 import { Stack } from "@mui/system";
 import { UserContext } from "../context/UserContext";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function CommentForm({
   comment,
@@ -34,7 +35,9 @@ export default function CommentForm({
   return (
     <>
       <Stack direction="row" spacing={1} alignItems="flex-start" padding={2}>
-        <Avatar alt="avatar" src={user && user.avatar} />
+        <RouterLink to={user && `/${user.username}`}>
+          <Avatar alt="avatar" src={user && user.avatar} />
+        </RouterLink>
         <TextField
           hiddenLabel
           multiline

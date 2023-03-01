@@ -50,11 +50,9 @@ export default function NotificationPanel({ notifs, onClose }) {
       console.log("TODO: navigate to friend-request");
       //   navigate(`/${currentUser.username}/friend-request`);
     } else {
-      console.log("TODO: navigate to post page");
       navigate(`/posts/${typeId}`);
     }
     onMarkAsRead(notifId);
-    console.log("TODO: mark the notification as read");
   }
 
   function handleMoreVert(event) {
