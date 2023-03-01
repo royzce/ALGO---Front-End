@@ -7,12 +7,13 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { PopupContext } from "../context/PopupContext";
 import * as userService from "../services/user";
 
 const FriendRequestList = () => {
   const [friendRequest, setFriendRequest] = useState([]);
-
+  const { handleSuccessMessage, handleFailMessage } = useContext(PopupContext);
   useEffect(() => {
     userService.getFriendRequest().then((res) => {
       console.log("Friend request", res);
@@ -24,13 +25,13 @@ const FriendRequestList = () => {
     await userService
       .acceptRequest(friendId)
       .then((res) => {
-        alert(res.data);
+        handleSuccessMessage("Friend request accepted.");
         setFriendRequest(
           friendRequest.filter((req) => req.userId !== friendId)
         );
       })
       .catch((err) => {
-        console.log("Error", err);
+        handleFailMessage("An unexpected error occurred. Try again later.");
       });
   };
 
@@ -38,13 +39,13 @@ const FriendRequestList = () => {
     await userService
       .rejectRequest(friendId)
       .then((res) => {
-        alert("Deleted friend request");
+        handleSuccessMessage("Request removed.");
         setFriendRequest(
           friendRequest.filter((req) => req.userId !== friendId)
         );
       })
       .catch((err) => {
-        console.log("Error");
+        handleFailMessage("An unexpected error occurred. Try again later.");
       });
   };
 

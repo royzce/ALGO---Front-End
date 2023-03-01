@@ -7,10 +7,11 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { PopupContext } from "../context/PopupContext";
 import * as userService from "../services/user";
 
 const FriendsList = () => {
-  const {} = useContext();
+  const { handleSuccessMessage, handleFailMessage } = useContext(PopupContext);
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
@@ -23,11 +24,12 @@ const FriendsList = () => {
     await userService
       .removeFriend(friendId)
       .then((res) => {
-        alert("Unfriended");
+        handleSuccessMessage("Removed Friend");
         setFriends(friends.filter((friend) => friend.userId !== friendId));
       })
       .catch((err) => {
-        console.log("Error");
+        handleFailMessage("An unexpected error occured. Try again later.");
+        console.log("Error", err);
       });
   };
 
