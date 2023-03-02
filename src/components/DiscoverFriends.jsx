@@ -44,7 +44,7 @@ const DiscoverFriends = ({ users }) => {
     },
   };
   return allUsers && allUsers.length > 0 ? (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} justifyContent="center">
       {allUsers &&
         allUsers.map((friend, index) => {
           return (
@@ -72,16 +72,6 @@ const DiscoverFriends = ({ users }) => {
                       userId={friend.userId}
                       handleActionDiscover={onAdd}
                     />
-                    {/* {showButton && (
-                      <Button
-                        color="error"
-                        variant="contained"
-                        size="small"
-                        onClick={() => onAdd(friend.userId, dateNow)}
-                      >
-                        Add
-                      </Button>
-                    )} */}
                   </Stack>
                 </CardContent>
               </Card>

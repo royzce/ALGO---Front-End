@@ -27,7 +27,7 @@ import * as authService from "../services/auth";
 import * as userService from "../services/user";
 
 export default function Login() {
-  const { onShowFail } = useContext(PopupContext);
+  const { onShowFail, onShowSuccess } = useContext(PopupContext);
   const { setCurrentUser } = useContext(UserContext);
 
   const styles = {
@@ -116,8 +116,8 @@ export default function Login() {
       .then(async (res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
         const result = await userService.getCurrentUser();
-        console.log("result", result);
         setCurrentUser(result.data);
+        onShowSuccess(`Welcome to Algo.`);
       })
       .catch((err) => {
         onShowFail(err.response.data.message);

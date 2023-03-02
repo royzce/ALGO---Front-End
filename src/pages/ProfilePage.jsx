@@ -31,23 +31,44 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
 
   function handleLocChange() {
     const tab = location.pathname.split("/")[2];
-    switch (tab) {
-      case "":
-        setProfileTab("Post");
-        break;
-      case "about":
-        setProfileTab("About");
-        break;
-      case "photos":
-        setProfileTab("Photos");
-        break;
-      case "friends":
-      case "friend-request":
-      case "discover-friend":
-        setProfileTab("Friends");
-        break;
-      default:
-        break;
+    if (currentUser.username === username) {
+      switch (tab) {
+        case "":
+          setProfileTab("Post");
+          break;
+        case "about":
+          setProfileTab("About");
+          break;
+        case "photos":
+          setProfileTab("Photos");
+          break;
+        case "friends":
+        case "friend-request":
+        case "discover-friend":
+          setProfileTab("Friends");
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (tab) {
+        case "":
+          setProfileTab("Post");
+          break;
+        case "about":
+          setProfileTab("Post");
+          break;
+        case "photos":
+          setProfileTab("Post");
+          break;
+        case "friends":
+        case "friend-request":
+        case "discover-friend":
+          setProfileTab("Post");
+          break;
+        default:
+          break;
+      }
     }
   }
 

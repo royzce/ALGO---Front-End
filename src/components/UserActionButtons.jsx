@@ -5,48 +5,26 @@ import { UserContext } from "../context/UserContext";
 import * as userService from "../services/user";
 import { PopupContext } from "../context/PopupContext";
 import { async } from "q";
-const UserActionButtons = ({
-  username,
-  userId,
-  handleActionFriendList,
-  handleActionDiscover,
-  onDeleteRequest,
-  onAcceptRequest,
-}) => {
+import { FriendContext } from "../context/FriendContext";
+const UserActionButtons = ({ username, userId }) => {
   const [isFriend, setFriend] = useState(false);
   const [isSender, setSender] = useState(false);
   const [isAcceptor, setAcceptor] = useState(false);
   const [isStranger, setStranger] = useState(false);
   const dateNow = new Date();
 
-  const { onShowSuccess, onShowFail, allFriends, friendRequests } =
-    useContext(PopupContext);
-
-  async function deleteRequest() {
-    await userService
-      .rejectRequest(userId)
-      .then((res) => {
-        onShowSuccess("Request removed.");
-      })
-      .catch((err) => {
-        onShowFail("An unexpected error occurred. Try again later.");
-      });
-  }
-
-  async function acceptRequest() {
-    await userService
-      .acceptRequest(userId)
-      .then((res) => {
-        onShowSuccess("Friend request accepted.");
-      })
-      .catch((err) => {
-        onShowFail("An unexpected error occurred. Try again later.");
-      });
-  }
+  const {
+    onAdd,
+    onAccept,
+    onDeleteRequest,
+    onUnfriend,
+    onCancelRequest,
+    render,
+  } = useContext(FriendContext);
 
   useEffect(() => {
     userService.getUserStatus(username).then((status) => {
-      console.log("status is", status);
+      console.log("INSIDE UserActionButtons", status);
       if (status.data.userStatus === "friends") {
         console.log(username, "is friends");
         setFriend(true);
@@ -79,32 +57,17 @@ const UserActionButtons = ({
         setStranger(false);
       }
     });
-  }, [username, allFriends, friendRequests]);
+  }, [render]);
 
-  // const onRemoveFriend = async (userId) => {
-  //   await userService
-  //     .removeFriend(userId)
-  //     .then((res) => {
-  //       onShowSuccess("Removed Friend");
-  //       setFriends(friends.filter((friend) => friend.userId !== friendId));
-  //     })
-  //     .catch((err) => {
-  //       onShowFail("An unexpected error occured. Try again later.");
-  //       console.log("Error", err);
-  //     });
-  // };
   return (
     <ButtonGroup size="small">
       {isAcceptor && (
-        <Button
-          variant="contained"
-          onClick={() => handleActionFriendList(userId)}
-        >
+        <Button variant="contained" onClick={() => onCancelRequest(userId)}>
           cancel request
         </Button>
       )}
       {isSender && (
-        <Button variant="contained" onClick={() => onAcceptRequest(userId)}>
+        <Button variant="contained" onClick={() => onAccept(userId)}>
           accept
         </Button>
       )}
@@ -115,18 +78,12 @@ const UserActionButtons = ({
         </Button>
       )}
       {isFriend && (
-        <Button
-          variant="contained"
-          onClick={() => handleActionFriendList(userId)}
-        >
+        <Button variant="contained" onClick={() => onUnfriend(userId)}>
           unfriend
         </Button>
       )}
       {isStranger && (
-        <Button
-          variant="contained"
-          onClick={() => handleActionDiscover(userId, dateNow)}
-        >
+        <Button variant="contained" onClick={() => onAdd(userId, dateNow)}>
           <PersonAddIcon />
           &nbsp;add
         </Button>

@@ -71,7 +71,7 @@ const RegisterPage = () => {
       .register(form)
       .then(() => {
         setOpen(false);
-        onShowSuccess("successfully Registerd");
+        onShowSuccess("You are now registered.");
         closePreview();
         navigate("/login");
       })

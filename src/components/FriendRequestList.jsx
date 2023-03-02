@@ -1,54 +1,25 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   Grid,
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { PopupContext } from "../context/PopupContext";
+import { FriendContext } from "../context/FriendContext";
 import * as userService from "../services/user";
 import UserActionButtons from "./UserActionButtons";
 
 const FriendRequestList = () => {
-  const [friendRequest, setFriendRequest] = useState([]);
-  const { onShowSuccess, onShowFail } = useContext(PopupContext);
+  const { friendRequests, setFriendRequests } = useContext(FriendContext);
+
   useEffect(() => {
-    userService.getFriendRequest().then((res) => {
-      console.log("Friend request", res);
-      setFriendRequest(res.data);
+    userService.getFriendRequest().then((reqs) => {
+      console.log("FriendRequestList friend requests", reqs);
+      setFriendRequests(reqs.data);
     });
-  }, []);
-
-  const onAcceptRequest = async (friendId) => {
-    await userService
-      .acceptRequest(friendId)
-      .then((res) => {
-        onShowSuccess("Friend request accepted.");
-        setFriendRequest(
-          friendRequest.filter((req) => req.userId !== friendId)
-        );
-      })
-      .catch((err) => {
-        onShowFail("An unexpected error occurred. Try again later.");
-      });
-  };
-
-  const onDeleteRequest = async (friendId) => {
-    await userService
-      .rejectRequest(friendId)
-      .then((res) => {
-        onShowSuccess("Request removed.");
-        setFriendRequest(
-          friendRequest.filter((req) => req.userId !== friendId)
-        );
-      })
-      .catch((err) => {
-        onShowFail("An unexpected error occurred. Try again later.");
-      });
-  };
+  }, [friendRequests]);
 
   const styles = {
     card: {
@@ -64,9 +35,9 @@ const FriendRequestList = () => {
       justifyContent: "space-between",
     },
   };
-  return friendRequest && friendRequest.length > 0 ? (
+  return friendRequests && friendRequests.length > 0 ? (
     <Grid container spacing={2}>
-      {friendRequest.map((friend, index) => {
+      {friendRequests.map((friend, index) => {
         return (
           <Grid item key={index} xs={6}>
             <Card sx={styles.card}>
@@ -101,7 +72,6 @@ const FriendRequestList = () => {
                   <UserActionButtons
                     username={friend.user.username}
                     userId={friend.user.userId}
-                    onAcceptRequest={onAcceptRequest}
                   />
                 </Box>
               </CardContent>

@@ -2,6 +2,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as postSvc from "../services/post";
 import { compareByDateDesc } from "../services/util";
+import { PopupContext } from "./PopupContext";
 import { UserContext } from "./UserContext";
 
 export const PostContext = createContext({
@@ -24,6 +25,7 @@ export default function PostProvider({ children }) {
   const [editing, setEditing] = useState(false);
 
   const { currentUser: user } = useContext(UserContext);
+  const { onShowSuccess } = useContext(PopupContext);
 
   useEffect(() => {
     if (user) {
@@ -47,24 +49,21 @@ export default function PostProvider({ children }) {
 
   async function handleAddPost(newPost) {
     newPost.date = new Date();
-    console.log("newpost", newPost);
     const res = await postSvc.addPost(newPost);
-    console.log("inside handleAddPost", res);
 
     getAllPosts();
+    onShowSuccess("Posted!");
     handlePosting(false);
   }
 
   async function handleEditPost(editedPost) {
     const res = await postSvc.editPost(editedPost);
-    console.log("inside handleEditPost", res);
     getAllPosts();
     handleEditing(false);
   }
 
   async function handleEditPrivacy(editedPost) {
     const res = await postSvc.editPrivacy(editedPost);
-    console.log("inside handleEditPrivacy", res);
     getAllPosts();
     handlePosting(false);
   }
@@ -72,6 +71,7 @@ export default function PostProvider({ children }) {
   async function handleDeletePost(postId) {
     const res = await postSvc.deletePost(postId);
     if (res) {
+      onShowSuccess("Post deleted.");
       setAllPosts(
         allPosts
           .filter((post) => post.postId !== postId)
