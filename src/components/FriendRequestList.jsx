@@ -13,7 +13,7 @@ import * as userService from "../services/user";
 
 const FriendRequestList = () => {
   const [friendRequest, setFriendRequest] = useState([]);
-  const { handleSuccessMessage, handleFailMessage } = useContext(PopupContext);
+  const { onShowSuccess, onShowFail } = useContext(PopupContext);
   useEffect(() => {
     userService.getFriendRequest().then((res) => {
       console.log("Friend request", res);
@@ -25,13 +25,13 @@ const FriendRequestList = () => {
     await userService
       .acceptRequest(friendId)
       .then((res) => {
-        handleSuccessMessage("Friend request accepted.");
+        onShowSuccess("Friend request accepted.");
         setFriendRequest(
           friendRequest.filter((req) => req.userId !== friendId)
         );
       })
       .catch((err) => {
-        handleFailMessage("An unexpected error occurred. Try again later.");
+        onShowFail("An unexpected error occurred. Try again later.");
       });
   };
 
@@ -39,13 +39,13 @@ const FriendRequestList = () => {
     await userService
       .rejectRequest(friendId)
       .then((res) => {
-        handleSuccessMessage("Request removed.");
+        onShowSuccess("Request removed.");
         setFriendRequest(
           friendRequest.filter((req) => req.userId !== friendId)
         );
       })
       .catch((err) => {
-        handleFailMessage("An unexpected error occurred. Try again later.");
+        onShowFail("An unexpected error occurred. Try again later.");
       });
   };
 
