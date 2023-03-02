@@ -128,6 +128,27 @@ export default function PostFormHeader({
             open={openPrivMenu}
             anchorEl={privAnchorEl}
             onClose={handlePrivMenuClose}
+            PaperProps={{
+              sx: {
+                overflow: "visible",
+                borderRadius: "10px",
+                mt: "10px",
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 10,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
             <MenuItem onClick={() => handlePrivSelect("public")}>
               <PublicOutlinedIcon />

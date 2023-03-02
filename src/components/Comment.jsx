@@ -91,7 +91,32 @@ export default function Comment({ comment, replies, reply }) {
               )
             }
           >
-            <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleCloseMenu}
+              PaperProps={{
+                sx: {
+                  overflow: "visible",
+                  borderRadius: "10px",
+                  mt: "0px",
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 12,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
               <MenuItem onClick={() => setEditing(true)}>Edit</MenuItem>
               <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>

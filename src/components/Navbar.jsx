@@ -27,6 +27,7 @@ import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
 import { Logout, Settings } from "@mui/icons-material";
 import NotificationPanel from "./NotificationPanel";
 import { NotifContext } from "../context/NotifContext";
@@ -158,13 +159,13 @@ export default function Navbar() {
           sx: {
             overflow: "visible",
             borderRadius: "10px",
-            mt: "-5px",
+            mt: "8px",
             "&:before": {
               content: '""',
               display: "block",
               position: "absolute",
               top: 0,
-              right: 27,
+              right: 15,
               width: 10,
               height: 10,
               bgcolor: "background.paper",
@@ -226,8 +227,17 @@ export default function Navbar() {
           <Grid item sm={3} container justifyContent="flex-end">
             <Toolbar>
               <IconButton
-                size="large"
+                size="middle"
                 color="inherit"
+                sx={{ bgcolor: ColorTheme.palette.secondary.main, mx: "5px" }}
+                onClick={() => navigate("/")}
+              >
+                <HomeIcon />
+              </IconButton>
+              <IconButton
+                size="middle"
+                color="inherit"
+                sx={{ bgcolor: ColorTheme.palette.secondary.main, mx: "5px" }}
                 onClick={handleNotifClick}
               >
                 <Badge
@@ -236,9 +246,7 @@ export default function Navbar() {
                   }
                   color="error"
                 >
-                  <Avatar sx={{ bgcolor: ColorTheme.palette.secondary.main }}>
-                    <NotificationsIcon color="textLight" />
-                  </Avatar>
+                  <NotificationsIcon />
                 </Badge>
               </IconButton>
 
@@ -252,6 +260,7 @@ export default function Navbar() {
                 sx={{
                   p: 0,
                   display: { xs: "none", md: "inline-flex" },
+                  ml: "5px",
                 }}
               >
                 <Avatar src={user && user.avatar} alt={user && user.username} />

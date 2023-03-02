@@ -88,7 +88,13 @@ export default function NotificationPanel({ notifs, onClose }) {
           <IconButton size="small" onClick={handleMoreVert}>
             <MoreVertIcon />
           </IconButton>
-          <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
+          <Menu
+            open={isMvOpen}
+            onClose={handleClose}
+            anchorEl={mvAnchorEl}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
             <MenuItem onClick={handleMarkAllAsRead}>Mark all as read</MenuItem>
           </Menu>
         </Stack>
@@ -176,7 +182,10 @@ function NotifList({ notifs, onClick }) {
         icon = <GroupAddIcon sx={{ fontSize: "12px" }} />;
         break;
       case "share":
-        icon = <ShareIcon sx={{ fontSize: "12px" }} />;
+        icon = (
+          <i className="fa-solid fa-share" style={{ fontSize: "10px" }}></i>
+        );
+        // icon = <ShareIcon sx={{ fontSize: "12px" }} />;
         break;
       case "requestFriend":
         icon = <PersonAddIcon sx={{ fontSize: "12px" }} />;

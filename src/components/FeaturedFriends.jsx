@@ -43,7 +43,7 @@ const FeaturedFriends = ({ profileName }) => {
         <CardHeader
           title={
             <Typography variant="h5" fontWeight="fontWeightBold">
-              Featured Friends
+              Friends
             </Typography>
           }
           subheader={friends.length + " Friends"}

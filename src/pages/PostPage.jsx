@@ -1,4 +1,10 @@
-import { Button, CircularProgress, Grid, IconButton } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+} from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import React, { useEffect, useState } from "react";
@@ -6,6 +12,7 @@ import * as postSvc from "../services/post";
 import { useNavigate, useParams } from "react-router-dom";
 import Post from "../components/Post";
 import { Stack } from "@mui/system";
+import ColorTheme from "../components/ColorTheme";
 
 export default function PostPage() {
   const { postId, imgIndex } = useParams();
@@ -47,22 +54,39 @@ export default function PostPage() {
     navigate(`/posts/${postId}/${newIndex}`);
   }
 
+  const styles = {
+    gridContainer: {
+      width: "100%",
+      maxWidth: "xl",
+      margin: "20px auto",
+      paddingX: "12px",
+    },
+  };
+
   return (
     <Grid
       container
-      justifyContent="center"
-      alignItems="center"
+      direction="row"
+      justifyContent="space-between"
+      alignItems="flex-start"
       spacing={2}
-      marginY={2}
-      width="100%"
+      sx={styles.gridContainer}
     >
       {showPhotos && (
-        <Grid item width="70%">
+        <Grid item xs={12} lg={7.5}>
           {post ? (
-            <Stack direction="row" alignItems="center" width="100%" spacing={2}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              width="100%"
+              spacing={2}
+            >
               {post.media.length > 1 && (
                 <IconButton onClick={handlePrev}>
-                  <ChevronLeftIcon />
+                  <Avatar>
+                    <ChevronLeftIcon />
+                  </Avatar>
                 </IconButton>
               )}
 
@@ -75,7 +99,9 @@ export default function PostPage() {
               </div>
               {post.media.length > 1 && (
                 <IconButton onClick={handleNext}>
-                  <ChevronRightIcon />
+                  <Avatar>
+                    <ChevronRightIcon />
+                  </Avatar>
                 </IconButton>
               )}
             </Stack>
@@ -84,13 +110,8 @@ export default function PostPage() {
           )}
         </Grid>
       )}
-      <Grid item width="70%">
+      <Grid item xs={12} lg={4.5}>
         <Post post={post} page={!!postId} />
-      </Grid>
-      <Grid item width="70%" textAlign="center">
-        <Button variant="contained" onClick={() => navigate("/")}>
-          Back to Home
-        </Button>
       </Grid>
     </Grid>
   );

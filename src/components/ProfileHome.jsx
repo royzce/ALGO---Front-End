@@ -37,9 +37,6 @@ const ProfileHome = () => {
       <Grid item sm={12} md={4}>
         <Grid container spacing={2} direction="column">
           <Grid item>
-            <ProfileBio profileData={profileData} />
-          </Grid>
-          <Grid item>
             <FeaturedPhotos posts={posts} profileName={profileName} />
           </Grid>
           <Grid item>

@@ -98,7 +98,7 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
       {canShare && (
         <Button
           sx={styles.buttonSize}
-          startIcon={<ShareOutlined />}
+          startIcon={<i className="fa-regular fa-share-from-square"></i>}
           onClick={onShare}
         >
           Share

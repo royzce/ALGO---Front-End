@@ -137,11 +137,11 @@ export default function Post({ post, page, shared }) {
     card: {
       width: "100%",
       borderRadius: "10px",
-      mb: "16px",
+      boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.5)",
     },
     cardContent: {
       width: "100%",
-      padding: "24px",
+      padding: "20px",
     },
   };
 
@@ -173,7 +173,7 @@ export default function Post({ post, page, shared }) {
                 setShowShareLi={setShowShareLi}
                 user={user}
               />
-              <hr style={{ marginBottom: "12px" }} />
+              <hr style={{ marginBottom: "4px" }} />
               <PostActions
                 onReact={handleReact}
                 reaction={reaction}
@@ -181,7 +181,7 @@ export default function Post({ post, page, shared }) {
                 user={user}
                 post={thisPost}
               />
-              <hr style={{ marginTop: "12px" }} />
+              <hr style={{ marginTop: "4px" }} />
               <CommentSection
                 comments={comment && comment.sort(compareByDateAsc)}
                 show={showComments}
