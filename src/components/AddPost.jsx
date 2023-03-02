@@ -62,6 +62,11 @@ export default function AddPost() {
               <Avatar alt="avatar" src={user && user.avatar} />
             </RouterLink>
             <TextField
+              sx={{
+                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                  borderRadius: "10px",
+                },
+              }}
               placeholder={user && `Say something, ${user.firstName}.`}
               fullWidth
               onClick={() => setOpen(true)}

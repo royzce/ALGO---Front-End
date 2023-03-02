@@ -88,7 +88,7 @@ export default function PostHeader({
   };
 
   return (
-    <List>
+    <List sx={{ padding: "0px" }}>
       {currentUser && (
         <ListItem
           disableGutters

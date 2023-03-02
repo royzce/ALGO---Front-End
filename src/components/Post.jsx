@@ -95,17 +95,6 @@ export default function Post({ post, page, shared }) {
     }
   }
 
-  const styles = {
-    card: {
-      width: "100%",
-      borderRadius: "10px",
-    },
-    cardContent: {
-      width: "100%",
-      padding: "24px",
-    },
-  };
-
   async function handleReact(value) {
     let updatedReacts = [];
     if (value && reaction) {
@@ -143,6 +132,18 @@ export default function Post({ post, page, shared }) {
   function handleCloseRepost() {
     setReposting(false);
   }
+
+  const styles = {
+    card: {
+      width: "100%",
+      borderRadius: "10px",
+      boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.5)",
+    },
+    cardContent: {
+      width: "100%",
+      padding: "20px",
+    },
+  };
 
   return thisPost ? (
     <>

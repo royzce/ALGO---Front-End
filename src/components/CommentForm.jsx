@@ -34,7 +34,13 @@ export default function CommentForm({
 
   return (
     <>
-      <Stack direction="row" spacing={1} alignItems="flex-start" padding={2}>
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="flex-start"
+        padding={2}
+        sx={{ padding: "10px 16px" }}
+      >
         <RouterLink to={user && `/${user.username}`}>
           <Avatar alt="avatar" src={user && user.avatar} />
         </RouterLink>
@@ -47,6 +53,11 @@ export default function CommentForm({
           fullWidth
           value={value}
           onChange={handleChange}
+          sx={{
+            "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+              borderRadius: "10px",
+            },
+          }}
         />
         {editing ? (
           <Stack direction="row" spacing={1} alignItems="flex-start">

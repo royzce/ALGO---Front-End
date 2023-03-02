@@ -176,7 +176,10 @@ function NotifList({ notifs, onClick }) {
         icon = <GroupAddIcon sx={{ fontSize: "12px" }} />;
         break;
       case "share":
-        icon = <ShareIcon sx={{ fontSize: "12px" }} />;
+        icon = (
+          <i className="fa-solid fa-share" style={{ fontSize: "10px" }}></i>
+        );
+        // icon = <ShareIcon sx={{ fontSize: "12px" }} />;
         break;
       case "requestFriend":
         icon = <PersonAddIcon sx={{ fontSize: "12px" }} />;
