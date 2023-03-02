@@ -1,3 +1,4 @@
+import { Backdrop, CircularProgress } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as postSvc from "../services/post";
 import { compareByDateDesc } from "../services/util";
@@ -11,6 +12,7 @@ export const PostContext = createContext({
   onDeletePost: () => {},
   onPosting: () => {},
   posting: false,
+  editing: false,
   onAddReact: () => {},
   onEditReact: () => {},
   onDeleteReact: () => {},
@@ -19,6 +21,7 @@ export const PostContext = createContext({
 export default function PostProvider({ children }) {
   const [allPosts, setAllPosts] = useState([]);
   const [posting, setPosting] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const { currentUser: user } = useContext(UserContext);
 
@@ -38,21 +41,16 @@ export default function PostProvider({ children }) {
     setPosting(completed);
   }
 
+  function handleEditing(completed) {
+    setEditing(completed);
+  }
+
   async function handleAddPost(newPost) {
     newPost.date = new Date();
     console.log("newpost", newPost);
     const res = await postSvc.addPost(newPost);
     console.log("inside handleAddPost", res);
 
-    const media = newPost.media
-      ? newPost.media.map((url) => {
-          return { mediaLink: url };
-        })
-      : [];
-
-    const post = { ...res.data, media, tags: newPost.tags, user };
-
-    // setAllPosts([...allPosts, post].sort(compareByDateDesc));
     getAllPosts();
     handlePosting(false);
   }
@@ -61,7 +59,7 @@ export default function PostProvider({ children }) {
     const res = await postSvc.editPost(editedPost);
     console.log("inside handleEditPost", res);
     getAllPosts();
-    handlePosting(false);
+    handleEditing(false);
   }
 
   async function handleEditPrivacy(editedPost) {
@@ -92,9 +90,19 @@ export default function PostProvider({ children }) {
         onDeletePost: handleDeletePost,
         onPosting: handlePosting,
         posting,
+        editing,
+        onEditing: handleEditing,
       }}
     >
       {children}
+      {editing && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={editing}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
     </PostContext.Provider>
   );
 }

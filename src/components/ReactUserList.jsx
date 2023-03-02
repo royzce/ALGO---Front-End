@@ -88,6 +88,7 @@ export default function ReactUserList({ open, onClose, reactions }) {
             (react) =>
               tab === react.text && (
                 <UserList
+                  key={react.text}
                   list={
                     reactions &&
                     reactions.filter(

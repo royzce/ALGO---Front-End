@@ -5,6 +5,7 @@ import { UserContext } from "../context/UserContext";
 import * as postSvc from "../services/post";
 import { compareByDateAsc } from "../services/util";
 import CommentSection from "./CommentSection";
+import ConfirmDialog from "./ConfirmDialog";
 import EditPrivacy from "./EditPrivacy";
 import PostActions from "./PostActions";
 import PostForm from "./PostForm";
@@ -161,7 +162,7 @@ export default function Post({ post, page, shared }) {
             setShowTagLi={setShowTagLi}
           />
           <Typography paragraph>{thisPost.value}</Typography>
-          {(!page || (page && isRepost)) && (
+          {((!page && thisPost.media.length > 0) || isRepost) && (
             <PostMedia post={thisPost} srcPost={srcPost} />
           )}
           {!shared && (

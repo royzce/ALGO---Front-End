@@ -47,7 +47,7 @@ const FriendsList = () => {
       justifyContent: "space-between",
     },
   };
-  return (
+  return friends && friends.length > 0 ? (
     <Grid container spacing={2}>
       {friends.map((friend, index) => {
         return (
@@ -77,6 +77,8 @@ const FriendsList = () => {
         );
       })}
     </Grid>
+  ) : (
+    <Typography variant="body1">No friends to display.</Typography>
   );
 };
 

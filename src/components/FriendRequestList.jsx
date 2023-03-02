@@ -63,7 +63,7 @@ const FriendRequestList = () => {
       justifyContent: "space-between",
     },
   };
-  return (
+  return friendRequest && friendRequest.length > 0 ? (
     <Grid container spacing={2}>
       {friendRequest.map((friend, index) => {
         return (
@@ -104,6 +104,8 @@ const FriendRequestList = () => {
         );
       })}
     </Grid>
+  ) : (
+    <Typography variant="body1">No friend requests at the moment.</Typography>
   );
 };
 

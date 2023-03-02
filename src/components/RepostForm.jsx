@@ -33,7 +33,7 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
   const [showTagSel, setShowTagSel] = useState(false);
   const [friends, setFriends] = useState([]);
   const { currentUser: user } = useContext(UserContext);
-  const { onPosting } = useContext(PostContext);
+  const { onPosting, onEditing } = useContext(PostContext);
 
   useEffect(() => {
     if (srcPost) {
@@ -88,7 +88,12 @@ export default function RepostForm({ open, onClose, srcPost, post, onSubmit }) {
   function handleSubmit() {
     onSubmit(form);
     onClose();
-    onPosting(true);
+
+    if (post) {
+      onEditing(true);
+    } else {
+      onPosting(true);
+    }
   }
 
   const styles = {

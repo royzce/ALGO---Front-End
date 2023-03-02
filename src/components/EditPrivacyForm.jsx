@@ -47,7 +47,7 @@ export default function EditPrivacyForm({ choice, onSelect, isRepost }) {
         </ListItemIcon>
         <ListItemText
           primary="Friends"
-          secondary="Your friends on Algo can see this post."
+          secondary="Your friends (and their friends) on Algo can see this post."
         />
         <IconButton>
           {choice === "friends" ? (

@@ -22,6 +22,7 @@ import AddComment from "./AddComment";
 import { getElapsedTime } from "../services/util";
 import { UserContext } from "../context/UserContext";
 import { Link as RouterLink } from "react-router-dom";
+import ConfirmDialog from "./ConfirmDialog";
 
 export default function Comment({ comment, replies, reply }) {
   const { value, date, user, isEdited } = comment || {};
@@ -34,6 +35,9 @@ export default function Comment({ comment, replies, reply }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [showConfirmDel, setShowConfirmDel] = useState(false);
+
   function handleMoreClick(event) {
     setAnchorEl(event.currentTarget);
   }
@@ -61,6 +65,7 @@ export default function Comment({ comment, replies, reply }) {
   function handleDelete() {
     handleCloseForm();
     onDelete(comment.commentId);
+    setShowConfirmDel(false);
   }
 
   function displayDate() {
@@ -118,7 +123,9 @@ export default function Comment({ comment, replies, reply }) {
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <MenuItem onClick={() => setEditing(true)}>Edit</MenuItem>
-              <MenuItem onClick={handleDelete}>Delete</MenuItem>
+              <MenuItem onClick={() => setShowConfirmDel(true)}>
+                Delete
+              </MenuItem>
             </Menu>
             <ListItemAvatar>
               <RouterLink to={user && `/${user.username}`}>
@@ -207,6 +214,15 @@ export default function Comment({ comment, replies, reply }) {
             }
           />
         </ListItem>
+      )}
+      {showConfirmDel && (
+        <ConfirmDialog
+          open={showConfirmDel}
+          onClose={() => setShowConfirmDel(false)}
+          onConfirm={handleDelete}
+        >
+          Delete this comment?
+        </ConfirmDialog>
       )}
     </>
   );

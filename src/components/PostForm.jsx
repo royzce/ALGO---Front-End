@@ -41,7 +41,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   const [previewUrls, setPreviewUrls] = useState([]);
   const [files, setFiles] = useState([]);
   const { currentUser: user } = useContext(UserContext);
-  const { onPosting } = useContext(PostContext);
+  const { onPosting, onEditing } = useContext(PostContext);
 
   useEffect(() => {
     if (post) {
@@ -50,7 +50,6 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
 
     if (showTagSel) {
       userSvc.getFriends().then((res) => {
-        console.log("res is", res);
         setFriends(res.data);
       });
     }
@@ -139,7 +138,11 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
 
   async function handleSubmit() {
     onClose();
-    onPosting(true);
+    if (post) {
+      onEditing(true);
+    } else {
+      onPosting(true);
+    }
     let mediaLinks = post
       ? [...post.media.map((media) => media.mediaLink)]
       : [];

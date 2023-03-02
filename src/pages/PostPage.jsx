@@ -1,17 +1,20 @@
 import {
   Avatar,
+  Backdrop,
   CircularProgress,
   Container,
   Grid,
   IconButton,
+  Skeleton,
 } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as postSvc from "../services/post";
 import { useNavigate, useParams } from "react-router-dom";
 import Post from "../components/Post";
 import { Stack } from "@mui/system";
+import { PostContext } from "../context/PostContext";
 
 export default function PostPage() {
   const { postId, imgIndex } = useParams();
@@ -21,15 +24,19 @@ export default function PostPage() {
   console.log(showPhotos);
   const navigate = useNavigate();
 
+  const { allPosts } = useContext(PostContext);
+
   useEffect(() => {
-    postSvc.getPost(+postId).then((res) => {
-      const p = res.data;
-      if (p && p.media && p.media.length > 0 && !imgIndex) {
-        navigate(`/posts/${postId}/0`);
-      }
-      setPost(p);
-    });
-  }, [postId, imgIndex]);
+    if (allPosts) {
+      postSvc.getPost(+postId).then((res) => {
+        const p = res.data;
+        if (p && p.media && p.media.length > 0 && !imgIndex) {
+          navigate(`/posts/${postId}/0`);
+        }
+        setPost(p);
+      });
+    }
+  }, [postId, imgIndex, allPosts]);
 
   function handleNext() {
     const max = post.media.length - 1;
@@ -66,17 +73,19 @@ export default function PostPage() {
     <Grid
       container
       direction="row"
-      justifyContent="space-between"
+      justifyContent={imgIndex ? "space-between" : "center"}
       alignItems="flex-start"
       spacing={2}
       sx={styles.gridContainer}
     >
       {showPhotos && (
         <Grid item xs={12} lg={7.5}>
-          {post ? (
+          {post && post.media ? (
             <Stack
               direction="row"
-              justifyContent="space-between"
+              justifyContent={
+                post.media.length === 1 ? "center" : "space-between"
+              }
               alignItems="center"
               width="100%"
               spacing={2}
@@ -88,14 +97,15 @@ export default function PostPage() {
                   </Avatar>
                 </IconButton>
               )}
-
-              <div>
-                <img
-                  alt={`post-${post.id}-${imgIndex}`}
-                  src={post.media[+imgIndex].mediaLink}
-                  className="img-post-page"
-                />
-              </div>
+              {post.media[+imgIndex] && (
+                <div>
+                  <img
+                    alt={`post-${post.postId}-${imgIndex}`}
+                    src={post.media[+imgIndex].mediaLink}
+                    className="img-post-page"
+                  />
+                </div>
+              )}
               {post.media.length > 1 && (
                 <IconButton onClick={handleNext}>
                   <Avatar>

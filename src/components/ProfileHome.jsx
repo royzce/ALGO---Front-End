@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Grid, Stack, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import ProfileBio from "./ProfileBio";
 import FeaturedPhotos from "./FeaturedPhotos";
@@ -10,6 +10,7 @@ import { useOutletContext, useParams } from "react-router";
 import { UserContext } from "../context/UserContext";
 import * as postSvc from "../services/post";
 import { compareByDateDesc } from "../services/util";
+import { Box } from "@mui/system";
 
 const ProfileHome = () => {
   const { username } = useParams();
@@ -48,17 +49,27 @@ const ProfileHome = () => {
         </Grid>
       </Grid>
       <Grid item sm={12} md={8}>
-        <Container disableGutters>
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+          maxWidth={"md"}
+          minWidth={"xs"}
+          padding={"0 12px"}
+        >
           {isCurrentUser && <AddPost />}
-          <Typography
-            variant="h5"
-            fontWeight="fontWeightBold"
-            sx={{ padding: "20px" }}
-          >
-            Posts
-          </Typography>
+          <Box sx={{ textAlign: "start", width: "100%" }}>
+            <Typography
+              variant="h5"
+              fontWeight="fontWeightBold"
+              sx={{ padding: "20px", lineHeight: "0px" }}
+            >
+              Posts
+            </Typography>
+          </Box>
           <PostsList posts={posts} />
-        </Container>
+        </Stack>
       </Grid>
     </Grid>
   );
