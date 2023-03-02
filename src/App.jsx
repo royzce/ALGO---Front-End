@@ -29,6 +29,7 @@ import GlobalCSS from "./components/GlobalCSS";
 import DiscoverFriends from "./components/DiscoverFriends";
 import { UserContext } from "./context/UserContext";
 import PhotosPage from "./components/PhotosPage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -120,6 +121,7 @@ function App() {
             />
           </Route>
         </Route>
+        <Route path="/:username/edit" element={<EditProfilePage />} />
         <Route path="/not-found" element={<PageNotFound />} />
         <Route
           path="/search"

@@ -34,6 +34,19 @@ export function getProfileData(username) {
   return http.get(`/profiles/${username}`);
 }
 
+export function editProfile(user) {
+  return http.post(`/profiles/edit`, {
+    username: user.username,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    avatar: user.avatar ? user.avatar : "",
+    cover: user.cover ? user.cover : "",
+    bio: user.bio ? user.bio : "",
+    interest: user.interest ? user.interest : "",
+  });
+}
+
 export function register(user) {
   return http.post(`/users`, {
     username: user.username,
