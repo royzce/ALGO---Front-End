@@ -11,7 +11,7 @@ import { PopupContext } from "../context/PopupContext";
 import * as userService from "../services/user";
 
 const FriendsList = () => {
-  const { handleSuccessMessage, handleFailMessage } = useContext(PopupContext);
+  const { onShowSuccess, onShowFail } = useContext(PopupContext);
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
@@ -24,11 +24,11 @@ const FriendsList = () => {
     await userService
       .removeFriend(friendId)
       .then((res) => {
-        handleSuccessMessage("Removed Friend");
+        onShowSuccess("Removed Friend");
         setFriends(friends.filter((friend) => friend.userId !== friendId));
       })
       .catch((err) => {
-        handleFailMessage("An unexpected error occured. Try again later.");
+        onShowFail("An unexpected error occured. Try again later.");
         console.log("Error", err);
       });
   };

@@ -18,7 +18,7 @@ const DiscoverFriends = ({ users }) => {
   const [friendRequest, setFriendRequest] = useState([]);
   const [showButton, setShowButton] = useState(false);
   const dateNow = new Date();
-  const { handleSuccessMessage, handleFailMessage } = useContext(PopupContext);
+  const { onShowSuccess, onShowFail } = useContext(PopupContext);
   useEffect(() => {
     if (users) {
       setShowButton(false);
@@ -39,11 +39,11 @@ const DiscoverFriends = ({ users }) => {
       .addFriend(friendId, dateNow)
       .then((res) => {
         // alert(res.data);
-        handleSuccessMessage("Friend request sent.");
+        onShowSuccess("Friend request sent.");
         setAllUsers(allUsers.filter((user) => user.userId !== friendId));
       })
       .catch((err) => {
-        handleFailMessage("An unexpected error occurred. Try again later");
+        onShowFail("An unexpected error occurred. Try again later");
       });
   };
   const styles = {
