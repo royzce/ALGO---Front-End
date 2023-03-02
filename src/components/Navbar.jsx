@@ -203,8 +203,7 @@ export default function Navbar() {
               </IconButton>
               <Typography
                 id="logoName"
-                variant="h5"
-                fontWeight={"fontWeightBold"}
+                variant="h4"
                 color={ColorTheme.palette.textLight.main}
                 sx={{
                   display: {
