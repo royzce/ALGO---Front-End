@@ -201,14 +201,20 @@ export default function Navbar() {
                 <MenuIcon />
               </IconButton>
               <Typography
+                id="logoName"
                 variant="h5"
                 fontWeight={"fontWeightBold"}
                 color={ColorTheme.palette.textLight.main}
-                sx={{ display: { xs: "none", md: "inline-flex" } }}
+                sx={{
+                  display: {
+                    xs: "none",
+                    md: "inline-flex",
+                  },
+                }}
                 style={{ cursor: "pointer" }}
                 onClick={() => navigate("/")}
               >
-                ALGO
+                algo
               </Typography>
             </Toolbar>
           </Grid>

@@ -1,4 +1,10 @@
-import { ImageList, ImageListItem } from "@mui/material";
+import {
+  Badge,
+  Button,
+  CardMedia,
+  ImageList,
+  ImageListItem,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as userSvc from "../services/post";
@@ -6,6 +12,20 @@ import Post from "./Post";
 
 export default function PostMedia({ post, srcPost }) {
   const { media } = post;
+  const maxImages = 5;
+  const [showMore, setShowMore] = useState(false);
+  const [images, setImages] = useState(media.slice(0, maxImages));
+
+  const handleShowMore = () => {
+    const remainingImages = media.slice(images.length, media.length);
+    setImages([...images, ...remainingImages]);
+    setShowMore(true);
+  };
+
+  const handleHide = () => {
+    setImages(media.slice(0, maxImages));
+    setShowMore(false);
+  };
 
   return (
     post && (
@@ -14,14 +34,34 @@ export default function PostMedia({ post, srcPost }) {
           <Post post={srcPost} shared={true} />
         ) : (
           media && (
-            <ImageList>
-              {media.map((media, index) => (
+            <ImageList
+              sx={{ width: "100%", height: 450 }}
+              cols={3}
+              rowHeight={164}
+            >
+              {images.map((media, index) => (
                 <Link to={`/posts/${post.postId}/${index}`} key={index}>
-                  <ImageListItem>
-                    <img alt={`post-${index}`} src={media.mediaLink} />
-                  </ImageListItem>
+                  <CardMedia
+                    component="img"
+                    alt={`post-${index}`}
+                    image={media.mediaLink}
+                    sx={{
+                      objectFit: "cover",
+                      height: "223px",
+                    }}
+                  />
                 </Link>
               ))}
+              {media.length > 6 && !showMore && (
+                <Button sx={{ fontSize: "2rem" }} onClick={handleShowMore}>
+                  +{media.length - maxImages}
+                </Button>
+              )}
+              {showMore && (
+                <Button sx={{ fontSize: "2rem" }} onClick={handleHide}>
+                  Hide
+                </Button>
+              )}
             </ImageList>
           )
         )}
