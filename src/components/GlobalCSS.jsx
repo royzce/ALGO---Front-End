@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import ColorTheme from "../components/ColorTheme";
 
 const GlobalCSS = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap')
+// @import url('https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap')
 
   body {
     background-color: ${ColorTheme.palette.body.main};
@@ -13,9 +13,9 @@ const GlobalCSS = createGlobalStyle`
   .css-kudwh-MuiTooltip-arrow {
     color: red;
   }
-  #logoName {
-    font-family: 'Tilt Warp';
-  }
+  // #logoName {
+  //   font-family: 'Tilt Warp';
+  // }
 `;
 
 export default GlobalCSS;

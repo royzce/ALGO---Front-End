@@ -9,6 +9,7 @@ import { PostContext } from "../context/PostContext";
 import { useOutletContext, useParams } from "react-router";
 import { UserContext } from "../context/UserContext";
 import * as postSvc from "../services/post";
+import { compareByDateDesc } from "../services/util";
 
 const ProfileHome = () => {
   const { username } = useParams();
@@ -26,7 +27,9 @@ const ProfileHome = () => {
         console.log("posts in profile", posts);
         setPosts(posts);
       } else {
-        postSvc.getUserPosts(username).then((res) => setPosts(res.data));
+        postSvc
+          .getUserPosts(username)
+          .then((res) => setPosts(res.data.sort(compareByDateDesc)));
         console.log("hindi eto");
       }
     }

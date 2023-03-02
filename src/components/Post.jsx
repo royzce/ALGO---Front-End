@@ -140,6 +140,7 @@ export default function Post({ post, page, shared }) {
       width: "100%",
       borderRadius: "10px",
       boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.5)",
+      mb: "10px",
     },
     cardContent: {
       width: "100%",
