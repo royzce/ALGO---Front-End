@@ -23,7 +23,7 @@ const DiscoverFriends = ({ users }) => {
     if (users) {
       setShowButton(false);
       setAllUsers(users);
-      console.log("users", users);
+      console.log("users in discover", users);
     } else {
       setShowButton(true);
       userService.getNonFriend().then((res) => {

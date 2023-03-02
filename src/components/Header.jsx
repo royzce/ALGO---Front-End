@@ -9,13 +9,17 @@ import {
 } from "@mui/material";
 import { Button } from "bootstrap";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import * as userService from "../services/user";
 import UserActionButtons from "./UserActionButtons";
 
 const Header = ({ profileName, profileData }) => {
+  const { username } = useParams();
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
+    // console.log("pprrooddaattaa is ", profileData);
+    console.log("username iz ", username);
     userService.getFriends().then((res) => {
       setFriends(res.data);
     });
@@ -98,7 +102,7 @@ const Header = ({ profileName, profileData }) => {
             paddingRight: "",
           }}
         >
-          <UserActionButtons />
+          <UserActionButtons username={username} />
         </div>
       </Stack>
     </Container>

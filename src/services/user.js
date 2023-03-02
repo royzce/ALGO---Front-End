@@ -80,3 +80,7 @@ export function getNonFriend() {
 export function getOnlyFriend() {
   return http.get(`/profiles/friends`);
 }
+
+export function getUserStatus(username) {
+  return http.get(`/profiles/${username}/status`);
+}

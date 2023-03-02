@@ -9,23 +9,19 @@ export const UserActionsProvider = ({ children }) => {
   const [nonFriends, setNonFriends] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
 
-  useEffect(() => {
-    if (currentUser) {
-      //   usersService.getNonFriend().then((nonFriend) => {
-      //     console.log("non friends are ", nonFriend);
-      //     setNonFriends(nonFriend);
-      //   });
+  // useEffect(() => {
+  //   if (currentUser) {
 
-      let nonFriend = usersService.getNonFriend().then((nonFriend) => {
-        console.log("non friends R ", nonFriend);
-        setNonFriends(nonFriend);
-      });
+  //     let nonFriend = usersService.getNonFriend().then((nonFriend) => {
+  //       console.log("non friends R ", nonFriend);
+  //       setNonFriends(nonFriend);
+  //     });
 
-      usersService.getOnlyFriend().then((friend) => {
-        console.log("current user friend is", friend);
-      });
-    }
-  }, [currentUser]);
+  //     usersService.getOnlyFriend().then((friend) => {
+  //       console.log("current user friend is", friend);
+  //     });
+  //   }
+  // }, [currentUser]);
 
   function handleCurrentUser(user) {
     setCurrentUser(user);
