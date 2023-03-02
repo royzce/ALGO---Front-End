@@ -4,7 +4,6 @@ export function getCurrentUser() {
   return http.get("/users/me");
 }
 
-// TEST FUNCTION ONLY
 export function getFriends() {
   return http.get("/friends");
 }
@@ -76,4 +75,8 @@ export function getUsersBy(name) {
 
 export function getNonFriend() {
   return http.get(`/profiles/discover`);
+}
+
+export function getOnlyFriend() {
+  return http.get(`/profiles/friends`);
 }

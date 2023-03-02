@@ -16,6 +16,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { PopupProvider } from "./context/PopupContext";
 import { NotifProvider } from "./context/NotifContext";
 import ProfileNavProvider from "./context/ProfileNavContext";
+import { UserActionsProvider } from "./context/UserActionsContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,15 +25,17 @@ root.render(
       <AuthProvider>
         <PopupProvider>
           <RegisterProvider>
-            <UserProvider>
-              <PostProvider>
-                <NotifProvider>
-                  <ProfileNavProvider>
-                    <App />
-                  </ProfileNavProvider>
-                </NotifProvider>
-              </PostProvider>
-            </UserProvider>
+            <UserActionsProvider>
+              <UserProvider>
+                <PostProvider>
+                  <NotifProvider>
+                    <ProfileNavProvider>
+                      <App />
+                    </ProfileNavProvider>
+                  </NotifProvider>
+                </PostProvider>
+              </UserProvider>
+            </UserActionsProvider>
           </RegisterProvider>
         </PopupProvider>
       </AuthProvider>
