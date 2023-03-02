@@ -1,6 +1,7 @@
 import {
   Card,
   CardHeader,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -60,20 +61,40 @@ const Details = () => {
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
-            <ListItemText>Edit Profile</ListItemText>
+            <ListItemText>
+              <Typography variant="h6">Edit Profile </Typography>
+            </ListItemText>
           </ListItemButton>
         </ListItem>
+        <Divider />
         <ListItem style={styles.listItem}>
-          <ListItemText>Username: {profileData.username}</ListItemText>
+          <ListItemText>
+            <Typography variant="h6">
+              Username: {profileData.username}
+            </Typography>
+          </ListItemText>
         </ListItem>
+        <Divider />
         <ListItem style={styles.listItem}>
-          <ListItemText>First Name: {profileData.firstName}</ListItemText>
+          <ListItemText>
+            <Typography variant="h6">
+              First Name: {profileData.firstName}
+            </Typography>
+          </ListItemText>
         </ListItem>
+        <Divider />
         <ListItem style={styles.listItem}>
-          <ListItemText>Last Name: {profileData.lastName}</ListItemText>
+          <ListItemText>
+            <Typography variant="h6">
+              Last Name: {profileData.lastName}
+            </Typography>
+          </ListItemText>
         </ListItem>
+        <Divider />
         <ListItem style={styles.listItem}>
-          <ListItemText>Email: {profileData.email}</ListItemText>
+          <ListItemText>
+            <Typography variant="h6">Email: {profileData.email}</Typography>
+          </ListItemText>
         </ListItem>
       </List>
     </Card>
