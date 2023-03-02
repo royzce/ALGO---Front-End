@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { PopupContext } from "../context/PopupContext";
+import UserActionButtons from "./UserActionButtons";
 
 const DiscoverFriends = ({ users }) => {
   const [allUsers, setAllUsers] = useState([]);
@@ -69,7 +70,7 @@ const DiscoverFriends = ({ users }) => {
               <Card sx={styles.card}>
                 <CardContent sx={styles.cardContent}>
                   <Stack
-                    justifyContent={showButton ? "space-between" : "flex-start"}
+                    justifyContent="space-between"
                     spacing={1}
                     direction="row"
                     alignItems="center"
@@ -83,7 +84,8 @@ const DiscoverFriends = ({ users }) => {
                     <Typography variant="h6">
                       {friend.firstName + " " + friend.lastName}
                     </Typography>
-                    {showButton && (
+                    <UserActionButtons username={friend.username} />
+                    {/* {showButton && (
                       <Button
                         color="error"
                         variant="contained"
@@ -92,7 +94,7 @@ const DiscoverFriends = ({ users }) => {
                       >
                         Add
                       </Button>
-                    )}
+                    )} */}
                   </Stack>
                 </CardContent>
               </Card>

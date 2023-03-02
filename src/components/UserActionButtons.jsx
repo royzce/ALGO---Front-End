@@ -8,11 +8,6 @@ const UserActionButtons = ({ username }) => {
   const [isSender, setSender] = useState([]);
   const [isAcceptor, setAcceptor] = useState([]);
   const [isStranger, setStranger] = useState([]);
-  // const [cancleButton, setCancelButton] = useState(false);
-  // const [confirmButton, setConfirmButton] = useState(false);
-  // const [deleteButton, setDeleteButton] = useState(false);
-  // const [unfriendButton, setUnfriendButton] = useState(false);
-  // const [addButton, setAddButton] = useState(false);
 
   useEffect(() => {
     userService.getUserStatus(username).then((status) => {
