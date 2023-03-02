@@ -44,7 +44,7 @@ const Header = ({ profileName, profileData }) => {
     <Container disableGutters>
       <CardMedia
         component="img"
-        image="https://wallpaperaccess.com/full/22249.jpg"
+        image={profileData.cover}
         sx={styles.coverPhoto}
       />
       <Stack
