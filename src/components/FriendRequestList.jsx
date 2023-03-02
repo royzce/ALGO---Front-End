@@ -98,7 +98,10 @@ const FriendRequestList = () => {
                   >
                     Delete
                   </Button> */}
-                  <UserActionButtons username={friend.user.username} />
+                  <UserActionButtons
+                    username={friend.user.username}
+                    userId={friend.user.userId}
+                  />
                 </Box>
               </CardContent>
             </Card>

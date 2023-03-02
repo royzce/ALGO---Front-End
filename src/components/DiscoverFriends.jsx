@@ -14,19 +14,14 @@ import UserActionButtons from "./UserActionButtons";
 
 const DiscoverFriends = ({ users }) => {
   const [allUsers, setAllUsers] = useState([]);
-  const [nonFriend, setNonFriends] = useState([]);
-  const [friends, setFriends] = useState([]);
-  const [friendRequest, setFriendRequest] = useState([]);
-  const [showButton, setShowButton] = useState(false);
+
   const dateNow = new Date();
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
   useEffect(() => {
     if (users) {
-      setShowButton(false);
       setAllUsers(users);
       console.log("users in discover", users);
     } else {
-      setShowButton(true);
       userService.getNonFriend().then((res) => {
         console.log("non friend user", res);
         setAllUsers(res.data);
@@ -85,7 +80,11 @@ const DiscoverFriends = ({ users }) => {
                       {friend.firstName + " " + friend.lastName}
                     </Typography>
 
-                    <UserActionButtons username={friend.username} />
+                    <UserActionButtons
+                      username={friend.username}
+                      userId={friend.userId}
+                      handleActionDiscover={onAdd}
+                    />
                     {/* {showButton && (
                       <Button
                         color="error"

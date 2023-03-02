@@ -9,6 +9,7 @@ const SearchAll = () => {
   const { q } = useParams();
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+
   useEffect(() => {
     postService.getPostsByQuery(q).then((res) => {
       console.log("post", res);

@@ -3,11 +3,45 @@ import React, { useContext, useEffect, useState } from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { UserContext } from "../context/UserContext";
 import * as userService from "../services/user";
-const UserActionButtons = ({ username }) => {
+import { PopupContext } from "../context/PopupContext";
+import { async } from "q";
+const UserActionButtons = ({
+  username,
+  userId,
+  handleActionFriendList,
+  handleActionDiscover,
+  onDeleteRequest,
+  onAcceptRequest,
+}) => {
   const [isFriend, setFriend] = useState([]);
   const [isSender, setSender] = useState([]);
   const [isAcceptor, setAcceptor] = useState([]);
   const [isStranger, setStranger] = useState([]);
+  const dateNow = new Date();
+
+  const { onShowSuccess, onShowFail } = useContext(PopupContext);
+
+  async function deleteRequest() {
+    await userService
+      .rejectRequest(userId)
+      .then((res) => {
+        onShowSuccess("Request removed.");
+      })
+      .catch((err) => {
+        onShowFail("An unexpected error occurred. Try again later.");
+      });
+  }
+
+  async function acceptRequest() {
+    await userService
+      .acceptRequest(userId)
+      .then((res) => {
+        onShowSuccess("Friend request accepted.");
+      })
+      .catch((err) => {
+        onShowFail("An unexpected error occurred. Try again later.");
+      });
+  }
 
   useEffect(() => {
     userService.getUserStatus(username).then((status) => {
@@ -46,15 +80,52 @@ const UserActionButtons = ({ username }) => {
     });
   }, [username]);
 
+  // const onRemoveFriend = async (userId) => {
+  //   await userService
+  //     .removeFriend(userId)
+  //     .then((res) => {
+  //       onShowSuccess("Removed Friend");
+  //       setFriends(friends.filter((friend) => friend.userId !== friendId));
+  //     })
+  //     .catch((err) => {
+  //       onShowFail("An unexpected error occured. Try again later.");
+  //       console.log("Error", err);
+  //     });
+  // };
   return (
     <ButtonGroup size="small">
-      {isAcceptor && <Button variant="contained">cancel request</Button>}
-      {isSender && <Button variant="contained">accept</Button>}
+      {isAcceptor && (
+        <Button
+          variant="contained"
+          onClick={() => handleActionFriendList(userId)}
+        >
+          cancel request
+        </Button>
+      )}
+      {isSender && (
+        <Button variant="contained" onClick={() => acceptRequest()}>
+          accept
+        </Button>
+      )}
       &nbsp;
-      {isSender && <Button variant="contained">delete</Button>}
-      {isFriend && <Button variant="contained">unfriend</Button>}
+      {isSender && (
+        <Button variant="contained" onClick={() => onDeleteRequest(userId)}>
+          delete
+        </Button>
+      )}
+      {isFriend && (
+        <Button
+          variant="contained"
+          onClick={() => handleActionFriendList(userId)}
+        >
+          unfriend
+        </Button>
+      )}
       {isStranger && (
-        <Button variant="contained">
+        <Button
+          variant="contained"
+          onClick={() => handleActionDiscover(userId, dateNow)}
+        >
           <PersonAddIcon />
           &nbsp;add
         </Button>

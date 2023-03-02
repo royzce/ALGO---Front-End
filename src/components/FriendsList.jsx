@@ -72,7 +72,11 @@ const FriendsList = () => {
                 >
                   Unfriend
                 </Button> */}
-                <UserActionButtons username={friend.username} />
+                <UserActionButtons
+                  username={friend.username}
+                  userId={friend.userId}
+                  handleActionFriendList={onRemoveFriend}
+                />
               </CardContent>
             </Card>
           </Grid>
