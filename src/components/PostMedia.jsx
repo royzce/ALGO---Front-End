@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Post from "./Post";
 import { Button, Skeleton } from "@mui/material";
-import React from "react";
 
 export default function PostMedia({ post, srcPost }) {
   const { media } = post;

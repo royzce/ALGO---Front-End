@@ -14,7 +14,7 @@ const GlobalCSS = createGlobalStyle`
     color: red;
   }
   #logoName {
-    font-family: 'Tilt Warp', cursive;
+    font-family: 'Tilt Warp';
   }
 `;
 

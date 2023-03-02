@@ -89,13 +89,13 @@ export default function PostPage() {
                 </IconButton>
               )}
 
-              <Container>
+              <div>
                 <img
                   alt={`post-${post.id}-${imgIndex}`}
                   src={post.media[+imgIndex].mediaLink}
                   className="img-post-page"
                 />
-              </Container>
+              </div>
               {post.media.length > 1 && (
                 <IconButton onClick={handleNext}>
                   <Avatar>
