@@ -21,8 +21,12 @@ const FeaturedPhotos = ({ posts, profileName }) => {
     },
   };
   useEffect(() => {
-    postsService.getAllPhotos().then((res) => setPhotos(res.data));
-  }, [posts]);
+    if (profileName) {
+      postsService.getAllPhotos(profileName).then((res) => {
+        setPhotos(res.data);
+      });
+    }
+  }, [posts, profileName]);
 
   useEffect(() => {
     console.log(photos);

@@ -65,8 +65,8 @@ export function deleteComment(postId, commentId) {
   return http.delete(`/posts/${postId}/comments/${commentId}`);
 }
 
-export function getAllPhotos() {
-  return http.get("/profiles/photos");
+export function getAllPhotos(username) {
+  return http.get(`/profiles/${username}/photos`);
 }
 
 export function getPostsByQuery(value) {
