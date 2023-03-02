@@ -20,6 +20,7 @@ const FeaturedFriends = ({ profileName }) => {
   const [isDisabled, setDisabled] = useState(false);
 
   useEffect(() => {
+    console.log("allfriends useeff", allFriends);
     if (allFriends.length === 0) {
       setDisabled(true);
     } else {

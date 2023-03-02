@@ -8,23 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import { Button } from "bootstrap";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import * as userService from "../services/user";
 import cover from "../assets/cover.jpg";
 import UserActionButtons from "./UserActionButtons";
+import { FriendContext } from "../context/FriendContext";
 
 const Header = ({ profileName, profileData }) => {
   const { username } = useParams();
-  const [friends, setFriends] = useState([]);
-
-  useEffect(() => {
-    // console.log("pprrooddaattaa is ", profileData);
-    console.log("username iz ", username);
-    userService.getFriends().then((res) => {
-      setFriends(res.data);
-    });
-  }, []);
+  const { allFriends } = useContext(FriendContext);
 
   const styles = {
     profilePhoto: {
@@ -83,13 +76,14 @@ const Header = ({ profileName, profileData }) => {
           )}
           <Typography>@{profileData.username}</Typography>
           <AvatarGroup max={4}>
-            {friends.map((friend) => (
-              <Avatar
-                src={friend.avatar}
-                alt={friend.username}
-                key={friend.userId}
-              />
-            ))}
+            {allFriends &&
+              allFriends.map((friend) => (
+                <Avatar
+                  src={friend.avatar}
+                  alt={friend.username}
+                  key={friend.userId}
+                />
+              ))}
           </AvatarGroup>
         </Stack>
         <div

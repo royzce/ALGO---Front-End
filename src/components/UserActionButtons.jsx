@@ -13,13 +13,14 @@ const UserActionButtons = ({
   onDeleteRequest,
   onAcceptRequest,
 }) => {
-  const [isFriend, setFriend] = useState([]);
-  const [isSender, setSender] = useState([]);
-  const [isAcceptor, setAcceptor] = useState([]);
-  const [isStranger, setStranger] = useState([]);
+  const [isFriend, setFriend] = useState(false);
+  const [isSender, setSender] = useState(false);
+  const [isAcceptor, setAcceptor] = useState(false);
+  const [isStranger, setStranger] = useState(false);
   const dateNow = new Date();
 
-  const { onShowSuccess, onShowFail } = useContext(PopupContext);
+  const { onShowSuccess, onShowFail, allFriends, friendRequests } =
+    useContext(PopupContext);
 
   async function deleteRequest() {
     await userService
@@ -78,7 +79,7 @@ const UserActionButtons = ({
         setStranger(false);
       }
     });
-  }, [username]);
+  }, [username, allFriends, friendRequests]);
 
   // const onRemoveFriend = async (userId) => {
   //   await userService

@@ -11,11 +11,12 @@ import {
 } from "@mui/material";
 import { PopupContext } from "../context/PopupContext";
 import UserActionButtons from "./UserActionButtons";
+import { FriendContext } from "../context/FriendContext";
 
 const DiscoverFriends = ({ users }) => {
   const [allUsers, setAllUsers] = useState([]);
   const dateNow = new Date();
-  const { onShowSuccess, onShowFail } = useContext(PopupContext);
+  const { onAdd } = useContext(FriendContext);
   useEffect(() => {
     if (users) {
       setAllUsers(users);
@@ -28,19 +29,6 @@ const DiscoverFriends = ({ users }) => {
     }
   }, [users]);
 
-  const onAdd = async (friendId, dateNow) => {
-    console.log("On Add", friendId);
-    await userService
-      .addFriend(friendId, dateNow)
-      .then((res) => {
-        // alert(res.data);
-        onShowSuccess("Friend request sent.");
-        setAllUsers(allUsers.filter((user) => user.userId !== friendId));
-      })
-      .catch((err) => {
-        onShowFail("An unexpected error occurred. Try again later");
-      });
-  };
   const styles = {
     card: {
       height: 150,
