@@ -88,7 +88,13 @@ export default function NotificationPanel({ notifs, onClose }) {
           <IconButton size="small" onClick={handleMoreVert}>
             <MoreVertIcon />
           </IconButton>
-          <Menu open={isMvOpen} onClose={handleClose} anchorEl={mvAnchorEl}>
+          <Menu
+            open={isMvOpen}
+            onClose={handleClose}
+            anchorEl={mvAnchorEl}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
             <MenuItem onClick={handleMarkAllAsRead}>Mark all as read</MenuItem>
           </Menu>
         </Stack>

@@ -103,7 +103,32 @@ export default function PostHeader({
             )
           }
         >
-          <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              sx: {
+                overflow: "visible",
+                borderRadius: "10px",
+                mt: "0px",
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 15,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            transformOrigin={{ horizontal: "right", vertical: "top" }}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          >
             <MenuItem onClick={handleEdit}>Edit</MenuItem>
             <MenuItem onClick={handleDelete}>Delete</MenuItem>
           </Menu>

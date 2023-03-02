@@ -33,6 +33,7 @@ export default function PostStats({
       alignItems="center"
       spacing={1}
       justifyContent="space-between"
+      paddingTop={2}
     >
       <Stack direction="row" alignItems="center" spacing={0.5}>
         {reactions && (
