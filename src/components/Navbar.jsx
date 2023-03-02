@@ -19,6 +19,7 @@ import {
   MenuItem,
   Menu,
   InputAdornment,
+  Switch,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -46,26 +47,28 @@ export default function Navbar() {
 
   const { currentUser: user } = useContext(UserContext);
   const [mdAnchorEl, setMdAnchorEl] = React.useState(null);
-  const [drawerAnchorEl, setDrawerAnchorEl] = React.useState(null);
+  const [drawerAnchorEl, setDrawerProfileAnchorEl] = React.useState(null);
   const mdOpen = Boolean(mdAnchorEl);
   const drawerOpen = Boolean(drawerAnchorEl);
+
   const handleMdClick = (event) => {
     setMdAnchorEl(event.currentTarget);
   };
   const handleMdClose = () => {
     setMdAnchorEl(null);
   };
-  const handleDrawerClick = (event) => {
-    setDrawerAnchorEl(event.currentTarget);
+  const handleDrawerProfileClick = (event) => {
+    setDrawerProfileAnchorEl(event.currentTarget);
   };
-  const handleDrawerClose = () => {
-    setDrawerAnchorEl(null);
+  const handleDrawerProfileClose = () => {
+    setDrawerProfileAnchorEl(null);
+    handleDrawerToggle();
   };
 
   const navigate = useNavigate();
   const handleGoToProfile = () => {
     handleMdClose();
-    handleDrawerClose();
+    handleDrawerProfileClose();
     navigate(`/${user.username}`);
   };
 
@@ -98,18 +101,18 @@ export default function Navbar() {
         id="md-menu"
         open={mdOpen}
         onClose={handleMdClose}
-        onClick={handleMdClose}
+        // onClick={handleMdClose}
         PaperProps={{
           sx: {
             overflow: "visible",
             borderRadius: "10px",
             mt: "8px",
-            width: "180px",
+            width: "200px",
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
-              ml: -0.5,
-              mr: 1,
+              ml: "2px",
+              mr: "22px",
             },
             "&:before": {
               content: '""',
@@ -132,15 +135,74 @@ export default function Navbar() {
           <Avatar src={user && user.avatar} alt={user && user.username} /> My
           Profile
         </MenuItem>
-        <MenuItem onClick={handleMdClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" color="primary" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+        <div>
+          <Switch sx={{ mr: "8px", ml: "5px" }} />
+          Dark Mode
+        </div>
         <MenuItem onClick={handleLogout}>
-          <ListItemIcon>
-            <Logout fontSize="small" color="primary" />
+          <ListItemIcon sx={{ mr: "10px", ml: "10px" }}>
+            <i
+              className="fa-solid fa-right-from-bracket"
+              style={{ color: ColorTheme.palette.error.main }}
+            />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    );
+  }
+
+  function DrawerProfileMenu() {
+    return (
+      <Menu
+        anchorEl={drawerAnchorEl}
+        id="drawer-menu"
+        open={drawerOpen}
+        onClose={handleDrawerProfileClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            borderRadius: "10px",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            width: "200px",
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: "2px",
+              mr: "22px",
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              bottom: -10,
+              left: 10,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "bottom" }}
+        anchorOrigin={{ horizontal: "left", vertical: "top" }}
+      >
+        <MenuItem onClick={(handleGoToProfile, handleDrawerProfileClose)}>
+          <Avatar src={user && user.avatar} alt={user && user.username} /> My
+          Profile
+        </MenuItem>
+        <div>
+          <Switch sx={{ mr: "8px", ml: "5px" }} />
+          Dark Mode
+        </div>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon sx={{ mr: "10px", ml: "10px" }}>
+            <i
+              className="fa-solid fa-right-from-bracket"
+              style={{ color: ColorTheme.palette.error.main }}
+            />
           </ListItemIcon>
           Logout
         </MenuItem>
@@ -297,7 +359,7 @@ export default function Navbar() {
           <Box>
             <Divider />
             <Button
-              onClick={handleDrawerClick}
+              onClick={handleDrawerProfileClick}
               aria-controls={drawerOpen ? "drawer-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={drawerOpen ? "true" : undefined}
@@ -305,64 +367,15 @@ export default function Navbar() {
                 p: 1,
                 m: 1,
               }}
-              startIcon={<Avatar alt="U" src="/static/images/avatar/2.jpg" />}
+              startIcon={
+                <Avatar src={user && user.avatar} alt={user && user.username} />
+              }
             >
               <Typography variant="body2" fontWeight={"fontWeightBold"}>
-                Name FamilyName
+                {user && user.firstName} {user && user.lastName}
               </Typography>
             </Button>
-            <Menu
-              anchorEl={drawerAnchorEl}
-              id="drawer-menu"
-              open={drawerOpen}
-              onClose={handleDrawerClose}
-              onClick={handleDrawerClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  borderRadius: "10px",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&:before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    bottom: -10,
-                    left: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{ horizontal: "right", vertical: "bottom" }}
-              anchorOrigin={{ horizontal: "left", vertical: "top" }}
-            >
-              <MenuItem onClick={handleGoToProfile}>
-                <Avatar /> My Profile
-              </MenuItem>
-              <MenuItem onClick={handleDrawerClose}>
-                <ListItemIcon>
-                  <Settings fontSize="small" />
-                </ListItemIcon>
-                Settings
-              </MenuItem>
-              <MenuItem onClick={handleDrawerClose}>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                Logout
-              </MenuItem>
-            </Menu>
+            <DrawerProfileMenu />
           </Box>
         </Box>
       </Drawer>
