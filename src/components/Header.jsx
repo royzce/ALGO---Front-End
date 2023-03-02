@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import * as userService from "../services/user";
+import cover from "../assets/cover.jpg";
 
 const Header = ({ profileName, profileData }) => {
   const [friends, setFriends] = useState([]);
@@ -44,7 +45,7 @@ const Header = ({ profileName, profileData }) => {
     <Container disableGutters>
       <CardMedia
         component="img"
-        image={profileData.cover}
+        image={profileData && profileData.cover ? profileData.cover : cover}
         sx={styles.coverPhoto}
       />
       <Stack

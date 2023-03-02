@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Post from "./Post";
 import { Button, Skeleton } from "@mui/material";
 import ColorTheme from "./ColorTheme";
-import { after } from "underscore";
 
 export default function PostMedia({ post, srcPost }) {
   const { media } = post || {};
