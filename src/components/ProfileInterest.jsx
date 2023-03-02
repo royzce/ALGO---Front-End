@@ -1,7 +1,9 @@
 import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import * as userService from "../services/user";
 
-const interest = [
+const interestList = [
   {
     name: "Java",
     img: "https://1000logos.net/wp-content/uploads/2020/09/Java-Logo.png",
@@ -29,6 +31,50 @@ const interest = [
 ];
 
 const Interest = () => {
+  const { username } = useParams();
+  const [profileData, setProfileData] = useState({});
+  const [filteredInterest, setFilteredInterest] = useState([]);
+  const { interest } = profileData;
+  useEffect(() => {
+    if (username) {
+      userService
+        .getProfileData(username)
+        .then((res) => setProfileData(res.data));
+    }
+    if (interest) {
+      setFilteredInterest(
+        interestList.filter((item) => {
+          const result = interest.find(
+            (interest) => interest.interest === item.name
+          );
+          if (result) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
+    }
+  }, [username, interest]);
+
+  console.log("Interest", interest);
+  // const filteredInterest = interestList.filter((item) => {
+  //   return interest.some((res) => {
+  //     return res.interest === item.name;
+  //   });
+  // });
+
+  // const filteredInterest = interestList.map((item) => {
+  //   const result = interest.find((interest) => interest.interest === item.name);
+  //   if (result) {
+  //     return item;
+  //   } else {
+  //     return;
+  //   }
+  // });
+
+  console.log("filteredInterest", filteredInterest);
+
   const styles = {
     borderRadius: {
       borderRadius: "10px",
@@ -45,14 +91,20 @@ const Interest = () => {
       />
       <CardContent>
         <Grid container spacing={6} textAlign="center">
-          {interest.map((item, index) => {
-            return (
-              <Grid item key={index} xs={4}>
-                <Typography>{item.name}</Typography>
-                <img src={item.img} alt={item.name} width="auto" height="165" />
-              </Grid>
-            );
-          })}
+          {filteredInterest &&
+            filteredInterest.map((item, index) => {
+              return (
+                <Grid item key={index} xs={4}>
+                  <Typography>{item.name}</Typography>
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    width="auto"
+                    height="165"
+                  />
+                </Grid>
+              );
+            })}
         </Grid>
       </CardContent>
     </Card>

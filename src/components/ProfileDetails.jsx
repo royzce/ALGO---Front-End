@@ -56,7 +56,6 @@ const Details = () => {
           <ListItemButton
             LinkComponent={Link}
             to={`/${profileData.username}/edit`}
-            state={{ profileData }}
           >
             <ListItemIcon>
               <EditIcon />

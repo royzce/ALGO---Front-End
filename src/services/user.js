@@ -35,7 +35,7 @@ export function getProfileData(username) {
 }
 
 export function editProfile(user) {
-  return http.post(`/profiles/edit`, {
+  return http.put(`/profiles/edit`, {
     username: user.username,
     email: user.email,
     firstName: user.firstName,
@@ -43,7 +43,7 @@ export function editProfile(user) {
     avatar: user.avatar ? user.avatar : "",
     cover: user.cover ? user.cover : "",
     bio: user.bio ? user.bio : "",
-    interest: user.interest ? user.interest : "",
+    interest: user.interest ? user.interest : [],
   });
 }
 
