@@ -17,6 +17,7 @@ import { PopupProvider } from "./context/PopupContext";
 import { NotifProvider } from "./context/NotifContext";
 import ProfileNavProvider from "./context/ProfileNavContext";
 import { UserActionsProvider } from "./context/UserActionsContext";
+import { FriendProvider } from "./context/FriendContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,15 +27,17 @@ root.render(
         <PopupProvider>
           <RegisterProvider>
             <UserActionsProvider>
-              <UserProvider>
-                <PostProvider>
-                  <NotifProvider>
-                    <ProfileNavProvider>
-                      <App />
-                    </ProfileNavProvider>
-                  </NotifProvider>
-                </PostProvider>
-              </UserProvider>
+              <FriendProvider>
+                <UserProvider>
+                  <PostProvider>
+                    <NotifProvider>
+                      <ProfileNavProvider>
+                        <App />
+                      </ProfileNavProvider>
+                    </NotifProvider>
+                  </PostProvider>
+                </UserProvider>
+              </FriendProvider>
             </UserActionsProvider>
           </RegisterProvider>
         </PopupProvider>

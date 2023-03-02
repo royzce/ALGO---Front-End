@@ -101,6 +101,7 @@ const FriendRequestList = () => {
                   <UserActionButtons
                     username={friend.user.username}
                     userId={friend.user.userId}
+                    onAcceptRequest={onAcceptRequest}
                   />
                 </Box>
               </CardContent>

@@ -9,27 +9,23 @@ import {
   ImageListItemBar,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as userService from "../services/user";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../assets/avatar.jpg";
+import { FriendContext } from "../context/FriendContext";
 
 const FeaturedFriends = ({ profileName }) => {
-  const [friends, setFriends] = useState([]);
+  const { allFriends } = useContext(FriendContext);
   const [isDisabled, setDisabled] = useState(false);
-  useEffect(() => {
-    userService.getFriends().then((res) => {
-      setFriends(res.data);
-    });
-  }, []);
 
   useEffect(() => {
-    if (friends.length === 0) {
+    if (allFriends.length === 0) {
       setDisabled(true);
     } else {
       setDisabled(false);
     }
-  }, [friends]);
+  }, [allFriends]);
 
   const styles = {
     borderRadius: {
@@ -38,7 +34,7 @@ const FeaturedFriends = ({ profileName }) => {
   };
 
   return (
-    friends && (
+    allFriends && (
       <Card sx={styles.borderRadius}>
         <CardHeader
           title={
@@ -46,7 +42,7 @@ const FeaturedFriends = ({ profileName }) => {
               Friends
             </Typography>
           }
-          subheader={friends.length + " Friends"}
+          subheader={allFriends.length + " Friends"}
           action={
             <Button
               underline="hover"
@@ -60,8 +56,8 @@ const FeaturedFriends = ({ profileName }) => {
         />
         <CardMedia sx={{ padding: "0 15px" }}>
           <ImageList cols={3} sx={styles.borderRadius}>
-            {friends.length > 0 ? (
-              friends.map((friend, index) => (
+            {allFriends.length > 0 ? (
+              allFriends.map((friend, index) => (
                 <ImageListItem
                   key={index}
                   component={Link}

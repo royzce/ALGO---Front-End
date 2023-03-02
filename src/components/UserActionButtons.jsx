@@ -103,7 +103,7 @@ const UserActionButtons = ({
         </Button>
       )}
       {isSender && (
-        <Button variant="contained" onClick={() => acceptRequest()}>
+        <Button variant="contained" onClick={() => onAcceptRequest(userId)}>
           accept
         </Button>
       )}
