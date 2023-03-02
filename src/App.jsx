@@ -30,17 +30,21 @@ import DiscoverFriends from "./components/DiscoverFriends";
 import { UserContext } from "./context/UserContext";
 import PhotosPage from "./components/PhotosPage";
 import EditProfilePage from "./pages/EditProfilePage";
+import { UserActionsContext } from "./context/UserActionsContext";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
+  const { onCurrentUser } = useContext(UserActionsContext);
   const { currentUser } = useContext(UserContext);
   const [userProfile, setUserProfile] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const isAuthorized = isAuthenticated();
   useEffect(() => {
     if (currentUser) {
+      onCurrentUser(currentUser);
       setLoggedIn(true);
     } else {
+      onCurrentUser(null);
       setLoggedIn(false);
     }
   }, [currentUser]);

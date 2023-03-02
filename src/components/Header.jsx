@@ -7,14 +7,20 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { Button } from "bootstrap";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import * as userService from "../services/user";
 import cover from "../assets/cover.jpg";
+import UserActionButtons from "./UserActionButtons";
 
 const Header = ({ profileName, profileData }) => {
+  const { username } = useParams();
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
+    // console.log("pprrooddaattaa is ", profileData);
+    console.log("username iz ", username);
     userService.getFriends().then((res) => {
       setFriends(res.data);
     });
@@ -53,6 +59,9 @@ const Header = ({ profileName, profileData }) => {
         justifyContent="flex-start"
         spacing={3}
         sx={styles.stack1}
+        position="relative"
+        display="flex"
+        alignItems="center"
       >
         <Avatar
           src={profileData.avatar}
@@ -72,7 +81,6 @@ const Header = ({ profileName, profileData }) => {
           ) : (
             <Skeleton variant="rectangular" width={210} height={118} />
           )}
-
           <Typography>@{profileData.username}</Typography>
           <AvatarGroup max={4}>
             {friends.map((friend) => (
@@ -84,6 +92,19 @@ const Header = ({ profileName, profileData }) => {
             ))}
           </AvatarGroup>
         </Stack>
+        <div
+          id="action"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "absolute",
+            right: "20px",
+            paddingRight: "",
+          }}
+        >
+          <UserActionButtons username={username} />
+        </div>
       </Stack>
     </Container>
   );

@@ -10,19 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import { PopupContext } from "../context/PopupContext";
+import UserActionButtons from "./UserActionButtons";
 
 const DiscoverFriends = ({ users }) => {
   const [allUsers, setAllUsers] = useState([]);
-  const [showButton, setShowButton] = useState(false);
   const dateNow = new Date();
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
   useEffect(() => {
     if (users) {
-      setShowButton(false);
       setAllUsers(users);
-      console.log("users", users);
+      console.log("users in discover", users);
     } else {
-      setShowButton(true);
       userService.getNonFriend().then((res) => {
         console.log("non friend user", res);
         setAllUsers(res.data);
@@ -59,42 +57,49 @@ const DiscoverFriends = ({ users }) => {
   };
   return allUsers && allUsers.length > 0 ? (
     <Grid container spacing={2}>
-      {allUsers.map((friend, index) => {
-        return (
-          <Grid item key={index} xs={6}>
-            <Card sx={styles.card}>
-              <CardContent sx={styles.cardContent}>
-                <Stack
-                  justifyContent={showButton ? "space-between" : "flex-start"}
-                  spacing={1}
-                  direction="row"
-                  alignItems="center"
-                >
-                  <Avatar
-                    src={friend.avatar}
-                    alt={friend.username}
-                    variant="rounded"
-                    sx={{ width: 80, height: 86 }}
-                  />
-                  <Typography variant="h6">
-                    {friend.firstName + " " + friend.lastName}
-                  </Typography>
-                  {showButton && (
-                    <Button
-                      color="error"
-                      variant="contained"
-                      size="small"
-                      onClick={() => onAdd(friend.userId, dateNow)}
-                    >
-                      Add
-                    </Button>
-                  )}
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-        );
-      })}
+      {allUsers &&
+        allUsers.map((friend, index) => {
+          return (
+            <Grid item key={index} xs={6}>
+              <Card sx={styles.card}>
+                <CardContent sx={styles.cardContent}>
+                  <Stack
+                    justifyContent="space-between"
+                    spacing={1}
+                    direction="row"
+                    alignItems="center"
+                  >
+                    <Avatar
+                      src={friend.avatar}
+                      alt={friend.username}
+                      variant="rounded"
+                      sx={{ width: 80, height: 86 }}
+                    />
+                    <Typography variant="h6">
+                      {friend.firstName + " " + friend.lastName}
+                    </Typography>
+
+                    <UserActionButtons
+                      username={friend.username}
+                      userId={friend.userId}
+                      handleActionDiscover={onAdd}
+                    />
+                    {/* {showButton && (
+                      <Button
+                        color="error"
+                        variant="contained"
+                        size="small"
+                        onClick={() => onAdd(friend.userId, dateNow)}
+                      >
+                        Add
+                      </Button>
+                    )} */}
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          );
+        })}
     </Grid>
   ) : (
     <Typography variant="body1">No users to display at the moment.</Typography>

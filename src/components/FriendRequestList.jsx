@@ -10,6 +10,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { PopupContext } from "../context/PopupContext";
 import * as userService from "../services/user";
+import UserActionButtons from "./UserActionButtons";
 
 const FriendRequestList = () => {
   const [friendRequest, setFriendRequest] = useState([]);
@@ -80,7 +81,7 @@ const FriendRequestList = () => {
                   {friend.user.firstName + " " + friend.user.lastName}
                 </Typography>
                 <Box>
-                  <Button
+                  {/* <Button
                     color="success"
                     variant="contained"
                     size="small"
@@ -96,7 +97,12 @@ const FriendRequestList = () => {
                     onClick={() => onDeleteRequest(friend.user.userId)}
                   >
                     Delete
-                  </Button>
+                  </Button> */}
+                  <UserActionButtons
+                    username={friend.user.username}
+                    userId={friend.user.userId}
+                    onAcceptRequest={onAcceptRequest}
+                  />
                 </Box>
               </CardContent>
             </Card>

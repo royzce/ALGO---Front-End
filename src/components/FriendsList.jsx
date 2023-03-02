@@ -9,6 +9,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { PopupContext } from "../context/PopupContext";
 import * as userService from "../services/user";
+import UserActionButtons from "./UserActionButtons";
 
 const FriendsList = () => {
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
@@ -63,14 +64,19 @@ const FriendsList = () => {
                 <Typography variant="h6">
                   {friend.firstName + " " + friend.lastName}
                 </Typography>
-                <Button
+                {/* <Button
                   color="error"
                   variant="contained"
                   size="small"
                   onClick={() => onRemoveFriend(friend.userId)}
                 >
                   Unfriend
-                </Button>
+                </Button> */}
+                <UserActionButtons
+                  username={friend.username}
+                  userId={friend.userId}
+                  handleActionFriendList={onRemoveFriend}
+                />
               </CardContent>
             </Card>
           </Grid>
