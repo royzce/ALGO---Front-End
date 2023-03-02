@@ -61,6 +61,11 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
     handlePopoverClose();
   };
 
+  const handleFocusComment = () => {
+    const input = document.getElementById(`add-comment-${post && post.postId}`);
+    input.focus();
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? "popover" : undefined;
 
@@ -92,7 +97,11 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
       >
         {reactBtn ? reactBtn.text : "Fire"}
       </Button>
-      <Button sx={styles.buttonSize} startIcon={<ChatOutlined />}>
+      <Button
+        sx={styles.buttonSize}
+        startIcon={<ChatOutlined />}
+        onClick={handleFocusComment}
+      >
         Comment
       </Button>
       {canShare && (

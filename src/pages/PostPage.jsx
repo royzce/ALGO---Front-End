@@ -1,7 +1,7 @@
 import {
   Avatar,
-  Button,
   CircularProgress,
+  Container,
   Grid,
   IconButton,
 } from "@mui/material";
@@ -12,7 +12,6 @@ import * as postSvc from "../services/post";
 import { useNavigate, useParams } from "react-router-dom";
 import Post from "../components/Post";
 import { Stack } from "@mui/system";
-import ColorTheme from "../components/ColorTheme";
 
 export default function PostPage() {
   const { postId, imgIndex } = useParams();
@@ -90,13 +89,13 @@ export default function PostPage() {
                 </IconButton>
               )}
 
-              <div>
+              <Container>
                 <img
                   alt={`post-${post.id}-${imgIndex}`}
                   src={post.media[+imgIndex].mediaLink}
                   className="img-post-page"
                 />
-              </div>
+              </Container>
               {post.media.length > 1 && (
                 <IconButton onClick={handleNext}>
                   <Avatar>

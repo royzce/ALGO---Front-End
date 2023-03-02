@@ -18,7 +18,6 @@ export default function CommentSection({
     comments && comments.filter((comment) => !comment.replyTo);
 
   async function handleAddComment({ value, replyTo }) {
-    // TODO
     const newComment = {
       postId: post.postId,
       value,
@@ -27,19 +26,13 @@ export default function CommentSection({
       date: new Date(),
     };
     const res = await postSvc.addComment(newComment);
-    console.log("inside handleAddComment", res);
-    console.log("comments", comments);
     const updatedComm = [...comments, res.data].sort(compareByDateAsc);
 
     setPost({ ...post, comment: updatedComm });
   }
 
   async function handleEditComment(editedComm) {
-    console.log("edited com", editedComm);
-    // TODO
     const res = await postSvc.editComment(editedComm);
-    console.log("inside handleEditComment", res);
-
     const updatedComm = comments.map((comment) => {
       return comment.commentId === res.data.commentId
         ? { ...comment, ...res.data }
@@ -49,12 +42,8 @@ export default function CommentSection({
   }
 
   async function handleDeleteComment(commentId) {
-    // TODO
     const res = await postSvc.deleteComment(post.postId, commentId);
 
-    console.log("inside handleDeleteComment response", res);
-
-    // TODO: server response data has no commentId
     const updatedComm = comments.filter(
       (comment) => comment.commentId !== commentId
     );
@@ -68,6 +57,7 @@ export default function CommentSection({
           onAdd: handleAddComment,
           onEdit: handleEditComment,
           onDelete: handleDeleteComment,
+          post: post,
         }}
       >
         {show && (
