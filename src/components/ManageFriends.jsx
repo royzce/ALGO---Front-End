@@ -9,9 +9,15 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link, Outlet, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useMatch,
+  useParams,
+} from "react-router-dom";
 import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const Search = styled("div")(({ theme }) => ({
@@ -52,11 +58,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ManageFriends = () => {
-  const { friendsTab, setFriendsTab } = useContext(ProfileNavContext);
+  // const { friendsTab, setFriendsTab, setProfileTab } =
+  //   useContext(ProfileNavContext);
+  const [friendsTab, setFriendsTab] = useState("AllFriends");
   let { username } = useParams();
   const handleChange = (event, newValue) => {
     setFriendsTab(newValue);
   };
+
+  const location = useLocation();
+
+  useEffect(() => {
+    handleLocChange();
+  }, [location]);
+
+  function handleLocChange() {
+    const tab = location.pathname.split("/")[2];
+    switch (tab) {
+      case "friends":
+        setFriendsTab("AllFriends");
+        break;
+      case "friend-request":
+        setFriendsTab("FriendRequest");
+        break;
+      case "discover-friend":
+        setFriendsTab("DiscoverFriends");
+        break;
+      default:
+        break;
+    }
+  }
 
   const styles = {
     borderRadius: {

@@ -18,7 +18,7 @@ export default function PostMedia({ post, srcPost }) {
     }
 
     if (post) {
-      setImages(media.slice(0, maxImages));
+      setImages(media.slice(0, maxImages + 1));
     }
   }, [post, srcPost]);
 

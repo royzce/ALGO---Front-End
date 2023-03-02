@@ -27,9 +27,7 @@ root.render(
             <UserProvider>
               <PostProvider>
                 <NotifProvider>
-                  <ProfileNavProvider>
-                    <App />
-                  </ProfileNavProvider>
+                  <App />
                 </NotifProvider>
               </PostProvider>
             </UserProvider>

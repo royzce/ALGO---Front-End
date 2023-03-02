@@ -35,6 +35,7 @@ export function getProfileData(username) {
 }
 
 export function editProfile(user) {
+  console.log("inside editProfile", user);
   return http.put(`/profiles/edit`, {
     username: user.username,
     email: user.email,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as postsService from "../services/post";
 import {
   Card,
@@ -9,9 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const PhotosPage = () => {
   const [photos, setPhotos] = useState([]);
+
   useEffect(() => {
     postsService.getAllPhotos().then((res) => setPhotos(res.data));
   }, []);

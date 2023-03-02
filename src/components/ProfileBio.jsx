@@ -3,7 +3,7 @@ import React from "react";
 
 const Bio = ({ profileData }) => {
   return (
-    profileData.bio && (
+    profileData && (
       <Card sx={{ borderRadius: "10px" }}>
         <CardHeader
           title={

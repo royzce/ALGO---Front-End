@@ -1,13 +1,13 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { Link } from "react-router-dom";
-import React, { useContext, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const ProfileNavBar = ({ profileName, isCurrentUser }) => {
-  const { profileTab, setProfileTab } = useContext(ProfileNavContext);
-  const handleChange = (event, newValue) => {
-    setProfileTab(newValue);
-  };
+  const { profileTab } = useContext(ProfileNavContext);
+  // const handleChange = (event, newValue) => {
+  //   setProfileTab(newValue);
+  // };
 
   const styles = {
     box: {
@@ -18,7 +18,8 @@ const ProfileNavBar = ({ profileName, isCurrentUser }) => {
 
   return (
     <Box sx={styles.box}>
-      <Tabs value={profileTab} onChange={handleChange}>
+      {/* <Tabs value={profileTab} onChange={handleChange}> */}
+      <Tabs value={profileTab}>
         <Tab
           value="Post"
           label="Post"

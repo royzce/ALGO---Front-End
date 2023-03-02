@@ -40,6 +40,11 @@ const ProfileHome = () => {
     <Grid container spacing={2}>
       <Grid item sm={12} md={4}>
         <Grid container spacing={2} direction="column">
+          {currentUser && currentUser.bio && (
+            <Grid item>
+              <ProfileBio profileData={currentUser} />
+            </Grid>
+          )}
           <Grid item>
             <FeaturedPhotos posts={posts} profileName={profileName} />
           </Grid>
