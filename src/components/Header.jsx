@@ -17,7 +17,7 @@ const Header = ({ profileName, profileData }) => {
     userService.getFriends().then((res) => {
       setFriends(res.data);
     });
-  });
+  }, []);
 
   const styles = {
     profilePhoto: {
