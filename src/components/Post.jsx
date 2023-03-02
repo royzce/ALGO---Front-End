@@ -172,7 +172,7 @@ export default function Post({ post, page, shared }) {
                 setShowShareLi={setShowShareLi}
                 user={user}
               />
-              <hr style={{ marginBottom: "12px" }} />
+              <hr style={{ marginBottom: "4px" }} />
               <PostActions
                 onReact={handleReact}
                 reaction={reaction}
@@ -180,7 +180,7 @@ export default function Post({ post, page, shared }) {
                 user={user}
                 post={thisPost}
               />
-              <hr style={{ marginTop: "12px" }} />
+              <hr style={{ marginTop: "4px" }} />
               <CommentSection
                 comments={comment && comment.sort(compareByDateAsc)}
                 show={showComments}
