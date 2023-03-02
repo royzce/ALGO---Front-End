@@ -90,7 +90,7 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
           reactBtn ? (
             <img alt={reactBtn.text} src={reactBtn.img} height={18} />
           ) : (
-            <LocalFireDepartmentIcon />
+            <i className="fa-solid fa-fire" />
           )
         }
         onMouseEnter={handlePopoverOpen}
@@ -99,7 +99,7 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
       </Button>
       <Button
         sx={styles.buttonSize}
-        startIcon={<ChatOutlined />}
+        startIcon={<i className="fa-regular fa-comment" />}
         onClick={handleFocusComment}
       >
         Comment
@@ -107,7 +107,7 @@ export default function PostActions({ post, onReact, reaction, onShare }) {
       {canShare && (
         <Button
           sx={styles.buttonSize}
-          startIcon={<i className="fa-regular fa-share-from-square"></i>}
+          startIcon={<i className="fa-regular fa-share-from-square" />}
           onClick={onShare}
         >
           Share

@@ -167,22 +167,19 @@ function NotifList({ notifs, onClick }) {
     let icon = <></>;
     switch (type) {
       case "reaction":
-        icon = <LocalFireDepartmentIcon sx={{ fontSize: "12px" }} />;
+        icon = <i className="fa-solid fa-fire" style={{ fontSize: "10px" }} />;
         break;
       case "comments":
-        icon = <ModeCommentIcon sx={{ fontSize: "12px" }} />;
+        icon = <i class="fa-solid fa-comment" style={{ fontSize: "10px" }} />;
         break;
       case "tag":
-        icon = <GroupAddIcon sx={{ fontSize: "12px" }} />;
+        icon = <i className="fa-solid fa-user-tag" />;
         break;
       case "share":
-        icon = (
-          <i className="fa-solid fa-share" style={{ fontSize: "10px" }}></i>
-        );
-        // icon = <ShareIcon sx={{ fontSize: "12px" }} />;
+        icon = <i className="fa-solid fa-share" style={{ fontSize: "10px" }} />;
         break;
       case "requestFriend":
-        icon = <PersonAddIcon sx={{ fontSize: "12px" }} />;
+        icon = <i class="fa-solid fa-user-plus" style={{ fontSize: "10px" }} />;
         break;
       default:
         break;

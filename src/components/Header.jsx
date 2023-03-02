@@ -6,6 +6,7 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { Button } from "bootstrap";
 import React, { useContext, useEffect, useState } from "react";
@@ -22,8 +23,8 @@ const Header = ({ profileName, profileData }) => {
   const styles = {
     profilePhoto: {
       border: "5px solid white",
-      width: 200,
-      height: 200,
+      width: { md: "200px", xs: "150px" },
+      height: { md: "200px", xs: "150px" },
       margin: "-50px 0 0 20px",
     },
     coverPhoto: {
@@ -40,6 +41,7 @@ const Header = ({ profileName, profileData }) => {
       marginBottom: "20px",
     },
   };
+  const isSmallScreen = useMediaQuery("(max-width:768px)");
   return (
     <Container disableGutters>
       <CardMedia
@@ -68,7 +70,10 @@ const Header = ({ profileName, profileData }) => {
           spacing={1}
         >
           {profileData && profileData.firstName && profileData.lastName ? (
-            <Typography variant="h4" fontWeight="fontWeightBold">
+            <Typography
+              variant={isSmallScreen ? "h5" : "h4"}
+              fontWeight="fontWeightBold"
+            >
               {profileData.firstName + " " + profileData.lastName}
             </Typography>
           ) : (

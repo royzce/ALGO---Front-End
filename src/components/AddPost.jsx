@@ -20,6 +20,7 @@ export default function AddPost() {
     card: {
       width: "100%",
       borderRadius: "10px",
+      boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.5)",
     },
     cardContent: {
       width: "100%",
