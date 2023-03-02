@@ -50,12 +50,9 @@ export const PopupProvider = ({ children }) => {
               color="inherit"
               size="small"
               onClick={handleCloseSnackbar}
-            >
-              <CloseIcon />
-            </IconButton>
+            ></IconButton>
           }
         >
-          <AlertTitle>{alertType ? "Success" : "Error"}</AlertTitle>
           {snackbarMessage}
         </Alert>
       </Snackbar>
