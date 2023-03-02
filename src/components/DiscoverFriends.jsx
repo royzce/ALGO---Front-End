@@ -84,6 +84,7 @@ const DiscoverFriends = ({ users }) => {
                     <Typography variant="h6">
                       {friend.firstName + " " + friend.lastName}
                     </Typography>
+
                     <UserActionButtons username={friend.username} />
                     {/* {showButton && (
                       <Button
