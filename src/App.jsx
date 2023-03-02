@@ -1,5 +1,5 @@
 import RegisterPage from "./pages/RegisterPage";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import PostPage from "./pages/PostPage";
@@ -24,21 +24,52 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
-import ColorTheme from "./components/ColorTheme";
 import GlobalCSS from "./components/GlobalCSS";
 import DiscoverFriends from "./components/DiscoverFriends";
 import { UserContext } from "./context/UserContext";
 import PhotosPage from "./components/PhotosPage";
 import EditProfilePage from "./pages/EditProfilePage";
 import { UserActionsContext } from "./context/UserActionsContext";
-
+import { createTheme } from "@mui/material/styles";
+import { DarkModeContext } from "./context/DarkModeContext";
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
   const { onCurrentUser } = useContext(UserActionsContext);
   const { currentUser } = useContext(UserContext);
   const [userProfile, setUserProfile] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  // const [darkMode, setDarkMode] = useState(false); // add state variable for dark mode
+
   const isAuthorized = isAuthenticated();
+  const { darkMode, handleToggleDarkMode } = useContext(DarkModeContext);
+
+  const lightTheme = createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: "#2196f3",
+      },
+      secondary: {
+        main: "#f50057",
+      },
+    },
+  });
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+      primary: {
+        main: "#90caf9",
+      },
+      secondary: {
+        main: "#f48fb1",
+      },
+      body: {
+        main: "black",
+      },
+    },
+  });
+
   useEffect(() => {
     if (currentUser) {
       onCurrentUser(currentUser);
@@ -48,9 +79,15 @@ function App() {
       setLoggedIn(false);
     }
   }, [currentUser]);
+
+  const toggleDarkMode = () => {
+    // setDarkMode(!darkMode);
+    handleToggleDarkMode();
+  }; // add function to toggle dark mode
+
   console.log("is auth", isAuthorized);
   return (
-    <ThemeProvider theme={ColorTheme}>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <GlobalCSS />
       <CssBaseline />
       {isAuthorized ? <Navbar /> : null}

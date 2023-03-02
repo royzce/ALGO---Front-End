@@ -18,28 +18,31 @@ import { NotifProvider } from "./context/NotifContext";
 import ProfileNavProvider from "./context/ProfileNavContext";
 import { UserActionsProvider } from "./context/UserActionsContext";
 import { FriendProvider } from "./context/FriendContext";
+import { DarkModeProvider } from "./context/DarkModeContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <PopupProvider>
-          <RegisterProvider>
-            <UserActionsProvider>
-              <FriendProvider>
-                <UserProvider>
-                  <PostProvider>
-                    <NotifProvider>
-                      <App />
-                    </NotifProvider>
-                  </PostProvider>
-                </UserProvider>
-              </FriendProvider>
-            </UserActionsProvider>
-          </RegisterProvider>
-        </PopupProvider>
-      </AuthProvider>
+      <DarkModeProvider>
+        <AuthProvider>
+          <PopupProvider>
+            <RegisterProvider>
+              <UserActionsProvider>
+                <FriendProvider>
+                  <UserProvider>
+                    <PostProvider>
+                      <NotifProvider>
+                        <App />
+                      </NotifProvider>
+                    </PostProvider>
+                  </UserProvider>
+                </FriendProvider>
+              </UserActionsProvider>
+            </RegisterProvider>
+          </PopupProvider>
+        </AuthProvider>
+      </DarkModeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

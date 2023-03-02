@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useState } from "react";
+import React, { createRef, useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Grid,
@@ -36,11 +36,11 @@ import { UserContext } from "../context/UserContext";
 import ColorTheme from "../components/ColorTheme";
 import { AuthContext } from "../context/AuthContext";
 import * as userService from "../services/user";
+import { DarkModeContext } from "../context/DarkModeContext";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const { setCurrentUser } = useContext(UserContext);
-  const { handleLoggedIn } = useContext(AuthContext);
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -50,6 +50,7 @@ export default function Navbar() {
   const [drawerAnchorEl, setDrawerProfileAnchorEl] = React.useState(null);
   const mdOpen = Boolean(mdAnchorEl);
   const drawerOpen = Boolean(drawerAnchorEl);
+  const { darkMode, onToggleDarkmode } = useContext(DarkModeContext);
 
   const handleMdClick = (event) => {
     setMdAnchorEl(event.currentTarget);
@@ -94,6 +95,11 @@ export default function Navbar() {
     setCurrentUser(null);
   };
 
+  // const [d, setD] = useState(false);
+  // useEffect(() => {
+  //   setD(darkMode);
+  // }, [darkMode]);
+
   function ProfileMenu() {
     return (
       <Menu
@@ -136,7 +142,11 @@ export default function Navbar() {
           Profile
         </MenuItem>
         <div>
-          <Switch sx={{ mr: "8px", ml: "5px" }} />
+          <Switch
+            sx={{ mr: "8px", ml: "5px" }}
+            onChange={onToggleDarkmode}
+            checked={darkMode}
+          />
           Dark Mode
         </div>
         <MenuItem onClick={handleLogout}>

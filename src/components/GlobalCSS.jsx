@@ -4,7 +4,8 @@ import ColorTheme from "../components/ColorTheme";
 const GlobalCSS = createGlobalStyle`
 
   body {
-    background-color: ${ColorTheme.palette.body.main};
+    background-color: "dark";
+    
   }
   .css-1k51tf5-MuiTooltip-tooltip {
     background-color: red;
