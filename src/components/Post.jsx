@@ -1,4 +1,4 @@
-import { Card, CardContent, CircularProgress, Typography } from "@mui/material";
+import { Card, CardContent, Skeleton, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { PostContext } from "../context/PostContext";
 import { UserContext } from "../context/UserContext";
@@ -11,8 +11,10 @@ import PostForm from "./PostForm";
 import PostHeader from "./PostHeader";
 import PostMedia from "./PostMedia";
 import PostStats from "./PostStats";
+import ReactUserList from "./ReactUserList";
 import RepostForm from "./RepostForm";
-import UserList from "./UserList";
+import SharesUserList from "./SharesUserList";
+import TagsUserList from "./TagsUserList";
 
 export default function Post({ post, page, shared }) {
   const [thisPost, setThisPost] = useState(null);
@@ -228,40 +230,32 @@ export default function Post({ post, page, shared }) {
         />
       )}
       {showReactLi && (
-        <UserList
+        <ReactUserList
           open={showReactLi}
           onClose={() => setShowReactLi(false)}
-          list={reactions}
-        >
-          <Typography variant="subtitle1" fontWeight="fontWeightBold">
-            People who reacted to this post
-          </Typography>
-        </UserList>
+          reactions={reactions}
+        ></ReactUserList>
       )}
       {showShareLi && (
-        <UserList
+        <SharesUserList
           open={showShareLi}
           onClose={() => setShowShareLi(false)}
-          list={shares}
+          shares={shares}
         >
           <Typography variant="subtitle1" fontWeight="fontWeightBold">
             People who shared this post
           </Typography>
-        </UserList>
+        </SharesUserList>
       )}
       {showTagLi && (
-        <UserList
+        <TagsUserList
           open={showTagLi}
           onClose={() => setShowTagLi(false)}
-          list={tags}
-        >
-          <Typography variant="subtitle1" fontWeight="fontWeightBold">
-            People tagged in this post
-          </Typography>
-        </UserList>
+          tags={tags}
+        ></TagsUserList>
       )}
     </>
   ) : (
-    <CircularProgress />
+    <Skeleton animation="wave" height={50} width="100%" />
   );
 }

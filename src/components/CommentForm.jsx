@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Stack } from "@mui/system";
 import { UserContext } from "../context/UserContext";
 import { Link as RouterLink } from "react-router-dom";
+import { CommentContext } from "../context/CommentContext";
 
 export default function CommentForm({
   comment,
@@ -15,6 +16,7 @@ export default function CommentForm({
 }) {
   const [value, setValue] = useState("");
   const { currentUser: user } = useContext(UserContext);
+  const { post } = useContext(CommentContext);
 
   useEffect(() => {
     if (editing && comment) {
@@ -39,6 +41,7 @@ export default function CommentForm({
           <Avatar alt="avatar" src={user && user.avatar} />
         </RouterLink>
         <TextField
+          id={`add-comment-${post && post.postId}`}
           hiddenLabel
           multiline
           margin="dense"

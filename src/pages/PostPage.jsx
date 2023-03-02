@@ -1,4 +1,10 @@
-import { Button, CircularProgress, Grid, IconButton } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  IconButton,
+} from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import React, { useEffect, useState } from "react";
@@ -66,13 +72,13 @@ export default function PostPage() {
                 </IconButton>
               )}
 
-              <div>
+              <Container>
                 <img
                   alt={`post-${post.id}-${imgIndex}`}
                   src={post.media[+imgIndex].mediaLink}
                   className="img-post-page"
                 />
-              </div>
+              </Container>
               {post.media.length > 1 && (
                 <IconButton onClick={handleNext}>
                   <ChevronRightIcon />
