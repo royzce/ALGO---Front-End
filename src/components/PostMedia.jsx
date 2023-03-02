@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Post from "./Post";
 import { Button, Skeleton } from "@mui/material";
+import ColorTheme from "./ColorTheme";
 
 export default function PostMedia({ post, srcPost }) {
   const { media } = post;
@@ -28,8 +29,13 @@ export default function PostMedia({ post, srcPost }) {
           <Post post={srcPost} shared={true} />
         ) : media ? (
           <ImageList
-            sx={{ width: "100%", height: 450 }}
-            cols={3}
+            sx={{
+              width: "100%",
+              maxHeight: media.length > 1 ? 460 : "auto",
+              bgcolor: ColorTheme.palette.body.main,
+              padding: "5px",
+            }}
+            cols={media.length === 1 ? 1 : media.length === 2 ? 2 : 3}
             rowHeight={164}
           >
             {images.map((media, index) => (
@@ -39,8 +45,8 @@ export default function PostMedia({ post, srcPost }) {
                   alt={`post-${index}`}
                   image={media.mediaLink}
                   sx={{
-                    objectFit: "cover",
-                    height: "223px",
+                    objectFit: images.length > 1 ? "cover" : "cover",
+                    height: images.length > 1 ? "223px" : "auto",
                   }}
                 />
               </Link>
