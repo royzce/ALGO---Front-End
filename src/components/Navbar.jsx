@@ -408,7 +408,7 @@ export default function Navbar() {
   );
 }
 
-function CustomOption({ option }) {
+function CustomOption({ option, closeShowOptions }) {
   const navigate = useNavigate();
   return (
     <MenuItem
@@ -417,7 +417,12 @@ function CustomOption({ option }) {
         alignItems: "center",
         height: "3.25rem",
       }}
-      onClick={() => navigate("/" + option.username)}
+      onClick={() => {
+        {
+          closeShowOptions();
+          navigate("/" + option.username);
+        }
+      }}
     >
       <Avatar src={option.avatar} />
       <div style={{ marginLeft: "12px", color: "black" }}>
@@ -428,7 +433,7 @@ function CustomOption({ option }) {
 }
 
 //This will show at the bottom always
-function NoOption({ value }) {
+function NoOption({ value, closeShowOptions }) {
   const navigate = useNavigate();
   return (
     <MenuItem
@@ -437,7 +442,10 @@ function NoOption({ value }) {
         alignItems: "center",
         height: "3.25rem",
       }}
-      onClick={() => navigate(`/search/all/${value}`)}
+      onClick={() => {
+        closeShowOptions();
+        navigate(`/search/all/${value}`);
+      }}
     >
       <Avatar sx={{ bgcolor: "#1976d2" }}>
         <SearchIcon />
@@ -486,6 +494,11 @@ function AutocompleteWithAvatar() {
     inpuSearchRef.current.blur();
   }
 
+  function closeShowOptions() {
+    setShowOptions(false);
+    document.getElementById("searchBar").blur();
+  }
+
   return (
     <Autocomplete
       id="searchBar"
@@ -502,9 +515,21 @@ function AutocompleteWithAvatar() {
       getOptionLabel={(option) => option.firstName + " " + option.lastName}
       renderOption={(props, option) => {
         if (option.username) {
-          return <CustomOption {...props} option={option} />;
+          return (
+            <CustomOption
+              {...props}
+              option={option}
+              closeShowOptions={closeShowOptions}
+            />
+          );
         } else {
-          return <NoOption {...props} value={inputValue} />;
+          return (
+            <NoOption
+              {...props}
+              value={inputValue}
+              closeShowOptions={closeShowOptions}
+            />
+          );
         }
       }}
       renderInput={(params) => (
