@@ -1,9 +1,10 @@
 import { Container, Grid, Stack, Typography } from "@mui/material";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import Post from "./Post";
 import appLogo from "../assets/logo.png";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { PostContext } from "../context/PostContext";
 
 export default function PostsList({ posts }) {
   const { currentUser } = useContext(UserContext);

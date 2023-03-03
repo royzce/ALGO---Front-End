@@ -158,6 +158,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     }
 
     const submitBody = { ...form, media: mediaLinks };
+    console.log("INSIDE PostForm submitBody", submitBody);
     onSubmit(submitBody);
   }
 
@@ -221,6 +222,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
           />
           <CardContent sx={styles.cardContent}>
             <PostFormHeader
+              isNewPost={!post}
               onSelect={handlePrivSel}
               privacy={form.privacy}
               onToggleTags={handleToggleTags}

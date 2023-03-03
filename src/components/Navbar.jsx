@@ -40,9 +40,6 @@ import { useTheme } from "@mui/material/styles";
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const { setCurrentUser } = useContext(UserContext);
-  const handleDrawerToggle = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
 
   const { currentUser: user } = useContext(UserContext);
   const [mdAnchorEl, setMdAnchorEl] = React.useState(null);
@@ -50,6 +47,12 @@ export default function Navbar() {
   const mdOpen = Boolean(mdAnchorEl);
   const drawerOpen = Boolean(drawerAnchorEl);
   const { darkMode, onToggleDarkmode } = useContext(DarkModeContext);
+
+  const navigate = useNavigate();
+
+  const handleDrawerToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
   const handleMdClick = (event) => {
     setMdAnchorEl(event.currentTarget);
   };
@@ -60,14 +63,14 @@ export default function Navbar() {
     setDrawerProfileAnchorEl(event.currentTarget);
   };
   const handleDrawerProfileClose = () => {
+    navigate(`/${user.username}`);
+    handleDrawerToggle();
     setDrawerProfileAnchorEl(null);
-    // handleDrawerToggle();
   };
 
-  const navigate = useNavigate();
   const handleGoToProfile = () => {
-    handleMdClose();
     navigate(`/${user.username}`);
+    handleMdClose();
   };
 
   const { notifs } = useContext(NotifContext);
@@ -131,7 +134,7 @@ export default function Navbar() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => {}}>
+        <MenuItem onClick={handleGoToProfile}>
           <Avatar src={user && user.avatar} alt={user && user.username} /> My
           Profile
         </MenuItem>
@@ -156,7 +159,7 @@ export default function Navbar() {
     );
   }
 
-  function DrawerProfileMenu() {
+  function DrawerProfileMenu({ onClose }) {
     return (
       <Menu
         anchorEl={drawerAnchorEl}
@@ -193,7 +196,7 @@ export default function Navbar() {
         transformOrigin={{ horizontal: "right", vertical: "bottom" }}
         anchorOrigin={{ horizontal: "left", vertical: "top" }}
       >
-        <MenuItem onClick={(handleGoToProfile, handleDrawerProfileClose)}>
+        <MenuItem onClick={onClose}>
           <Avatar src={user && user.avatar} alt={user && user.username} /> My
           Profile
         </MenuItem>
@@ -395,7 +398,7 @@ export default function Navbar() {
                 {user && user.firstName} {user && user.lastName}
               </Typography>
             </Button>
-            <DrawerProfileMenu />
+            <DrawerProfileMenu onClose={handleDrawerProfileClose} />
           </Box>
         </Box>
       </Drawer>

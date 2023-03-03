@@ -15,14 +15,13 @@ import * as userSvc from "../services/user";
 
 const ProfileHome = () => {
   const { username } = useParams();
-  const [profileName, profileData] = useOutletContext();
   const { currentUser } = useContext(UserContext);
   const { allPosts } = useContext(PostContext);
   const [posts, setPosts] = useState([]);
   const [profileUser, setProfileUser] = useState({});
   const isCurrentUser = currentUser && username === currentUser.username;
   useEffect(() => {
-    if (username && currentUser) {
+    if (username && currentUser && allPosts) {
       if (username === currentUser.username) {
         const posts = allPosts.filter(
           (post) => post.userId === currentUser.userId

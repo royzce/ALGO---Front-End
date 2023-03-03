@@ -20,6 +20,7 @@ import ColorTheme from "../components/ColorTheme";
 import { useTheme } from "@mui/material/styles";
 
 export default function PostFormHeader({
+  isNewPost,
   onSelect,
   privacy,
   onToggleTags,
@@ -117,7 +118,7 @@ export default function PostFormHeader({
             </IconButton>
           </Avatar>
         )}
-        {privacy !== "private" && (
+        {privacy !== "private" && isNewPost && (
           <Avatar sx={styles.tagAvatar}>
             <IconButton onClick={onToggleTags} color="primary" size="small">
               <GroupAddIcon />

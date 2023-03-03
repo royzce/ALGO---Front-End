@@ -7,6 +7,7 @@ import { UserContext } from "./UserContext";
 
 export const PostContext = createContext({
   allPosts: [],
+  getAllPosts: () => {},
   onAddPost: () => {},
   onEditPost: () => {},
   onEditPrivacy: () => {},
@@ -84,6 +85,7 @@ export default function PostProvider({ children }) {
     <PostContext.Provider
       value={{
         allPosts,
+        getAllPosts,
         onAddPost: handleAddPost,
         onEditPost: handleEditPost,
         onEditPrivacy: handleEditPrivacy,

@@ -1,12 +1,16 @@
 import { Stack } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import AddPost from "../components/AddPost";
-import GlobalCSS from "../components/GlobalCSS";
 import PostsList from "../components/PostsList";
 import { PostContext } from "../context/PostContext";
 
 export default function HomePage() {
-  const { allPosts } = useContext(PostContext);
+  const { allPosts, getAllPosts } = useContext(PostContext);
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+
   return (
     <Stack
       direction="column"
