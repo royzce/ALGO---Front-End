@@ -5,7 +5,6 @@ const GlobalCSS = createGlobalStyle`
 
   body {
     background-color: "dark";
-    
   }
   .css-1k51tf5-MuiTooltip-tooltip {
     background-color: red;

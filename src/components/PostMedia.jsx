@@ -7,7 +7,7 @@ import ColorTheme from "./ColorTheme";
 
 export default function PostMedia({ post, srcPost }) {
   const { media } = post || {};
-  const maxImages = 5;
+  const maxImages = 6;
   const [showMore, setShowMore] = useState(false);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function PostMedia({ post, srcPost }) {
     }
 
     if (post) {
-      setImages(media.slice(0, maxImages + 1));
+      setImages(media.slice(0, maxImages));
     }
   }, [post, srcPost]);
 

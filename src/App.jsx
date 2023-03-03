@@ -47,10 +47,15 @@ function App() {
     palette: {
       mode: "light",
       primary: {
-        main: "#2196f3",
+        main: "#7286D3",
       },
+      mode: "light",
       secondary: {
-        main: "#f50057",
+        main: "#8EA7E9",
+      },
+      mode: "light",
+      white: {
+        main: "#FFF",
       },
     },
   });
@@ -61,11 +66,9 @@ function App() {
       primary: {
         main: "#90caf9",
       },
+      mode: "dark",
       secondary: {
         main: "#f48fb1",
-      },
-      body: {
-        main: "black",
       },
     },
   });

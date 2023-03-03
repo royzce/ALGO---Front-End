@@ -26,13 +26,14 @@ export default function ReactUserList({ open, onClose, reactions }) {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      maxWidth: "768px",
+      margin: "auto",
+      padding: "0 48px",
     },
     card: {
-      width: "50%",
-      maxHeight: "90%",
-      overflowY: "scroll",
+      width: "100%",
+      maxHeight: "450px",
       borderRadius: "10px",
-      padding: "10px",
     },
   };
 

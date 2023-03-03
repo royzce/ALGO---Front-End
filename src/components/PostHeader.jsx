@@ -24,6 +24,7 @@ import { getElapsedTime } from "../services/util";
 import { UserContext } from "../context/UserContext";
 import { Link as RouterLink } from "react-router-dom";
 import ConfirmDialog from "./ConfirmDialog";
+import { useTheme } from "@mui/material/styles";
 
 export default function PostHeader({
   post,
@@ -92,6 +93,8 @@ export default function PostHeader({
     },
   };
 
+  const theme = useTheme();
+
   return (
     <>
       <List sx={{ padding: "0px" }}>
@@ -126,7 +129,8 @@ export default function PostHeader({
                     right: 15,
                     width: 10,
                     height: 10,
-                    bgcolor: "background.paper",
+                    bgcolor:
+                      theme.palette.mode === "dark" ? "#2F2F2F" : "#FFFFFF",
                     transform: "translateY(-50%) rotate(45deg)",
                     zIndex: 0,
                   },
