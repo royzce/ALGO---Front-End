@@ -17,6 +17,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import React, { useState } from "react";
 import { Stack } from "@mui/system";
 import ColorTheme from "../components/ColorTheme";
+import { useTheme } from "@mui/material/styles";
 
 export default function PostFormHeader({
   onSelect,
@@ -45,6 +46,8 @@ export default function PostFormHeader({
     handlePrivMenuClose();
   }
 
+  const theme = useTheme();
+
   function displayPrivacy() {
     let icon = <></>;
     switch (privacy) {
@@ -71,7 +74,10 @@ export default function PostFormHeader({
       bgcolor: onToggleTagButton,
     },
     privacyAvatar: {
-      bgcolor: ColorTheme.palette.body.main,
+      bgcolor:
+        theme.palette.mode === "dark"
+          ? "#2F2F2F"
+          : ColorTheme.palette.body.main,
     },
   };
 
@@ -141,7 +147,8 @@ export default function PostFormHeader({
                   right: 10,
                   width: 10,
                   height: 10,
-                  bgcolor: "background.paper",
+                  bgcolor:
+                    theme.palette.mode === "dark" ? "#2F2F2F" : "#FFFFFF",
                   transform: "translateY(-50%) rotate(45deg)",
                   zIndex: 0,
                 },

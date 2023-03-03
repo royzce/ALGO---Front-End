@@ -6,6 +6,7 @@ import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import * as userService from "../services/user";
 import { ProfileNavContext } from "../context/ProfileNavContext";
+import { useTheme } from "@mui/material/styles";
 
 const ProfilePage = ({ userProfile, friendProfile }) => {
   const { username } = useParams();
@@ -28,6 +29,8 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
 
     handleLocChange();
   }, [user, username, currentUser, location]);
+
+  const theme = useTheme();
 
   function handleLocChange() {
     const tab = location.pathname.split("/")[2];
@@ -74,7 +77,7 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
 
   const styles = {
     profileHeader: {
-      backgroundColor: "white",
+      backgroundColor: theme.palette.mode === "dark" ? "#1E1E1E" : "#FFFFFF",
       boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.15)",
     },
     profileContent: {

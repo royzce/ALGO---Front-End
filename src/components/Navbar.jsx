@@ -37,6 +37,8 @@ import ColorTheme from "../components/ColorTheme";
 import { AuthContext } from "../context/AuthContext";
 import * as userService from "../services/user";
 import { DarkModeContext } from "../context/DarkModeContext";
+import { useTheme } from "@mui/material/styles";
+import { bgcolor } from "@mui/system";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -69,7 +71,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const handleGoToProfile = () => {
     handleMdClose();
-    handleDrawerProfileClose();
+    // handleDrawerProfileClose();
     navigate(`/${user.username}`);
   };
 
@@ -95,10 +97,7 @@ export default function Navbar() {
     setCurrentUser(null);
   };
 
-  // const [d, setD] = useState(false);
-  // useEffect(() => {
-  //   setD(darkMode);
-  // }, [darkMode]);
+  const theme = useTheme();
 
   function ProfileMenu() {
     return (
@@ -128,7 +127,7 @@ export default function Navbar() {
               right: 15,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
+              bgcolor: theme.palette.mode === "dark" ? "#2F2F2F" : "#FFFFFF",
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
@@ -147,7 +146,7 @@ export default function Navbar() {
             onChange={onToggleDarkmode}
             checked={darkMode}
           />
-          Dark Mode
+          {darkMode ? "Dark Mode" : "Light Mode"}
         </div>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon sx={{ mr: "10px", ml: "10px" }}>
@@ -204,8 +203,12 @@ export default function Navbar() {
           Profile
         </MenuItem>
         <div>
-          <Switch sx={{ mr: "8px", ml: "5px" }} />
-          Dark Mode
+          <Switch
+            sx={{ mr: "8px", ml: "5px" }}
+            onChange={onToggleDarkmode}
+            checked={darkMode}
+          />
+          {darkMode ? "Dark Mode" : "Light Mode"}
         </div>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon sx={{ mr: "10px", ml: "10px" }}>
@@ -240,7 +243,7 @@ export default function Navbar() {
               right: 15,
               width: 10,
               height: 10,
-              bgcolor: "background.paper",
+              bgcolor: theme.palette.mode === "dark" ? "#2F2F2F" : "#FFFFFF",
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
@@ -300,7 +303,13 @@ export default function Navbar() {
               <IconButton
                 size="middle"
                 color="inherit"
-                sx={{ bgcolor: ColorTheme.palette.secondary.main, mx: "5px" }}
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#65676B"
+                      : theme.palette.secondary.main,
+                  mx: "5px",
+                }}
                 onClick={() => navigate("/")}
               >
                 <HomeIcon />
@@ -308,7 +317,13 @@ export default function Navbar() {
               <IconButton
                 size="middle"
                 color="inherit"
-                sx={{ bgcolor: ColorTheme.palette.secondary.main, mx: "5px" }}
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#65676B"
+                      : theme.palette.secondary.main,
+                  mx: "5px",
+                }}
                 onClick={handleNotifClick}
               >
                 <Badge
@@ -355,13 +370,13 @@ export default function Navbar() {
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Inbox" />
+              <ListItemText primary="For Show Only" />
             </ListItemButton>
             <ListItemButton>
               <ListItemIcon>
                 <DraftsIcon />
               </ListItemIcon>
-              <ListItemText primary="Drafts" />
+              <ListItemText primary="For Show Only" />
             </ListItemButton>
           </List>
           <Divider />
@@ -473,11 +488,12 @@ function AutocompleteWithAvatar() {
 
   return (
     <Autocomplete
+      id="searchBar"
       sx={{
         width: "80%",
         margin: "auto",
         borderRadius: "50px",
-        backgroundColor: ColorTheme.palette.secondary.main,
+        border: "1px solid",
       }}
       ref={inpuSearchRef}
       forcePopupIcon={false}
@@ -500,7 +516,11 @@ function AutocompleteWithAvatar() {
             },
             "& .css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input": {
               height: "12px",
-              color: ColorTheme.palette.textLight.main,
+              color: "#FFF",
+            },
+            "& .css-1ea1xhh-MuiInputBase-input-MuiOutlinedInput-input": {
+              height: "12px",
+              color: "#FFF",
             },
           }}
           {...params}
@@ -509,8 +529,8 @@ function AutocompleteWithAvatar() {
           InputProps={{
             ...params.InputProps,
             startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon color="textLight" />
+              <InputAdornment position="start" style={{ color: "#fff" }}>
+                <SearchIcon />
               </InputAdornment>
             ),
           }}

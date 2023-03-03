@@ -23,6 +23,7 @@ import { getElapsedTime } from "../services/util";
 import { UserContext } from "../context/UserContext";
 import { Link as RouterLink } from "react-router-dom";
 import ConfirmDialog from "./ConfirmDialog";
+import { useTheme } from "@mui/material/styles";
 
 export default function Comment({ comment, replies, reply }) {
   const { value, date, user, isEdited } = comment || {};
@@ -74,6 +75,8 @@ export default function Comment({ comment, replies, reply }) {
       return getElapsedTime(display);
     }
   }
+
+  const theme = useTheme();
   return (
     <>
       {editing ? (
@@ -86,7 +89,11 @@ export default function Comment({ comment, replies, reply }) {
       ) : (
         <>
           <ListItem
-            sx={{ bgcolor: "#f0f2f5", borderRadius: "12px", my: "8px" }}
+            sx={{
+              bgcolor: theme.palette.mode === "dark" ? "#2F2F2F" : "#FFFFFF",
+              borderRadius: "12px",
+              my: "8px",
+            }}
             alignItems="flex-start"
             secondaryAction={
               currentUser.userId === user.userId && (
@@ -113,7 +120,8 @@ export default function Comment({ comment, replies, reply }) {
                     right: 12,
                     width: 10,
                     height: 10,
-                    bgcolor: "background.paper",
+                    bgcolor:
+                      theme.palette.mode === "dark" ? "#2F2F2F" : "#FFFFFF",
                     transform: "translateY(-50%) rotate(45deg)",
                     zIndex: 0,
                   },

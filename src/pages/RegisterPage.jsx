@@ -167,7 +167,6 @@ const RegisterPage = () => {
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
-        backgroundColor: "rgb(248, 250,252)",
         border: "1px solid #e2e2e1",
         overflow: "hidden",
         borderRadius: "10px",
@@ -180,7 +179,6 @@ const RegisterPage = () => {
       },
     },
     passwordField: {
-      backgroundColor: "rgb(248, 250,252)",
       border: "1px solid #e2e2e1",
       overflow: "hidden",
       borderRadius: "10px",

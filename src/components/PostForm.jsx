@@ -26,6 +26,7 @@ import * as firebase from "../services/firebase";
 import { UserContext } from "../context/UserContext";
 import { PostContext } from "../context/PostContext";
 import ColorTheme from "../components/ColorTheme";
+import { useTheme } from "@mui/material/styles";
 
 export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   const [form, setForm] = useState({
@@ -42,7 +43,7 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   const [files, setFiles] = useState([]);
   const { currentUser: user } = useContext(UserContext);
   const { onPosting, onEditing } = useContext(PostContext);
-
+  const theme = useTheme();
   useEffect(() => {
     if (post) {
       setPreviewUrls(post.media.map((media) => media.mediaLink));
@@ -82,7 +83,10 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   function photosButtonBackground() {
     let bgcolor = null;
     if (addPhoto) {
-      bgcolor = ColorTheme.palette.body.main;
+      bgcolor =
+        theme.palette.mode === "dark"
+          ? "#2F2F2F"
+          : ColorTheme.palette.body.main;
     } else {
       bgcolor = "transparent";
     }
@@ -91,7 +95,10 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
   function tagButtonBackground() {
     let bgcolor = null;
     if (showTagSel) {
-      bgcolor = ColorTheme.palette.body.main;
+      bgcolor =
+        theme.palette.mode === "dark"
+          ? "#2F2F2F"
+          : ColorTheme.palette.body.main;
     } else {
       bgcolor = "transparent";
     }

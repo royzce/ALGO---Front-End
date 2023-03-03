@@ -25,6 +25,7 @@ import { getElapsedTime } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import ColorTheme from "../components/ColorTheme";
 import { ProfileNavContext } from "../context/ProfileNavContext";
+import { useTheme } from "@mui/material/styles";
 
 export default function NotificationPanel({ notifs, onClose }) {
   //TODO: connect to Notifications API
@@ -67,6 +68,39 @@ export default function NotificationPanel({ notifs, onClose }) {
     handleClose();
   }
 
+  function MenuNotifPanel() {
+    return (
+      <Menu
+        open={isMvOpen}
+        onClose={handleClose}
+        anchorEl={mvAnchorEl}
+        PaperProps={{
+          sx: {
+            overflow: "visible",
+            borderRadius: "10px",
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 12,
+              width: 10,
+              height: 10,
+              bgcolor: theme.palette.mode === "dark" ? "#2F2F2F" : "#FFFFFF",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={handleMarkAllAsRead}>Mark all as read</MenuItem>
+      </Menu>
+    );
+  }
+
+  const theme = useTheme();
   return (
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -82,15 +116,7 @@ export default function NotificationPanel({ notifs, onClose }) {
           <IconButton size="small" onClick={handleMoreVert}>
             <MoreVertIcon />
           </IconButton>
-          <Menu
-            open={isMvOpen}
-            onClose={handleClose}
-            anchorEl={mvAnchorEl}
-            transformOrigin={{ horizontal: "right", vertical: "top" }}
-            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-          >
-            <MenuItem onClick={handleMarkAllAsRead}>Mark all as read</MenuItem>
-          </Menu>
+          <MenuNotifPanel />
         </Stack>
       </Stack>
       <List
