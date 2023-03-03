@@ -1,10 +1,18 @@
+import { useContext } from "react";
 import { createGlobalStyle } from "styled-components";
-import ColorTheme from "../components/ColorTheme";
+import { DarkModeContext } from "../context/DarkModeContext";
 
-const GlobalCSS = createGlobalStyle`
+const GlobalCSS = () => {
+  const { darkMode } = useContext(DarkModeContext);
+
+  return <GlobalStyle darkMode={darkMode} />;
+};
+
+const GlobalStyle = createGlobalStyle`
 
   body {
-    background-color: "dark";
+    background-color: ${(props) => (props.darkMode ? "#121212" : "#eef2f6")};
+    
   }
   .css-1k51tf5-MuiTooltip-tooltip {
     background-color: red;

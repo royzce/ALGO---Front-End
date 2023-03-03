@@ -54,8 +54,8 @@ function App() {
         main: "#8EA7E9",
       },
       mode: "light",
-      white: {
-        main: "#FFF",
+      body: {
+        main: "#eef2f6",
       },
     },
   });
