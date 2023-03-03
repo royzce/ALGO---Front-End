@@ -160,7 +160,7 @@ export default function Navbar() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => {}}>
+        <MenuItem onClick={() => handleGoToProfile()}>
           <Avatar src={user && user.avatar} alt={user && user.username} /> My
           Profile
         </MenuItem>
