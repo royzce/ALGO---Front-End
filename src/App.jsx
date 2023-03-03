@@ -46,13 +46,14 @@ function App() {
       primary: {
         main: "#7286D3",
       },
-      mode: "light",
       secondary: {
         main: "#8EA7E9",
       },
-      mode: "light",
       body: {
-        main: "#eef2f6",
+        main: "#FFF2F2",
+      },
+      white: {
+        main: "#FFF",
       },
     },
   });
@@ -63,9 +64,11 @@ function App() {
       primary: {
         main: "#90caf9",
       },
-      mode: "dark",
       secondary: {
-        main: "#f48fb1",
+        main: "#8EA7E9",
+      },
+      white: {
+        main: "#FFF",
       },
     },
   });
