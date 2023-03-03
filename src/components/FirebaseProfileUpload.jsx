@@ -51,7 +51,7 @@ function FirebaseImageUpload() {
         )}
       </div>
       <Stack direction="column" spacing={1}>
-        <Typography variant="body2">Upload you photo (Optional)</Typography>
+        <Typography variant="body2">Upload your photo (Optional)</Typography>
         <Button size="small" variant="contained" component="label">
           <input
             hidden

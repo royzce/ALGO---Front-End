@@ -25,19 +25,19 @@ root.render(
     <BrowserRouter>
       <DarkModeProvider>
         <AuthProvider>
-          <PopupProvider>
-            <RegisterProvider>
-              <FriendProvider>
-                <UserProvider>
+          <UserProvider>
+            <PopupProvider>
+              <RegisterProvider>
+                <FriendProvider>
                   <PostProvider>
                     <NotifProvider>
                       <App />
                     </NotifProvider>
                   </PostProvider>
-                </UserProvider>
-              </FriendProvider>
-            </RegisterProvider>
-          </PopupProvider>
+                </FriendProvider>
+              </RegisterProvider>
+            </PopupProvider>
+          </UserProvider>
         </AuthProvider>
       </DarkModeProvider>
     </BrowserRouter>

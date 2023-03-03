@@ -11,6 +11,7 @@ import { UserContext } from "../context/UserContext";
 import * as postSvc from "../services/post";
 import { compareByDateDesc } from "../services/util";
 import { Box } from "@mui/system";
+import * as userSvc from "../services/user";
 
 const ProfileHome = () => {
   const { username } = useParams();
@@ -18,6 +19,7 @@ const ProfileHome = () => {
   const { currentUser } = useContext(UserContext);
   const { allPosts } = useContext(PostContext);
   const [posts, setPosts] = useState([]);
+  const [profileUser, setProfileUser] = useState({});
   const isCurrentUser = currentUser && username === currentUser.username;
   useEffect(() => {
     if (username && currentUser) {
@@ -25,13 +27,16 @@ const ProfileHome = () => {
         const posts = allPosts.filter(
           (post) => post.userId === currentUser.userId
         );
-        console.log("posts in profile", posts);
+        setProfileUser(currentUser);
         setPosts(posts);
       } else {
         postSvc
           .getUserPosts(username)
           .then((res) => setPosts(res.data.sort(compareByDateDesc)));
-        console.log("hindi eto");
+        userSvc.getProfileData(username).then((res) => {
+          console.log("INSIDE ProfileHome", res.data);
+          setProfileUser(res.data);
+        });
       }
     }
   }, [allPosts, currentUser, username]);
@@ -40,16 +45,18 @@ const ProfileHome = () => {
     <Grid container spacing={2}>
       <Grid item sm={12} md={4}>
         <Grid container spacing={2} direction="column">
-          {currentUser && currentUser.bio && (
+          {profileUser && profileUser.bio && (
             <Grid item>
-              <ProfileBio profileData={currentUser} />
+              <ProfileBio profileData={profileUser} />
+            </Grid>
+          )}
+          {isCurrentUser && (
+            <Grid item>
+              <FeaturedPhotos posts={posts} profileName={username} />
             </Grid>
           )}
           <Grid item>
-            <FeaturedPhotos posts={posts} profileName={profileName} />
-          </Grid>
-          <Grid item>
-            <FeaturedFriends profileName={profileName} />
+            <FeaturedFriends profileName={username} />
           </Grid>
         </Grid>
       </Grid>

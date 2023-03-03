@@ -8,15 +8,20 @@ import {
   ImageListItem,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const PhotosPage = () => {
   const [photos, setPhotos] = useState([]);
+  const { username } = useParams();
 
   useEffect(() => {
-    postsService.getAllPhotos().then((res) => setPhotos(res.data));
-  }, []);
+    if (username) {
+      postsService
+        .getAllPhotos(username)
+        .then((res) => setPhotos(res.data.media));
+    }
+  }, [username]);
   const styles = {
     borderRadius: {
       borderRadius: "10px",

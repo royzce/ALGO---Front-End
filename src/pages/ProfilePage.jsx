@@ -33,41 +33,24 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
   const theme = useTheme();
 
   function handleLocChange() {
-    const tab = location.pathname.split("/")[2];
-    if (currentUser.username === username) {
+    if (currentUser) {
+      const tab = location.pathname.split("/")[2];
+      console.log("INSIDE ProfilePage LOCATION TEST", tab);
+      const isCurrentUser = currentUser.username === username;
       switch (tab) {
-        case "":
+        case undefined:
           setProfileTab("Post");
           break;
         case "about":
-          setProfileTab("About");
+          setProfileTab(isCurrentUser ? "About" : "Post");
           break;
         case "photos":
-          setProfileTab("Photos");
+          setProfileTab(isCurrentUser ? "Photos" : "Post");
           break;
         case "friends":
         case "friend-request":
         case "discover-friend":
           setProfileTab("Friends");
-          break;
-        default:
-          break;
-      }
-    } else {
-      switch (tab) {
-        case "":
-          setProfileTab("Post");
-          break;
-        case "about":
-          setProfileTab("Post");
-          break;
-        case "photos":
-          setProfileTab("Post");
-          break;
-        case "friends":
-        case "friend-request":
-        case "discover-friend":
-          setProfileTab("Post");
           break;
         default:
           break;

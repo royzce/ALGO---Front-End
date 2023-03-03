@@ -2,28 +2,25 @@ import React, { useContext, useEffect, useState } from "react";
 import * as userService from "../services/user";
 import {
   Avatar,
-  Button,
   Card,
   CardContent,
   Grid,
   Stack,
   Typography,
+  Link,
 } from "@mui/material";
-import { PopupContext } from "../context/PopupContext";
 import UserActionButtons from "./UserActionButtons";
 import { FriendContext } from "../context/FriendContext";
+import { Link as RouterLink } from "react-router-dom";
 
 const DiscoverFriends = ({ users }) => {
   const [allUsers, setAllUsers] = useState([]);
-  const dateNow = new Date();
   const { onAdd } = useContext(FriendContext);
   useEffect(() => {
     if (users) {
       setAllUsers(users);
-      console.log("users in discover", users);
     } else {
       userService.getNonFriend().then((res) => {
-        console.log("non friend user", res);
         setAllUsers(res.data);
       });
     }
@@ -56,17 +53,26 @@ const DiscoverFriends = ({ users }) => {
                     spacing={1}
                     direction="row"
                     alignItems="center"
+                    width="100%"
                   >
-                    <Avatar
-                      src={friend.avatar}
-                      alt={friend.username}
-                      variant="rounded"
-                      sx={{ width: 80, height: 86 }}
-                    />
-                    <Typography variant="h6">
-                      {friend.firstName + " " + friend.lastName}
-                    </Typography>
-
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                      <RouterLink to={`/${friend.username}`}>
+                        <Avatar
+                          src={friend.avatar}
+                          alt={friend.username}
+                          variant="rounded"
+                          sx={{ width: 80, height: 86 }}
+                        />
+                      </RouterLink>
+                      <Link
+                        variant="h6"
+                        component={RouterLink}
+                        to={`/${friend.username}`}
+                        underline="hover"
+                      >
+                        {friend.firstName + " " + friend.lastName}
+                      </Link>
+                    </Stack>
                     <UserActionButtons
                       username={friend.username}
                       userId={friend.userId}

@@ -8,13 +8,20 @@ import {
   ImageListItem,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as postsService from "../services/post";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const FeaturedPhotos = ({ posts, profileName }) => {
   const [photos, setPhotos] = useState([]);
-  const [isDisabled, setDisabled] = useState(false);
+  const { currentUser } = useContext(UserContext);
+  const showButton =
+    photos &&
+    photos.length > 0 &&
+    currentUser &&
+    currentUser.username === profileName;
+
   const styles = {
     borderRadius: {
       borderRadius: "10px",
@@ -23,19 +30,14 @@ const FeaturedPhotos = ({ posts, profileName }) => {
   useEffect(() => {
     if (profileName) {
       postsService.getAllPhotos(profileName).then((res) => {
-        setPhotos(res.data);
+        setPhotos(
+          res.data.media.sort(
+            (mediaA, mediaB) => -1 * (mediaA.mediaId - mediaB.mediaId)
+          )
+        );
       });
     }
   }, [posts, profileName]);
-
-  useEffect(() => {
-    console.log(photos);
-    if (photos.length === 0) {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
-  }, [photos]);
 
   return (
     <Card sx={styles.borderRadius}>
@@ -46,14 +48,15 @@ const FeaturedPhotos = ({ posts, profileName }) => {
           </Typography>
         }
         action={
-          <Button
-            underline="hover"
-            LinkComponent={Link}
-            to={`/${profileName}/photos`}
-            disabled={isDisabled}
-          >
-            See all photos
-          </Button>
+          showButton && (
+            <Button
+              underline="hover"
+              LinkComponent={Link}
+              to={`/${profileName}/photos`}
+            >
+              See all photos
+            </Button>
+          )
         }
       />
       <CardMedia sx={{ padding: "0 15px" }}>

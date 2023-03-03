@@ -14,19 +14,17 @@ import * as userService from "../services/user";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../assets/avatar.jpg";
 import { FriendContext } from "../context/FriendContext";
+import { UserContext } from "../context/UserContext";
 
 const FeaturedFriends = ({ profileName }) => {
   const { allFriends } = useContext(FriendContext);
-  const [isDisabled, setDisabled] = useState(false);
 
-  useEffect(() => {
-    console.log("allfriends useeff", allFriends);
-    if (allFriends.length === 0) {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
-  }, [allFriends]);
+  const { currentUser } = useContext(UserContext);
+  const showButton =
+    allFriends &&
+    allFriends.length > 0 &&
+    currentUser &&
+    currentUser.username === profileName;
 
   const styles = {
     borderRadius: {
@@ -45,14 +43,15 @@ const FeaturedFriends = ({ profileName }) => {
           }
           subheader={allFriends.length + " Friends"}
           action={
-            <Button
-              underline="hover"
-              LinkComponent={Link}
-              to={`/${profileName}/friends`}
-              disabled={isDisabled}
-            >
-              See all friends
-            </Button>
+            showButton && (
+              <Button
+                underline="hover"
+                LinkComponent={Link}
+                to={`/${profileName}/friends`}
+              >
+                See all friends
+              </Button>
+            )
           }
         />
         <CardMedia sx={{ padding: "0 15px" }}>

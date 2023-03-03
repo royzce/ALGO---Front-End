@@ -5,9 +5,6 @@ import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const ProfileNavBar = ({ profileName, isCurrentUser }) => {
   const { profileTab } = useContext(ProfileNavContext);
-  // const handleChange = (event, newValue) => {
-  //   setProfileTab(newValue);
-  // };
 
   const styles = {
     box: {
@@ -18,7 +15,6 @@ const ProfileNavBar = ({ profileName, isCurrentUser }) => {
 
   return (
     <Box sx={styles.box}>
-      {/* <Tabs value={profileTab} onChange={handleChange}> */}
       <Tabs value={profileTab}>
         <Tab
           value="Post"
