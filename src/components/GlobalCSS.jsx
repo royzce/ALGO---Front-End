@@ -12,7 +12,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${(props) => (props.darkMode ? "#121212" : "#eef2f6")};
-    
   }
   .css-1k51tf5-MuiTooltip-tooltip {
     background-color: red;

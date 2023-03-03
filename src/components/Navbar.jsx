@@ -38,6 +38,7 @@ import { AuthContext } from "../context/AuthContext";
 import * as userService from "../services/user";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { useTheme } from "@mui/material/styles";
+import { bgcolor } from "@mui/system";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -487,6 +488,7 @@ function AutocompleteWithAvatar() {
 
   return (
     <Autocomplete
+      id="searchBar"
       sx={{
         width: "80%",
         margin: "auto",
@@ -527,8 +529,8 @@ function AutocompleteWithAvatar() {
           InputProps={{
             ...params.InputProps,
             startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon color="white" />
+              <InputAdornment position="start" style={{ color: "#fff" }}>
+                <SearchIcon />
               </InputAdornment>
             ),
           }}
