@@ -35,7 +35,6 @@ export default function PostMedia({ post, srcPost }) {
   };
 
   const onLoad = () => {
-    console.log("inside onLoad");
     setLoading(false);
   };
 

@@ -33,7 +33,6 @@ export const uploadImage = async (file) => {
           //   // setUploadProgress(progress);
         },
         (error) => {
-          console.log("Upload failed:", error);
           reject();
         },
         async () => {

@@ -57,24 +57,6 @@ const Interest = () => {
     }
   }, [username, interest]);
 
-  console.log("Interest", interest);
-  // const filteredInterest = interestList.filter((item) => {
-  //   return interest.some((res) => {
-  //     return res.interest === item.name;
-  //   });
-  // });
-
-  // const filteredInterest = interestList.map((item) => {
-  //   const result = interest.find((interest) => interest.interest === item.name);
-  //   if (result) {
-  //     return item;
-  //   } else {
-  //     return;
-  //   }
-  // });
-
-  console.log("filteredInterest", filteredInterest);
-
   const styles = {
     borderRadius: {
       borderRadius: "10px",

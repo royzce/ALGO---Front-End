@@ -21,7 +21,6 @@ export default function PostPage() {
   const [post, setPost] = useState(null);
 
   const showPhotos = !!imgIndex;
-  console.log(showPhotos);
   const navigate = useNavigate();
 
   const { allPosts } = useContext(PostContext);

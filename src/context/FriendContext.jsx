@@ -24,7 +24,6 @@ export const FriendProvider = ({ children }) => {
   }
 
   const handleAdd = async (friendId, dateNow) => {
-    console.log("On Add", friendId);
     await userService
       .addFriend(friendId, dateNow)
       .then((res) => {
@@ -57,21 +56,19 @@ export const FriendProvider = ({ children }) => {
   }
 
   async function handleDeleteReq(userId) {
-    await userService
-      .rejectRequest(userId)
-      .then((res) => {
-        onShowSuccess("Request removed.");
-        setFriendRequests(
-          friendRequests.filter(
-            (req) =>
-              req.friendId === currentUser.userId && req.userId !== userId
-          )
-        );
-        setRender(!render);
-      })
-      .catch((err) => {
-        onShowFail("An unexpected error occurred. Try again later.");
-      });
+    try {
+      const res = await userService.removeFriend(userId);
+      onShowSuccess("Request removed.");
+
+      setFriendRequests(
+        friendRequests.filter(
+          (req) => req.friendId === currentUser.userId && req.userId !== userId
+        )
+      );
+      setRender(!render);
+    } catch (err) {
+      onShowFail("An unexpected error occurred. Try again later.");
+    }
   }
 
   async function handleUnfriend(friendId) {
@@ -86,7 +83,6 @@ export const FriendProvider = ({ children }) => {
       })
       .catch((err) => {
         onShowFail("An unexpected error occured. Try again later.");
-        console.log("Error", err);
       });
   }
 
@@ -106,7 +102,6 @@ export const FriendProvider = ({ children }) => {
       })
       .catch((err) => {
         onShowFail("An unexpected error occured. Try again later.");
-        console.log("Error", err);
       });
   }
 

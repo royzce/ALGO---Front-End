@@ -35,7 +35,6 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
   function handleLocChange() {
     if (currentUser) {
       const tab = location.pathname.split("/")[2];
-      console.log("INSIDE ProfilePage LOCATION TEST", tab);
       const isCurrentUser = currentUser.username === username;
       switch (tab) {
         case undefined:

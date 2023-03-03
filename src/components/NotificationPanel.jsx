@@ -13,10 +13,6 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
-import ModeCommentIcon from "@mui/icons-material/ModeComment";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,11 +20,9 @@ import { UserContext } from "../context/UserContext";
 import { getElapsedTime } from "../services/util";
 import { NotifContext } from "../context/NotifContext";
 import ColorTheme from "../components/ColorTheme";
-import { ProfileNavContext } from "../context/ProfileNavContext";
 import { useTheme } from "@mui/material/styles";
 
 export default function NotificationPanel({ notifs, onClose }) {
-  //TODO: connect to Notifications API
   const navigate = useNavigate();
 
   const [tabIndex, setTabIndex] = useState(0);

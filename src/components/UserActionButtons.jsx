@@ -24,33 +24,27 @@ const UserActionButtons = ({ username, userId }) => {
 
   useEffect(() => {
     userService.getUserStatus(username).then((status) => {
-      console.log("INSIDE UserActionButtons", status);
       if (status.data.userStatus === "friends") {
-        console.log(username, "is friends");
         setFriend(true);
         setSender(false);
         setAcceptor(false);
         setStranger(false);
       } else if (status.data.userStatus === "sender") {
-        console.log(username, "is sender");
         setFriend(false);
         setSender(true);
         setAcceptor(false);
         setStranger(false);
       } else if (status.data.userStatus === "acceptor") {
-        console.log(username, "is acceptor");
         setFriend(false);
         setSender(false);
         setAcceptor(true);
         setStranger(false);
       } else if (status.data.userStatus === "stranger") {
-        console.log(username, "is stranger");
         setFriend(false);
         setSender(false);
         setAcceptor(false);
         setStranger(true);
       } else {
-        console.log(username, "is You");
         setFriend(false);
         setSender(false);
         setAcceptor(false);

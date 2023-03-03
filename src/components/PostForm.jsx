@@ -76,7 +76,6 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
     if (addPhoto) {
       handleClrFiles();
     }
-    console.log("your fiends", friends);
     setAddPhoto(!addPhoto);
   }
 

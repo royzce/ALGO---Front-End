@@ -108,7 +108,6 @@ export default function Login() {
     setPasswordVisible(!passwordVisible);
   };
   const handleLogin = async () => {
-    console.log("form is", form);
     await authService
       .login(form.username, form.password, rememberMe ? true : false)
       .then(async (res) => {

@@ -24,25 +24,21 @@ export function NotifProvider({ children }) {
 
   async function getAllNotifs() {
     const res = await userSvc.getNotifications();
-    console.log("inside getAllNotifs", res);
     setNotifs(res.data.sort(compareByDateDesc));
   }
 
   async function handleMarkAsRead(notifId) {
     const res = await userSvc.updateNotif(notifId);
-    console.log("inside handleMarkAsRead", res);
     setNotifs(
       notifs.map((notif) => {
         return notif.notifId === notifId ? { ...notif, isRead: true } : notif;
       })
     );
-    // getAllNotifs();
   }
 
   async function handleMarkAllAsRead() {
     for (const notif of notifs) {
       const res = await userSvc.updateNotif(notif.notifId);
-      console.log("inside handleMarkAllAsRead", res);
     }
     setNotifs(
       notifs.map((notif) => {

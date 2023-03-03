@@ -29,16 +29,13 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
-import { Logout, Settings } from "@mui/icons-material";
 import NotificationPanel from "./NotificationPanel";
 import { NotifContext } from "../context/NotifContext";
 import { UserContext } from "../context/UserContext";
 import ColorTheme from "../components/ColorTheme";
-import { AuthContext } from "../context/AuthContext";
 import * as userService from "../services/user";
 import { DarkModeContext } from "../context/DarkModeContext";
 import { useTheme } from "@mui/material/styles";
-import { bgcolor } from "@mui/system";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -69,9 +66,9 @@ export default function Navbar() {
 
   const navigate = useNavigate();
   const handleGoToProfile = () => {
-    handleMdClose();
-    // handleDrawerProfileClose();
+    console.log("should navigate", user.username);
     navigate(`/${user.username}`);
+    handleMdClose();
   };
 
   const { notifs } = useContext(NotifContext);
@@ -135,7 +132,7 @@ export default function Navbar() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleGoToProfile}>
+        <MenuItem onClick={() => {}}>
           <Avatar src={user && user.avatar} alt={user && user.username} /> My
           Profile
         </MenuItem>
@@ -469,7 +466,6 @@ function AutocompleteWithAvatar() {
     timeoutId = setTimeout(() => {
       if (value.trim().length >= 3) {
         userService.getUsersBy(value).then((res) => {
-          console.log("options are", res.data);
           setOptions(res.data);
         });
       } else {

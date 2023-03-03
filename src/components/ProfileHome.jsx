@@ -34,7 +34,6 @@ const ProfileHome = () => {
           .getUserPosts(username)
           .then((res) => setPosts(res.data.sort(compareByDateDesc)));
         userSvc.getProfileData(username).then((res) => {
-          console.log("INSIDE ProfileHome", res.data);
           setProfileUser(res.data);
         });
       }

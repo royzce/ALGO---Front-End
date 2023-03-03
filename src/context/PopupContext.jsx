@@ -31,8 +31,6 @@ export const PopupProvider = ({ children }) => {
     }, 3000);
   };
 
-  function customAlert(message) {}
-
   return (
     <PopupContext.Provider
       value={{

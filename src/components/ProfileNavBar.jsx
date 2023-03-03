@@ -1,6 +1,6 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const ProfileNavBar = ({ profileName, isCurrentUser }) => {

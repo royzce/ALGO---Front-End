@@ -46,7 +46,6 @@ export function editReaction(reaction) {
 }
 
 export function deleteReaction(postId) {
-  console.log("delete service", postId);
   return http.delete(`/reactions`, { data: { postId: postId } });
 }
 

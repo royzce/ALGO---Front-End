@@ -14,7 +14,6 @@ export default function UserProvider({ children }) {
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    console.log("user", currentUser);
     if (localStorage.getItem("accessToken")) {
       userSvc.getCurrentUser().then((res) => setCurrentUser(res.data));
       userSvc.getUsers().then((res) => {

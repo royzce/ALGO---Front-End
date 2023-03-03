@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 export default function PostsList({ posts }) {
-  console.log("inside PostsList", posts);
-
   const { currentUser } = useContext(UserContext);
   const { username, q } = useParams();
 

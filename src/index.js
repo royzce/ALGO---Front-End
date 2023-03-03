@@ -15,7 +15,6 @@ import UserProvider from "./context/UserContext";
 import { AuthProvider } from "./context/AuthContext";
 import { PopupProvider } from "./context/PopupContext";
 import { NotifProvider } from "./context/NotifContext";
-import ProfileNavProvider from "./context/ProfileNavContext";
 import { FriendProvider } from "./context/FriendContext";
 import { DarkModeProvider } from "./context/DarkModeContext";
 
@@ -43,7 +42,3 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

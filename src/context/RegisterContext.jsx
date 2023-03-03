@@ -73,7 +73,6 @@ export const RegisterProvider = ({ children }) => {
             setUploadProgress(progress);
           },
           (error) => {
-            console.log("Upload failed:", error);
             setUploading(false);
             reject();
           },

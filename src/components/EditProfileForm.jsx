@@ -50,8 +50,6 @@ const EditProfileForm = ({ profileData }) => {
         bio: profileData.bio,
         interest: profileData.interest,
       });
-      console.log("Cover", profileData.cover);
-      console.log("Avatar", profileData.avatar);
       setPreviewProfile({
         urlCover: profileData.cover,
         urlAvatar: profileData.avatar,
@@ -81,14 +79,11 @@ const EditProfileForm = ({ profileData }) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        console.log("Reader", reader.result);
         setPreviewProfile({ ...previewProfile, urlAvatar: reader.result });
       };
       reader.readAsDataURL(file);
     }
   };
-  console.log(profileData.firstName);
-  console.log("Form", form);
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
   const { uploading, closePreview } = useContext(RegisterContext);
   const [open, setOpen] = useState(false);
@@ -123,7 +118,6 @@ const EditProfileForm = ({ profileData }) => {
     userService
       .editProfile({ ...form, avatar: avatar, cover: cover })
       .then((res) => {
-        console.log(res);
         setOpen(false);
         onShowSuccess("Profile Updated");
         closePreview();

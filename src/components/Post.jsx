@@ -78,18 +78,15 @@ export default function Post({ post, page, shared }) {
       submitBody.media = thisPost.media.map((media) => media.mediaLink);
     }
     const editedPost = { ...thisPost, ...submitBody };
-    console.log("Inside handleEditSubmit in Post.jsx", editedPost);
     onEditPost(editedPost);
   }
 
   function handlePrivChange(submitBody) {
     const editedPost = { ...thisPost, ...submitBody };
-    console.log("Inside handlePrivChange in Post.jsx", editedPost);
     onEditPrivacy(editedPost);
   }
 
   function handleRepostSubmit(submitBody) {
-    console.log("Inside handleRepostSubmit in Post.jsx", submitBody);
     if (editingRepost) {
       const editedPost = { ...thisPost, ...submitBody };
       onEditPost(editedPost);
@@ -104,7 +101,6 @@ export default function Post({ post, page, shared }) {
       // edit reaction
       const react = { postId: thisPost.postId, value };
       const res = await postSvc.editReaction(react);
-      console.log("inside handleReact ", res);
 
       updatedReacts = reactions.map((r) => {
         return r.userId === user.userId ? { ...reaction, value } : r;
@@ -113,14 +109,11 @@ export default function Post({ post, page, shared }) {
       // add reaction
       let react = { postId: thisPost.postId, value, date: new Date() };
       const res = await postSvc.addReaction(react);
-      console.log("inside handleAddReact", res);
       react = { ...res.data, user };
       updatedReacts = reactions ? [...reactions, react] : [react];
     } else {
       // delete reaction
       const res = await postSvc.deleteReaction(thisPost.postId);
-      console.log("deleting reaction", res);
-
       updatedReacts = reactions.filter(
         (react) => react.reactionId !== reaction.reactionId
       );

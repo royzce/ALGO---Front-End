@@ -10,12 +10,11 @@ export const DarkModeProvider = ({ children }) => {
 
   useEffect(() => {
     if (localStorage.getItem("darkMode")) {
-      setDarkMode(localStorage.getItem("darkMode"));
+      setDarkMode(Boolean(localStorage.getItem("darkMode")));
     }
   }, []);
 
   const handleToggleDarkMode = () => {
-    console.log("inside handle toggle dark", darkMode);
     if (darkMode) {
       localStorage.removeItem("darkMode");
     } else {

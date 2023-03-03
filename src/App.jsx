@@ -78,12 +78,6 @@ function App() {
     }
   }, [currentUser]);
 
-  const toggleDarkMode = () => {
-    // setDarkMode(!darkMode);
-    handleToggleDarkMode();
-  }; // add function to toggle dark mode
-
-  console.log("is auth", isAuthorized);
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <GlobalCSS />

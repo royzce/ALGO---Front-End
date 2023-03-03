@@ -9,7 +9,7 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Link,
@@ -18,7 +18,6 @@ import {
   useMatch,
   useParams,
 } from "react-router-dom";
-import { ProfileNavContext } from "../context/ProfileNavContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",

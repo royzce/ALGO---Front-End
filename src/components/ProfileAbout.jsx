@@ -1,7 +1,6 @@
 import { Card, CardHeader, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { Link, Outlet, useParams } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
-import { ProfileNavContext } from "../context/ProfileNavContext";
+import React, { useState } from "react";
 
 const About = () => {
   const [value, setValue] = useState("Details");

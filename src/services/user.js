@@ -9,7 +9,6 @@ export function getFriends() {
 }
 
 export function addFriend(friendId, date) {
-  console.log("Pass Here", friendId, date);
   return http.post("/friends/add", { friendId, date });
 }
 
@@ -21,10 +20,6 @@ export function acceptRequest(friendId) {
   return http.post("/friends/accept", { friendId });
 }
 
-export function rejectRequest(friendId) {
-  return http.delete("/friends/reject", { friendId });
-}
-
 export function removeFriend(friendId) {
   return http.post("/friends/delete", { friendId });
 }
@@ -34,7 +29,6 @@ export function getProfileData(username) {
 }
 
 export function editProfile(user) {
-  console.log("inside editProfile", user);
   return http.put(`/profiles/edit`, {
     username: user.username,
     email: user.email,

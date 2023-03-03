@@ -1,10 +1,6 @@
 import axios from "axios";
 
 export const http = axios.create({
-  // temporary use of JSON-server
-  // baseURL: "http://localhost:3001",
-
-  // use this when switching to NestJs
   baseURL: "http://localhost:3001/api",
 });
 
@@ -15,8 +11,7 @@ http.interceptors.response.use(null, (error) => {
     error.response.status < 500;
 
   if (!expectedError) {
-    console.log("inside interceptor");
-    // alert("An unexpected error occurred");
+    console.log("An unexpected error occurred");
   }
 
   return Promise.reject(error);

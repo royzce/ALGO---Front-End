@@ -12,7 +12,6 @@ const SearchAll = () => {
 
   useEffect(() => {
     postService.getPostsByQuery(q).then((res) => {
-      console.log("post", res);
       setPosts(res.data);
     });
     userService.getUsersBy(q).then((res) => {
