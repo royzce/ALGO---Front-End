@@ -29,16 +29,13 @@ import DiscoverFriends from "./components/DiscoverFriends";
 import { UserContext } from "./context/UserContext";
 import PhotosPage from "./components/PhotosPage";
 import EditProfilePage from "./pages/EditProfilePage";
-import { UserActionsContext } from "./context/UserActionsContext";
 import { createTheme } from "@mui/material/styles";
 import { DarkModeContext } from "./context/DarkModeContext";
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
-  const { onCurrentUser } = useContext(UserActionsContext);
   const { currentUser } = useContext(UserContext);
   const [userProfile, setUserProfile] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  // const [darkMode, setDarkMode] = useState(false); // add state variable for dark mode
 
   const isAuthorized = isAuthenticated();
   const { darkMode, handleToggleDarkMode } = useContext(DarkModeContext);
@@ -75,10 +72,8 @@ function App() {
 
   useEffect(() => {
     if (currentUser) {
-      onCurrentUser(currentUser);
       setLoggedIn(true);
     } else {
-      onCurrentUser(null);
       setLoggedIn(false);
     }
   }, [currentUser]);

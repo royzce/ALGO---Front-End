@@ -16,7 +16,6 @@ import { AuthProvider } from "./context/AuthContext";
 import { PopupProvider } from "./context/PopupContext";
 import { NotifProvider } from "./context/NotifContext";
 import ProfileNavProvider from "./context/ProfileNavContext";
-import { UserActionsProvider } from "./context/UserActionsContext";
 import { FriendProvider } from "./context/FriendContext";
 import { DarkModeProvider } from "./context/DarkModeContext";
 
@@ -28,17 +27,15 @@ root.render(
         <AuthProvider>
           <PopupProvider>
             <RegisterProvider>
-              <UserActionsProvider>
-                <FriendProvider>
-                  <UserProvider>
-                    <PostProvider>
-                      <NotifProvider>
-                        <App />
-                      </NotifProvider>
-                    </PostProvider>
-                  </UserProvider>
-                </FriendProvider>
-              </UserActionsProvider>
+              <FriendProvider>
+                <UserProvider>
+                  <PostProvider>
+                    <NotifProvider>
+                      <App />
+                    </NotifProvider>
+                  </PostProvider>
+                </UserProvider>
+              </FriendProvider>
             </RegisterProvider>
           </PopupProvider>
         </AuthProvider>
