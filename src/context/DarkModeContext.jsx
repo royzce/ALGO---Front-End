@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const DarkModeContext = createContext({
   darkMode: false,
@@ -6,9 +6,13 @@ export const DarkModeContext = createContext({
 });
 
 export const DarkModeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === true
-  );
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("darkMode")) {
+      setDarkMode(localStorage.getItem("darkMode"));
+    }
+  }, []);
 
   const handleToggleDarkMode = () => {
     console.log("inside handle toggle dark", darkMode);
