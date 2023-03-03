@@ -16,7 +16,11 @@ export const DarkModeProvider = ({ children }) => {
 
   const handleToggleDarkMode = () => {
     console.log("inside handle toggle dark", darkMode);
-    localStorage.setItem("darkMode", !darkMode);
+    if (darkMode) {
+      localStorage.removeItem("darkMode");
+    } else {
+      localStorage.setItem("darkMode", true);
+    }
     setDarkMode(!darkMode);
   };
 
