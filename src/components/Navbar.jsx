@@ -222,7 +222,8 @@ export default function Navbar() {
         transformOrigin={{ horizontal: "right", vertical: "bottom" }}
         anchorOrigin={{ horizontal: "left", vertical: "top" }}
       >
-        <MenuItem onClick={(handleGoToProfile, handleDrawerProfileClose)}>
+        {/* <MenuItem onClick={(handleGoToProfile, handleDrawerProfileClose)}> */}
+        <MenuItem onClick={() => console.log("pp")}>
           <Avatar src={user && user.avatar} alt={user && user.username} /> My
           Profile
         </MenuItem>
@@ -426,7 +427,12 @@ export default function Navbar() {
           }}
         >
           <List>
-            <ListItemButton onClick={(handleGoToProfile, handleDrawerToggle)}>
+            <ListItemButton
+              onClick={() => {
+                handleDrawerToggle();
+                handleGoToProfile();
+              }}
+            >
               <ListItemIcon>
                 <Avatar src={user && user.avatar} alt={user && user.username} />
               </ListItemIcon>
