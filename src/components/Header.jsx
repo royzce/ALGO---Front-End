@@ -102,7 +102,10 @@ const Header = ({ profileName, profileData }) => {
             paddingRight: "",
           }}
         >
-          <UserActionButtons username={username} />
+          <UserActionButtons
+            username={username}
+            userId={profileData && profileData.userId}
+          />
         </div>
       </Stack>
     </Container>

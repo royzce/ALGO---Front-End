@@ -5,18 +5,20 @@ import {
   CardContent,
   Grid,
   Typography,
+  Link,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { FriendContext } from "../context/FriendContext";
 import * as userService from "../services/user";
 import UserActionButtons from "./UserActionButtons";
+import { Link as RouterLink } from "react-router-dom";
+import { Stack } from "@mui/system";
 
 const FriendRequestList = () => {
   const { friendRequests, setFriendRequests } = useContext(FriendContext);
 
   useEffect(() => {
     userService.getFriendRequest().then((reqs) => {
-      console.log("FriendRequestList friend requests", reqs);
       setFriendRequests(reqs.data);
     });
   }, [friendRequests]);
@@ -42,33 +44,25 @@ const FriendRequestList = () => {
           <Grid item key={index} xs={6}>
             <Card sx={styles.card}>
               <CardContent sx={styles.cardContent}>
-                <Avatar
-                  src={friend.user.avatar}
-                  alt={friend.user.username}
-                  variant="rounded"
-                  sx={{ width: 80, height: 86 }}
-                />
-                <Typography variant="h6">
-                  {friend.user.firstName + " " + friend.user.lastName}
-                </Typography>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <RouterLink to={`/${friend.username}`}>
+                    <Avatar
+                      src={friend.user.avatar}
+                      alt={friend.user.username}
+                      variant="rounded"
+                      sx={{ width: 80, height: 86 }}
+                    />
+                  </RouterLink>
+                  <Link
+                    variant="h6"
+                    component={RouterLink}
+                    to={`/${friend.user.username}`}
+                    underline="hover"
+                  >
+                    {friend.user.firstName + " " + friend.user.lastName}
+                  </Link>
+                </Stack>
                 <Box>
-                  {/* <Button
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    onClick={() => onAcceptRequest(friend.user.userId)}
-                  >
-                    Confirm
-                  </Button>
-                  <Button
-                    color="error"
-                    variant="contained"
-                    size="small"
-                    sx={{ margin: "0 0 0 5px" }}
-                    onClick={() => onDeleteRequest(friend.user.userId)}
-                  >
-                    Delete
-                  </Button> */}
                   <UserActionButtons
                     username={friend.user.username}
                     userId={friend.user.userId}

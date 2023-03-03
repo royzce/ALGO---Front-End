@@ -7,32 +7,20 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { FriendContext } from "../context/FriendContext";
 import { PopupContext } from "../context/PopupContext";
 import * as userService from "../services/user";
 import UserActionButtons from "./UserActionButtons";
 
 const FriendsList = () => {
-  const { onShowSuccess, onShowFail } = useContext(PopupContext);
-  const [friends, setFriends] = useState([]);
+  // const [friends, setFriends] = useState([]);
+  const { allFriends: friends } = useContext(FriendContext);
 
-  useEffect(() => {
-    userService.getFriends().then((res) => {
-      setFriends(res.data);
-    });
-  }, []);
-
-  const onRemoveFriend = async (friendId) => {
-    await userService
-      .removeFriend(friendId)
-      .then((res) => {
-        onShowSuccess("Removed Friend");
-        setFriends(friends.filter((friend) => friend.userId !== friendId));
-      })
-      .catch((err) => {
-        onShowFail("An unexpected error occured. Try again later.");
-        console.log("Error", err);
-      });
-  };
+  // useEffect(() => {
+  //   userService.getFriends().then((res) => {
+  //     setFriends(res.data);
+  //   });
+  // }, []);
 
   const styles = {
     card: {
@@ -64,18 +52,10 @@ const FriendsList = () => {
                 <Typography variant="h6">
                   {friend.firstName + " " + friend.lastName}
                 </Typography>
-                {/* <Button
-                  color="error"
-                  variant="contained"
-                  size="small"
-                  onClick={() => onRemoveFriend(friend.userId)}
-                >
-                  Unfriend
-                </Button> */}
+
                 <UserActionButtons
                   username={friend.username}
                   userId={friend.userId}
-                  handleActionFriendList={onRemoveFriend}
                 />
               </CardContent>
             </Card>

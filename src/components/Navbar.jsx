@@ -51,7 +51,6 @@ export default function Navbar() {
   const mdOpen = Boolean(mdAnchorEl);
   const drawerOpen = Boolean(drawerAnchorEl);
   const { darkMode, onToggleDarkmode } = useContext(DarkModeContext);
-
   const handleMdClick = (event) => {
     setMdAnchorEl(event.currentTarget);
   };
@@ -63,7 +62,7 @@ export default function Navbar() {
   };
   const handleDrawerProfileClose = () => {
     setDrawerProfileAnchorEl(null);
-    handleDrawerToggle();
+    // handleDrawerToggle();
   };
 
   const navigate = useNavigate();

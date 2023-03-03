@@ -19,10 +19,10 @@ export const FriendProvider = ({ children }) => {
 
   function getFriendRequest() {
     userService.getFriendRequest().then((reqs) => {
-      console.log("FriendProvider friend requests", reqs);
       setFriendRequests(reqs.data);
     });
   }
+
   const handleAdd = async (friendId, dateNow) => {
     console.log("On Add", friendId);
     await userService
@@ -44,6 +44,7 @@ export const FriendProvider = ({ children }) => {
         setFriendRequests(
           friendRequests.filter((req) => req.userId !== friendId)
         );
+        getFriends();
         setRender(!render);
       })
       .catch((err) => {
@@ -51,10 +52,9 @@ export const FriendProvider = ({ children }) => {
       });
   }
 
-  useEffect(() => {
+  function getFriends() {
     userService.getFriends().then((friends) => setAllFriends(friends.data));
-    getFriendRequest();
-  }, [currentUser]);
+  }
 
   async function handleDeleteReq(userId) {
     await userService
@@ -62,7 +62,10 @@ export const FriendProvider = ({ children }) => {
       .then((res) => {
         onShowSuccess("Request removed.");
         setFriendRequests(
-          friendRequests.filter((req) => req.userId !== userId)
+          friendRequests.filter(
+            (req) =>
+              req.friendId === currentUser.userId && req.userId !== userId
+          )
         );
         setRender(!render);
       })
@@ -75,7 +78,7 @@ export const FriendProvider = ({ children }) => {
     await userService
       .removeFriend(friendId)
       .then((res) => {
-        onShowSuccess("Removed Friend");
+        onShowSuccess("Removed friend.");
         setAllFriends(
           allFriends.filter((friend) => friend.userId !== friendId)
         );
@@ -87,9 +90,32 @@ export const FriendProvider = ({ children }) => {
       });
   }
 
-  async function handleCancelReq(userId) {
-    handleUnfriend(userId);
+  async function handleCancelReq(friendId) {
+    await userService
+      .removeFriend(friendId)
+      .then((res) => {
+        onShowSuccess("Request cancelled.");
+        setAllFriends(
+          allFriends.filter(
+            (friend) =>
+              friend.userId === currentUser.userId &&
+              friend.friendId !== friendId
+          )
+        );
+        setRender(!render);
+      })
+      .catch((err) => {
+        onShowFail("An unexpected error occured. Try again later.");
+        console.log("Error", err);
+      });
   }
+
+  useEffect(() => {
+    if (currentUser) {
+      getFriends();
+      getFriendRequest();
+    }
+  }, [currentUser]);
 
   return (
     <FriendContext.Provider
