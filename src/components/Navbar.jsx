@@ -66,9 +66,8 @@ export default function Navbar() {
 
   const navigate = useNavigate();
   const handleGoToProfile = () => {
-    console.log("should navigate", user.username);
-    navigate(`/${user.username}`);
     handleMdClose();
+    navigate(`/${user.username}`);
   };
 
   const { notifs } = useContext(NotifContext);
