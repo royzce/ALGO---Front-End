@@ -185,68 +185,68 @@ export default function Navbar() {
     );
   }
 
-  function DrawerProfileMenu() {
-    return (
-      <Menu
-        anchorEl={drawerAnchorEl}
-        id="drawer-menu"
-        open={drawerOpen}
-        onClose={handleDrawerProfileClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            borderRadius: "10px",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            width: "200px",
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: "2px",
-              mr: "22px",
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              bottom: -10,
-              left: 10,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "bottom" }}
-        anchorOrigin={{ horizontal: "left", vertical: "top" }}
-      >
-        {/* <MenuItem onClick={(handleGoToProfile, handleDrawerProfileClose)}> */}
-        <MenuItem onClick={() => console.log("pp")}>
-          <Avatar src={user && user.avatar} alt={user && user.username} /> My
-          Profile
-        </MenuItem>
-        <div>
-          <Switch
-            sx={{ mr: "8px", ml: "5px" }}
-            onChange={onToggleDarkmode}
-            checked={darkMode}
-          />
-          {darkMode ? "Dark Mode" : "Light Mode"}
-        </div>
-        <MenuItem onClick={handleLogout}>
-          <ListItemIcon sx={{ mr: "10px", ml: "10px" }}>
-            <i
-              className="fa-solid fa-right-from-bracket"
-              style={{ color: ColorTheme.palette.error.main }}
-            />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
-    );
-  }
+  // function DrawerProfileMenu() {
+  //   return (
+  //     <Menu
+  //       anchorEl={drawerAnchorEl}
+  //       id="drawer-menu"
+  //       open={drawerOpen}
+  //       onClose={handleDrawerProfileClose}
+  //       PaperProps={{
+  //         elevation: 0,
+  //         sx: {
+  //           overflow: "visible",
+  //           borderRadius: "10px",
+  //           filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+  //           width: "200px",
+  //           "& .MuiAvatar-root": {
+  //             width: 32,
+  //             height: 32,
+  //             ml: "2px",
+  //             mr: "22px",
+  //           },
+  //           "&:before": {
+  //             content: '""',
+  //             display: "block",
+  //             position: "absolute",
+  //             bottom: -10,
+  //             left: 10,
+  //             width: 10,
+  //             height: 10,
+  //             bgcolor: "background.paper",
+  //             transform: "translateY(-50%) rotate(45deg)",
+  //             zIndex: 0,
+  //           },
+  //         },
+  //       }}
+  //       transformOrigin={{ horizontal: "right", vertical: "bottom" }}
+  //       anchorOrigin={{ horizontal: "left", vertical: "top" }}
+  //     >
+  //       {/* <MenuItem onClick={(handleGoToProfile, handleDrawerProfileClose)}> */}
+  //       <MenuItem onClick={() => console.log("pp")}>
+  //         <Avatar src={user && user.avatar} alt={user && user.username} /> My
+  //         Profile
+  //       </MenuItem>
+  //       <div>
+  //         <Switch
+  //           sx={{ mr: "8px", ml: "5px" }}
+  //           onChange={onToggleDarkmode}
+  //           checked={darkMode}
+  //         />
+  //         {darkMode ? "Dark Mode" : "Light Mode"}
+  //       </div>
+  //       <MenuItem onClick={handleLogout}>
+  //         <ListItemIcon sx={{ mr: "10px", ml: "10px" }}>
+  //           <i
+  //             className="fa-solid fa-right-from-bracket"
+  //             style={{ color: ColorTheme.palette.error.main }}
+  //           />
+  //         </ListItemIcon>
+  //         Logout
+  //       </MenuItem>
+  //     </Menu>
+  //   );
+  // }
 
   function NotificationsMenu() {
     const navigate = useNavigate();
@@ -532,7 +532,12 @@ export default function Navbar() {
                 <ListItemText primary={darkMode ? "Dark Mode" : "Light Mode"} />
               </ListItemButton>
               <Divider />
-              <ListItemButton onClick={(handleLogout, handleDrawerToggle)}>
+              <ListItemButton
+                onClick={() => {
+                  handleDrawerToggle();
+                  handleLogout();
+                }}
+              >
                 <ListItemIcon>
                   <Avatar
                     sx={{
