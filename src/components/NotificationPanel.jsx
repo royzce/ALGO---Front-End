@@ -190,7 +190,9 @@ function NotifList({ notifs, onClick }) {
         icon = <i className="fa-solid fa-fire" style={{ fontSize: "10px" }} />;
         break;
       case "comments":
-        icon = <i class="fa-solid fa-comment" style={{ fontSize: "10px" }} />;
+        icon = (
+          <i className="fa-solid fa-comment" style={{ fontSize: "10px" }} />
+        );
         break;
       case "tag":
         icon = <i className="fa-solid fa-user-tag" />;
@@ -199,7 +201,9 @@ function NotifList({ notifs, onClick }) {
         icon = <i className="fa-solid fa-share" style={{ fontSize: "10px" }} />;
         break;
       case "requestFriend":
-        icon = <i class="fa-solid fa-user-plus" style={{ fontSize: "10px" }} />;
+        icon = (
+          <i className="fa-solid fa-user-plus" style={{ fontSize: "10px" }} />
+        );
         break;
       default:
         break;
