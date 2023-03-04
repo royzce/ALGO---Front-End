@@ -86,7 +86,6 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    // const response = await authService.forgotPassord(form.email);
     setLoading(true);
     await authService
       .forgotPassord(form.email)
@@ -97,11 +96,9 @@ export default function ForgotPasswordPage() {
             "Password reset link was sent. Please check your email"
           );
           navigate("/login");
-          //maybe add navigate to login
         }
       })
       .catch((err) => {
-        //change to snackbar maybe or something
         setLoading(false);
         onShowFail(err.response.data.message);
       });

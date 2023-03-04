@@ -1,6 +1,4 @@
 import React from "react";
-import { useContext } from "react";
-import { RegisterContext } from "../context/RegisterContext";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,

@@ -36,7 +36,6 @@ const Details = () => {
       padding: "10px 20px",
     },
     listItem: {
-      // backgroundColor: "red",
       padding: "8px 0",
     },
     borderRadius: {

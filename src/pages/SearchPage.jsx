@@ -15,10 +15,6 @@ import { PostContext } from "../context/PostContext";
 const SearchPage = () => {
   const { q } = useParams();
 
-  // return <div>My Component with query {q} </div>;
-
-  //all, people, posts
-
   const [filter, setFilter] = useState({
     people: true,
     posts: true,
@@ -46,5 +42,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-
-//searchParams

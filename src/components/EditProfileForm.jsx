@@ -16,7 +16,6 @@ import {
   Zoom,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import FirebaseProfileUpload from "../components/FirebaseProfileUpload";
 import FirebaseCoverUpload from "./FirebaseCoverUpload";
 import { UserContext } from "../context/UserContext";
 import FirebaseAvatarUpload from "./FirebaseAvatarUpload";
@@ -99,7 +98,6 @@ const EditProfileForm = ({ profileData }) => {
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // handleToggle();
     setOpen(true);
     let avatar = "";
     if (files && files.avatarFile) {
@@ -123,7 +121,6 @@ const EditProfileForm = ({ profileData }) => {
         closePreview();
         setCurrentUser(res.data);
         navigate(`/${form.username}`);
-        // navigate(`/`);
       })
       .catch((err) => {
         setOpen(false);

@@ -3,7 +3,6 @@ import {
   Paper,
   Stack,
   Typography,
-  TextField,
   Backdrop,
   CircularProgress,
   IconButton,
@@ -17,7 +16,6 @@ import {
 import Joi from "joi";
 import React, { useContext, useEffect, useState } from "react";
 import appLogo from "../assets/logo.png";
-import GlobalCSS from "../components/GlobalCSS";
 import * as authService from "../services/auth";
 import { joiPasswordExtendCore } from "joi-password";
 import { useNavigate, useParams } from "react-router-dom";
@@ -40,7 +38,6 @@ export default function ResetPasswordPage() {
         })
         .catch((err) => {
           setLoading(false);
-          //change to snackbar maybe or whatever
           onShowFail(err.response.data.message);
         });
     }
@@ -131,21 +128,17 @@ export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    // const response = await authService.forgotPassord(form.email);
     setLoading(true);
     await authService
       .resetPassword(token, form.password)
       .then((res) => {
         setLoading(false);
-        //snackbar or something
 
         onShowSuccess(res.data.ResetPasswordResponse);
-        //then navigate to login
         navigate("/login");
       })
       .catch((err) => {
         setLoading(false);
-        //snackbar or something
         onShowFail(err.response.data.message);
       });
   };
@@ -187,7 +180,6 @@ export default function ResetPasswordPage() {
           id="error-tooltip"
         >
           <FilledInput
-            // id="filled-adornment-password"
             id="pass-word"
             name="password"
             error={!!errors.password}

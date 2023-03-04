@@ -1,8 +1,5 @@
 import { Button, Popover } from "@mui/material";
 import { Stack } from "@mui/system";
-import ChatOutlined from "@mui/icons-material/ChatOutlined";
-import ShareOutlined from "@mui/icons-material/ShareOutlined";
-import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 
 import PostReactions from "./PostReactions";
 import React, { useContext, useEffect, useState } from "react";

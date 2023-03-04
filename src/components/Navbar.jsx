@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useEffect, useState } from "react";
+import React, { createRef, useContext, useState } from "react";
 import {
   Avatar,
   Grid,
@@ -9,7 +9,6 @@ import {
   Badge,
   Autocomplete,
   TextField,
-  Button,
   Drawer,
   Box,
   List,
@@ -27,8 +26,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useNavigate } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import InboxIcon from "@mui/icons-material/Inbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import NotificationPanel from "./NotificationPanel";

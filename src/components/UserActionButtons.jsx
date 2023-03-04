@@ -1,10 +1,7 @@
 import { Button, ButtonGroup } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { UserContext } from "../context/UserContext";
 import * as userService from "../services/user";
-import { PopupContext } from "../context/PopupContext";
-import { async } from "q";
 import { FriendContext } from "../context/FriendContext";
 const UserActionButtons = ({ username, userId }) => {
   const [isFriend, setFriend] = useState(false);
@@ -51,7 +48,7 @@ const UserActionButtons = ({ username, userId }) => {
         setStranger(false);
       }
     });
-  }, [render]);
+  }, [render, username]);
 
   return (
     <ButtonGroup size="small">

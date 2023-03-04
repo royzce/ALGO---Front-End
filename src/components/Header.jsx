@@ -8,10 +8,8 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { Button } from "bootstrap";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router";
-import * as userService from "../services/user";
 import cover from "../assets/cover.jpg";
 import UserActionButtons from "./UserActionButtons";
 import { FriendContext } from "../context/FriendContext";

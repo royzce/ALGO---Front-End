@@ -1,26 +1,10 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-} from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import { Avatar, Card, CardContent, Grid, Typography } from "@mui/material";
+import React, { useContext } from "react";
 import { FriendContext } from "../context/FriendContext";
-import { PopupContext } from "../context/PopupContext";
-import * as userService from "../services/user";
 import UserActionButtons from "./UserActionButtons";
 
 const FriendsList = () => {
-  // const [friends, setFriends] = useState([]);
   const { allFriends: friends } = useContext(FriendContext);
-
-  // useEffect(() => {
-  //   userService.getFriends().then((res) => {
-  //     setFriends(res.data);
-  //   });
-  // }, []);
 
   const styles = {
     card: {

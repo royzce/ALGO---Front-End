@@ -38,7 +38,7 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   const isAuthorized = isAuthenticated();
-  const { darkMode, handleToggleDarkMode } = useContext(DarkModeContext);
+  const { darkMode } = useContext(DarkModeContext);
 
   const lightTheme = createTheme({
     palette: {

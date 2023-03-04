@@ -1,6 +1,5 @@
-import { Alert, AlertTitle, Button, IconButton, Snackbar } from "@mui/material";
+import { Alert, IconButton, Snackbar } from "@mui/material";
 import { createContext, useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 
 export const PopupContext = createContext({});
 

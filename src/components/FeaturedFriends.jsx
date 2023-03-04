@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   CardHeader,
@@ -9,8 +8,7 @@ import {
   ImageListItemBar,
   Typography,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
-import * as userService from "../services/user";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import defaultAvatar from "../assets/avatar.jpg";
 import { FriendContext } from "../context/FriendContext";

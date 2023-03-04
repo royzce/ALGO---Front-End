@@ -203,10 +203,6 @@ const RegisterPage = () => {
 
   const [open, setOpen] = useState(false);
 
-  // const handleToggle = () => {
-  //   setOpen(!open);
-  // };
-
   function Spinner() {
     return (
       <Backdrop

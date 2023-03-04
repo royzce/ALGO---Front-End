@@ -7,8 +7,6 @@ import {
   CardContent,
   CardHeader,
   Container,
-  Divider,
-  Grid,
   IconButton,
   ImageList,
   ImageListItem,
@@ -21,7 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useContext, useEffect, useState } from "react";
 import PostFormHeader from "./PostFormHeader";
 import * as userSvc from "../services/user";
-import { bgcolor, Stack } from "@mui/system";
+import { Stack } from "@mui/system";
 import * as firebase from "../services/firebase";
 import { UserContext } from "../context/UserContext";
 import { PostContext } from "../context/PostContext";
