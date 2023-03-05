@@ -24,7 +24,6 @@ const Header = ({ profileName, profileData }) => {
 
   useEffect(() => {
     if (currentUser && currentUser.username === username) {
-      console.log("allfrindd", allFriends);
       setFriends(allFriends);
     } else {
       userService.getSpecificFriends(username).then((friends) => {

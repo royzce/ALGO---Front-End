@@ -148,7 +148,6 @@ const RegisterPage = () => {
             setErrors({ ...errors, [input.name]: error.details[0].message });
         }
       } else {
-        console.log("callded");
         setErrors({ ...errors, [input.name]: error.details[0].message });
       }
     } else {
