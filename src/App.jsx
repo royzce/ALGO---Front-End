@@ -156,8 +156,8 @@ function App() {
               element={<DiscoverFriends />}
             />
           </Route>
+          <Route path="/:username/edit" element={<EditProfilePage />} />
         </Route>
-        <Route path="/:username/edit" element={<EditProfilePage />} />
         <Route path="/not-found" element={<PageNotFound />} />
         <Route
           path="/search"
