@@ -1,6 +1,7 @@
 import {
   Backdrop,
   Button,
+  Container,
   Divider,
   FilledInput,
   FormControl,
@@ -164,6 +165,19 @@ const RegisterPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confPasswordVisible, setConfPasswordVisible] = useState(false);
 
+  const [open, setOpen] = useState(false);
+
+  function Spinner() {
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress color="primary" />
+      </Backdrop>
+    );
+  }
+
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
@@ -192,239 +206,234 @@ const RegisterPage = () => {
     paper: {
       borderRadius: "10px",
       padding: "30px",
-      minWidth: "425px",
       maxWidth: "685px",
-      margin: "70px auto",
+      margin: "auto",
     },
-    mb20: {
-      marginBottom: "20px",
+    marginBottom: {
+      marginBottom: "8px",
+    },
+    container: {
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      py: "16px",
+      overflowY: "auto",
     },
   };
 
-  const [open, setOpen] = useState(false);
-
-  function Spinner() {
-    return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-      >
-        <CircularProgress color="primary" />
-      </Backdrop>
-    );
-  }
-
   return (
-    <Paper
-      component="form"
-      autoComplete="off"
-      onSubmit={handleSubmit}
-      elevation={3}
-      style={styles.paper}
-    >
-      {uploading && <Spinner />}
-      <Stack
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        padding={2}
-        spacing={5}
+    <Container sx={styles.container}>
+      <Paper
+        component="form"
+        autoComplete="off"
+        onSubmit={handleSubmit}
+        elevation={3}
+        style={styles.paper}
       >
-        <img
-          src={appLogo}
-          style={{
-            height: "50px",
-          }}
-          alt="Algo app logo"
-        />
-        <div>
-          <Typography variant="h5">
-            <strong>Sign Up</strong>
-          </Typography>
-          <Typography variant="body2" sx={{ color: "gray" }}>
-            Enter your credentials to join the ALGO Community.
-          </Typography>
-        </div>
-      </Stack>
-      <hr />
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={2}
-        my={3}
-      >
-        <FirebaseProfileUpload />
-      </Stack>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={1}
-        sx={styles.mb20}
-      >
+        {uploading && <Spinner />}
+        <Stack
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          padding={2}
+          spacing={5}
+        >
+          <img
+            src={appLogo}
+            style={{
+              height: "50px",
+            }}
+            alt="Algo app logo"
+          />
+          <div>
+            <Typography variant="h5">
+              <strong>Sign Up</strong>
+            </Typography>
+            <Typography variant="body2" sx={{ color: "gray" }}>
+              Enter your credentials to join the ALGO Community.
+            </Typography>
+          </div>
+        </Stack>
+        <hr />
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+          my={3}
+        >
+          <FirebaseProfileUpload />
+        </Stack>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={1}
+          sx={styles.marginBottom}
+        >
+          <Tooltip
+            title={errors.firstName}
+            open={!!errors.firstName}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+          >
+            <TextField
+              name="firstName"
+              error={!!errors.firstName}
+              onChange={handleChange}
+              value={form.firstName}
+              label="First Name"
+              variant="filled"
+              InputProps={{ disableUnderline: true }}
+              sx={styles.myTextField}
+              fullWidth
+            />
+          </Tooltip>
+          <Tooltip
+            title={errors.lastName}
+            open={!!errors.lastName}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+          >
+            <TextField
+              name="lastName"
+              error={!!errors.lastName}
+              onChange={handleChange}
+              value={form.lastName}
+              label="Last Name"
+              variant="filled"
+              InputProps={{ disableUnderline: true }}
+              sx={styles.myTextField}
+              fullWidth
+            />
+          </Tooltip>
+        </Stack>
         <Tooltip
-          title={errors.firstName}
-          open={!!errors.firstName}
+          title={errors.username}
+          open={!!errors.username}
           placement="top-end"
           TransitionComponent={Zoom}
           arrow={true}
         >
           <TextField
-            name="firstName"
-            error={!!errors.firstName}
+            name="username"
+            error={!!errors.username}
             onChange={handleChange}
-            value={form.firstName}
-            label="First Name"
+            value={form.username}
+            label="Username"
             variant="filled"
             InputProps={{ disableUnderline: true }}
-            sx={styles.myTextField}
+            sx={[styles.myTextField, styles.marginBottom]}
             fullWidth
           />
         </Tooltip>
         <Tooltip
-          title={errors.lastName}
-          open={!!errors.lastName}
+          title={errors.email}
+          open={!!errors.email}
           placement="top-end"
           TransitionComponent={Zoom}
           arrow={true}
         >
           <TextField
-            name="lastName"
-            error={!!errors.lastName}
+            name="email"
+            error={!!errors.email}
             onChange={handleChange}
-            value={form.lastName}
-            label="Last Name"
+            value={form.email}
+            label="Email"
             variant="filled"
             InputProps={{ disableUnderline: true }}
-            sx={styles.myTextField}
+            sx={[styles.myTextField, styles.marginBottom]}
             fullWidth
           />
         </Tooltip>
-      </Stack>
-      <Tooltip
-        title={errors.username}
-        open={!!errors.username}
-        placement="top-end"
-        TransitionComponent={Zoom}
-        arrow={true}
-      >
-        <TextField
-          name="username"
-          error={!!errors.username}
-          onChange={handleChange}
-          value={form.username}
-          label="Username"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.mb20]}
-          fullWidth
-        />
-      </Tooltip>
-      <Tooltip
-        title={errors.email}
-        open={!!errors.email}
-        placement="top-end"
-        TransitionComponent={Zoom}
-        arrow={true}
-      >
-        <TextField
-          name="email"
-          error={!!errors.email}
-          onChange={handleChange}
-          value={form.email}
-          label="Email"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.mb20]}
-          fullWidth
-        />
-      </Tooltip>
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="pass-word" error={!!errors.password}>
-          Password
-        </InputLabel>
-        <Tooltip
-          title={errors.password}
-          open={!!errors.password}
-          placement="top-end"
-          TransitionComponent={Zoom}
-          arrow={true}
-          id="error-tooltip"
-        >
-          <FilledInput
-            id="pass-word"
-            name="password"
-            error={!!errors.password}
-            onChange={handleChange}
-            value={form.password}
-            type={passwordVisible ? "text" : "password"}
-            disableUnderline={true}
-            sx={[styles.passwordField, styles.mb20]}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  edge="end"
-                >
-                  {passwordVisible ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Tooltip>
-      </FormControl>
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel
-          htmlFor="confirm-pass-word"
-          error={!!errors.confirmPassword}
-        >
-          Confirm password
-        </InputLabel>
-        <Tooltip
-          title={errors.confirmPassword}
-          open={!!errors.confirmPassword}
-          placement="top-end"
-          TransitionComponent={Zoom}
-          arrow={true}
-          id="error-tooltip"
-        >
-          <FilledInput
-            id="confirm-pass-word"
-            name="confirmPassword"
+        <FormControl sx={{ width: "100%" }} variant="filled">
+          <InputLabel htmlFor="pass-word" error={!!errors.password}>
+            Password
+          </InputLabel>
+          <Tooltip
+            title={errors.password}
+            open={!!errors.password}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+            id="error-tooltip"
+          >
+            <FilledInput
+              id="pass-word"
+              name="password"
+              error={!!errors.password}
+              onChange={handleChange}
+              value={form.password}
+              type={passwordVisible ? "text" : "password"}
+              disableUnderline={true}
+              sx={[styles.passwordField, styles.marginBottom]}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    edge="end"
+                  >
+                    {passwordVisible ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Tooltip>
+        </FormControl>
+        <FormControl sx={{ width: "100%" }} variant="filled">
+          <InputLabel
+            htmlFor="confirm-pass-word"
             error={!!errors.confirmPassword}
-            onChange={handleChange}
-            value={form.confirmPassword}
-            type={confPasswordVisible ? "text" : "password"}
-            disableUnderline={true}
-            sx={[styles.passwordField, styles.mb20]}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setConfPasswordVisible(!confPasswordVisible)}
-                  edge="end"
-                >
-                  {confPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Tooltip>
-      </FormControl>
-      <Button
-        disabled={isFormInvalid()}
-        type="submit"
-        variant="contained"
-        fullWidth
-      >
-        Sign Up
-      </Button>
-      <Divider sx={{ my: "10px" }}>
-        <Button disabled>OR</Button>
-      </Divider>
-      <Typography variant="body2" sx={{ textAlign: "center" }}>
-        <Link to="/login">Already have an account?</Link>
-      </Typography>
-    </Paper>
+          >
+            Confirm password
+          </InputLabel>
+          <Tooltip
+            title={errors.confirmPassword}
+            open={!!errors.confirmPassword}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+            id="error-tooltip"
+          >
+            <FilledInput
+              id="confirm-pass-word"
+              name="confirmPassword"
+              error={!!errors.confirmPassword}
+              onChange={handleChange}
+              value={form.confirmPassword}
+              type={confPasswordVisible ? "text" : "password"}
+              disableUnderline={true}
+              sx={[styles.passwordField, styles.mb20]}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setConfPasswordVisible(!confPasswordVisible)}
+                    edge="end"
+                  >
+                    {confPasswordVisible ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Tooltip>
+        </FormControl>
+        <Button
+          disabled={isFormInvalid()}
+          type="submit"
+          variant="contained"
+          fullWidth
+        >
+          Sign Up
+        </Button>
+        <Divider sx={{ my: "10px" }}>
+          <Button disabled>OR</Button>
+        </Divider>
+        <Typography variant="body2" sx={{ textAlign: "center" }}>
+          <Link to="/login">Already have an account?</Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 };
 export default RegisterPage;

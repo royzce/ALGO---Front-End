@@ -130,14 +130,13 @@ export default function ForgotPasswordPage() {
     >
       {loading && <Spinner />}
       <Paper
-        elevation={0}
+        elevation={3}
         sx={{
           borderRadius: "12px",
           padding: "30px",
           minWidth: "425px",
           my: "auto",
           maxWidth: "425px",
-          backgroundColor: darkMode && "rgb(37,37,37)",
         }}
       >
         <img

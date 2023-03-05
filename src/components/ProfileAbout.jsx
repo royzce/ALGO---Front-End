@@ -12,7 +12,7 @@ const About = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={4}>
+      <Grid item xs={12} sm={4}>
         <Card sx={{ borderRadius: "10px" }}>
           <CardHeader
             title={
@@ -37,7 +37,7 @@ const About = () => {
           </Tabs>
         </Card>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={12} sm={8}>
         <Outlet />
       </Grid>
     </Grid>

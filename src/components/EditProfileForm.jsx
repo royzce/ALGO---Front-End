@@ -9,6 +9,7 @@ import {
   Backdrop,
   Button,
   CircularProgress,
+  Container,
   Paper,
   TextField,
   Tooltip,
@@ -171,12 +172,11 @@ const EditProfileForm = ({ profileData }) => {
     paper: {
       borderRadius: "10px",
       padding: "30px",
-      minWidth: "425px",
       maxWidth: "685px",
-      margin: "70px auto",
+      margin: "0px auto",
     },
-    mb20: {
-      marginBottom: "20px",
+    marginBottom: {
+      marginBottom: "8px",
     },
   };
 
@@ -197,6 +197,7 @@ const EditProfileForm = ({ profileData }) => {
     setForm({ ...form, interest });
   }
   return (
+    // <Container sx={styles.container} disableGutters>
     <Paper
       component="form"
       autoComplete="off"
@@ -248,7 +249,7 @@ const EditProfileForm = ({ profileData }) => {
       <Stack
         direction={{ xs: "column", sm: "row" }}
         spacing={1}
-        sx={styles.mb20}
+        sx={styles.marginBottom}
       >
         <Tooltip
           title={errors.firstName}
@@ -304,7 +305,7 @@ const EditProfileForm = ({ profileData }) => {
           label="Username"
           variant="filled"
           InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.mb20]}
+          sx={[styles.myTextField, styles.marginBottom]}
           fullWidth
         />
       </Tooltip>
@@ -323,7 +324,7 @@ const EditProfileForm = ({ profileData }) => {
           label="Email"
           variant="filled"
           InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.mb20]}
+          sx={[styles.myTextField, styles.marginBottom]}
           fullWidth
         />
       </Tooltip>
@@ -342,7 +343,7 @@ const EditProfileForm = ({ profileData }) => {
           label="Bio"
           variant="filled"
           InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.mb20]}
+          sx={[styles.myTextField, styles.marginBottom]}
           multiline
           rows={3}
           fullWidth
@@ -358,7 +359,7 @@ const EditProfileForm = ({ profileData }) => {
           <TextField
             {...params}
             label="Interest"
-            sx={[styles.myTextField, styles.mb20]}
+            sx={[styles.myTextField, styles.marginBottom]}
             variant="filled"
             fullWidth
           />
@@ -375,6 +376,7 @@ const EditProfileForm = ({ profileData }) => {
         Update
       </Button>
     </Paper>
+    // </Container>
   );
 };
 

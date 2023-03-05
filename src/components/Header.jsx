@@ -21,8 +21,8 @@ const Header = ({ profileName, profileData }) => {
   const styles = {
     profilePhoto: {
       border: "5px solid white",
-      width: { md: "200px", xs: "150px" },
-      height: { md: "200px", xs: "150px" },
+      width: { xs: "125px", md: "200px" },
+      height: { xs: "125px", md: "200px" },
       margin: "-50px 0 0 20px",
     },
     coverPhoto: {

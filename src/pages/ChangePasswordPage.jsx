@@ -13,6 +13,7 @@ import {
   Zoom,
   FilledInput,
   InputAdornment,
+  Container,
 } from "@mui/material";
 import Joi from "joi";
 import React, { useContext, useEffect, useState } from "react";
@@ -29,31 +30,6 @@ export default function ChangePasswordPage() {
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
   const { darkMode } = useContext(DarkModeContext);
 
-  const styles = {
-    passwordField: {
-      border: "1px solid #e2e2e1",
-      overflow: "hidden",
-      borderRadius: "10px",
-      "&:hover": {
-        backgroundColor: "transparent",
-      },
-      "&.Mui-focused": {
-        backgroundColor: "transparent",
-      },
-    },
-    paper: {
-      borderRadius: "12px",
-      padding: "30px",
-      minWidth: "425px",
-      margin: "84px auto",
-      width: "425px",
-      backgroundColor: darkMode && "rgb(37,37,37)",
-    },
-    heading: {
-      textAlign: "center",
-      margin: "26px 0",
-    },
-  };
   const [form, setForm] = useState({
     old_password: "",
     new_password: "",
@@ -161,154 +137,186 @@ export default function ChangePasswordPage() {
     );
   }
 
+  const styles = {
+    passwordField: {
+      border: "1px solid #e2e2e1",
+      overflow: "hidden",
+      borderRadius: "10px",
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "transparent",
+      },
+    },
+    paper: {
+      borderRadius: "10px",
+      padding: "30px",
+      maxWidth: "425px",
+      margin: " auto",
+    },
+    heading: {
+      textAlign: "center",
+      margin: "26px 0",
+    },
+    container: {
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      py: "16px",
+      overflowY: "auto",
+    },
+  };
+
   return (
-    <Paper elevation={0} sx={styles.paper}>
-      {loading && <Spinner />}
-      <img
-        src={appLogo}
-        className="rounded mx-auto d-block"
-        style={{ height: "8vh", marginTop: "26px" }}
-        alt="Algo app logo"
-      />
-      <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
-        <strong>Change Password</strong>
-      </Typography>
+    <Container sx={styles.container}>
+      <Paper elevation={3} sx={styles.paper}>
+        {loading && <Spinner />}
+        <img
+          src={appLogo}
+          className="rounded mx-auto d-block"
+          style={{ height: "8vh", marginTop: "26px" }}
+          alt="Algo app logo"
+        />
+        <Typography variant="h5" sx={{ textAlign: "center", margin: "26px 0" }}>
+          <strong>Change Password</strong>
+        </Typography>
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="old-pass-word" error={!!errors.old_password}>
-          Old password
-        </InputLabel>
-        <Tooltip
-          title={errors.old_password}
-          open={!!errors.old_password}
-          placement="top-end"
-          TransitionComponent={Zoom}
-          arrow={true}
-          id="error-tooltip"
-        >
-          <FilledInput
-            // id="filled-adornment-password"
-            id="old-pass-word"
-            name="old_password"
-            error={!!errors.old_password}
-            onChange={handleChange}
-            value={form.old_password}
-            type={oldPasswordVisible ? "text" : "password"}
-            disableUnderline={true}
-            sx={styles.passwordField}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setOldPasswordVisible(!oldPasswordVisible)}
-                  edge="end"
-                >
-                  {oldPasswordVisible ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Tooltip>
-      </FormControl>
-      <hr style={{ visibility: "hidden" }} />
-      <FormControl sx={{ width: "100%" }} variant="filled">
-        <InputLabel htmlFor="new-pass-word" error={!!errors.new_password}>
-          New password
-        </InputLabel>
-        <Tooltip
-          title={errors.new_password}
-          open={!!errors.new_password}
-          placement="top-end"
-          TransitionComponent={Zoom}
-          arrow={true}
-          id="error-tooltip"
-        >
-          <FilledInput
-            // id="filled-adornment-password"
-            id="new-pass-word"
-            name="new_password"
-            error={!!errors.new_password}
-            onChange={handleChange}
-            value={form.new_password}
-            type={newPasswordVisible ? "text" : "password"}
-            disableUnderline={true}
-            sx={styles.passwordField}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setNewPasswordVisible(!newPasswordVisible)}
-                  edge="end"
-                >
-                  {newPasswordVisible ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Tooltip>
-      </FormControl>
+        <FormControl sx={{ width: "100%", mb: "8px" }} variant="filled">
+          <InputLabel htmlFor="old-pass-word" error={!!errors.old_password}>
+            Old password
+          </InputLabel>
+          <Tooltip
+            title={errors.old_password}
+            open={!!errors.old_password}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+            id="error-tooltip"
+          >
+            <FilledInput
+              // id="filled-adornment-password"
+              id="old-pass-word"
+              name="old_password"
+              error={!!errors.old_password}
+              onChange={handleChange}
+              value={form.old_password}
+              type={oldPasswordVisible ? "text" : "password"}
+              disableUnderline={true}
+              sx={styles.passwordField}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setOldPasswordVisible(!oldPasswordVisible)}
+                    edge="end"
+                  >
+                    {oldPasswordVisible ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Tooltip>
+        </FormControl>
+        <FormControl sx={{ width: "100%" }} variant="filled">
+          <InputLabel htmlFor="new-pass-word" error={!!errors.new_password}>
+            New password
+          </InputLabel>
+          <Tooltip
+            title={errors.new_password}
+            open={!!errors.new_password}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+            id="error-tooltip"
+          >
+            <FilledInput
+              // id="filled-adornment-password"
+              id="new-pass-word"
+              name="new_password"
+              error={!!errors.new_password}
+              onChange={handleChange}
+              value={form.new_password}
+              type={newPasswordVisible ? "text" : "password"}
+              disableUnderline={true}
+              sx={styles.passwordField}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setNewPasswordVisible(!newPasswordVisible)}
+                    edge="end"
+                  >
+                    {newPasswordVisible ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Tooltip>
+        </FormControl>
 
-      <FormControl
-        sx={{ width: "100%", marginTop: "0.625rem" }}
-        variant="filled"
-      >
-        <InputLabel
-          htmlFor="confirm-new-pass-word"
-          error={!!errors.confirm_new_password}
+        <FormControl
+          sx={{ width: "100%", marginTop: "0.625rem" }}
+          variant="filled"
         >
-          Confirm new password
-        </InputLabel>
-        <Tooltip
-          title={errors.confirm_new_password}
-          open={!!errors.confirm_new_password}
-          placement="top-end"
-          TransitionComponent={Zoom}
-          arrow={true}
-          id="error-tooltip"
-        >
-          <FilledInput
-            // id="filled-adornment-password"
-            id="confirm-new-pass-word"
-            name="confirm_new_password"
+          <InputLabel
+            htmlFor="confirm-new-pass-word"
             error={!!errors.confirm_new_password}
-            onChange={handleChange}
-            value={form.confirm_new_password}
-            type={confirmNewPasswordVisible ? "text" : "password"}
-            disableUnderline={true}
-            sx={styles.passwordField}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() =>
-                    setConfirmNewPasswordVisible(!confirmNewPasswordVisible)
-                  }
-                  edge="end"
-                >
-                  {confirmNewPasswordVisible ? (
-                    <Visibility />
-                  ) : (
-                    <VisibilityOff />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Tooltip>
-      </FormControl>
-      <Button
-        disabled={isFormInvalid()}
-        variant="contained"
-        size="medium"
-        className="mt-3"
-        fullWidth
-        onClick={handleSubmit}
-      >
-        Change Password
-      </Button>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="baseline"
-        spacing={0}
-      ></Stack>
-    </Paper>
+          >
+            Confirm new password
+          </InputLabel>
+          <Tooltip
+            title={errors.confirm_new_password}
+            open={!!errors.confirm_new_password}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+            id="error-tooltip"
+          >
+            <FilledInput
+              // id="filled-adornment-password"
+              id="confirm-new-pass-word"
+              name="confirm_new_password"
+              error={!!errors.confirm_new_password}
+              onChange={handleChange}
+              value={form.confirm_new_password}
+              type={confirmNewPasswordVisible ? "text" : "password"}
+              disableUnderline={true}
+              sx={styles.passwordField}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() =>
+                      setConfirmNewPasswordVisible(!confirmNewPasswordVisible)
+                    }
+                    edge="end"
+                  >
+                    {confirmNewPasswordVisible ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </Tooltip>
+        </FormControl>
+        <Button
+          disabled={isFormInvalid()}
+          variant="contained"
+          size="medium"
+          className="mt-3"
+          fullWidth
+          onClick={handleSubmit}
+        >
+          Change Password
+        </Button>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="baseline"
+          spacing={0}
+        ></Stack>
+      </Paper>
+    </Container>
   );
 }

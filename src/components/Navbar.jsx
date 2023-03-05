@@ -21,6 +21,7 @@ import {
   Switch,
   ListItem,
   ListItemAvatar,
+  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -38,13 +39,20 @@ import { useTheme } from "@mui/material/styles";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { getElapsedTime } from "../services/util";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const [isNotifVisible, setNotifListVisible] = React.useState(false);
   const [tabIndex, setTabIndex] = React.useState(0);
+  const [isDefault, setDefaultButtons] = React.useState("default");
   const { setCurrentUser } = useContext(UserContext);
   const { onMarkAsRead, onMarkAllAsRead } = useContext(NotifContext);
+
+  const handleNavbar = () => {
+    setDefaultButtons(isDefault === "default" ? "search" : "default");
+    navigate("/");
+  };
 
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -183,69 +191,6 @@ export default function Navbar() {
     );
   }
 
-  // function DrawerProfileMenu() {
-  //   return (
-  //     <Menu
-  //       anchorEl={drawerAnchorEl}
-  //       id="drawer-menu"
-  //       open={drawerOpen}
-  //       onClose={handleDrawerProfileClose}
-  //       PaperProps={{
-  //         elevation: 0,
-  //         sx: {
-  //           overflow: "visible",
-  //           borderRadius: "10px",
-  //           filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-  //           width: "200px",
-  //           "& .MuiAvatar-root": {
-  //             width: 32,
-  //             height: 32,
-  //             ml: "2px",
-  //             mr: "22px",
-  //           },
-  //           "&:before": {
-  //             content: '""',
-  //             display: "block",
-  //             position: "absolute",
-  //             bottom: -10,
-  //             left: 10,
-  //             width: 10,
-  //             height: 10,
-  //             bgcolor: "background.paper",
-  //             transform: "translateY(-50%) rotate(45deg)",
-  //             zIndex: 0,
-  //           },
-  //         },
-  //       }}
-  //       transformOrigin={{ horizontal: "right", vertical: "bottom" }}
-  //       anchorOrigin={{ horizontal: "left", vertical: "top" }}
-  //     >
-  //       {/* <MenuItem onClick={(handleGoToProfile, handleDrawerProfileClose)}> */}
-  //       <MenuItem onClick={() => console.log("pp")}>
-  //         <Avatar src={user && user.avatar} alt={user && user.username} /> My
-  //         Profile
-  //       </MenuItem>
-  //       <div>
-  //         <Switch
-  //           sx={{ mr: "8px", ml: "5px" }}
-  //           onChange={onToggleDarkmode}
-  //           checked={darkMode}
-  //         />
-  //         {darkMode ? "Dark Mode" : "Light Mode"}
-  //       </div>
-  //       <MenuItem onClick={handleLogout}>
-  //         <ListItemIcon sx={{ mr: "10px", ml: "10px" }}>
-  //           <i
-  //             className="fa-solid fa-right-from-bracket"
-  //             style={{ color: ColorTheme.palette.error.main }}
-  //           />
-  //         </ListItemIcon>
-  //         Logout
-  //       </MenuItem>
-  //     </Menu>
-  //   );
-  // }
-
   function NotificationsMenu() {
     const navigate = useNavigate();
     return (
@@ -280,6 +225,9 @@ export default function Navbar() {
     );
   }
 
+  const isXsOrSm = useMediaQuery(theme.breakpoints.down("md"));
+  const isMdScreen = useMediaQuery(theme.breakpoints.only("md"));
+
   return (
     <>
       <AppBar
@@ -287,8 +235,42 @@ export default function Navbar() {
         color="primary"
         sx={{ display: "flex", justifyContent: "center" }}
       >
-        <Grid container maxWidth={"xl"} sx={{ mx: "auto" }}>
-          <Grid item xs={2}>
+        <Grid
+          container
+          maxWidth={"xl"}
+          sx={{
+            mx: "auto",
+            display: isXsOrSm ? "flex" : "none",
+          }}
+        >
+          <Grid
+            item
+            xs={12}
+            sx={{ display: isDefault === "default" ? "none" : "flex" }}
+          >
+            <Toolbar sx={{ width: "100%" }}>
+              <IconButton
+                size="middle"
+                color="inherit"
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#65676B"
+                      : theme.palette.secondary.main,
+                  mx: "5px",
+                }}
+                onClick={handleNavbar}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+              <AutocompleteWithAvatar darkMode={darkMode} />
+            </Toolbar>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            sx={{ display: isDefault === "search" ? "none" : "flex" }}
+          >
             <Toolbar>
               <Typography
                 id="logoName"
@@ -301,66 +283,23 @@ export default function Navbar() {
               </Typography>
             </Toolbar>
           </Grid>
-          <Grid item xs={8}>
-            <Toolbar
-              sx={{
-                display: {
-                  xs: "none",
-                  md: "flex",
-                },
-              }}
-            >
-              <AutocompleteWithAvatar darkMode={darkMode} />
-            </Toolbar>
-          </Grid>
-          <Grid item xs={2} container justifyContent="flex-end">
+          <Grid
+            item
+            xs={8}
+            sx={{ display: isDefault === "search" ? "none" : "flex" }}
+          ></Grid>
+          <Grid
+            item
+            xs={2}
+            container
+            justifyContent="flex-end"
+            sx={{ display: isDefault === "search" ? "none" : "flex" }}
+          >
             <Toolbar>
-              <IconButton
-                size="middle"
-                color="inherit"
-                sx={{
-                  bgcolor:
-                    theme.palette.mode === "dark"
-                      ? "#65676B"
-                      : theme.palette.secondary.main,
-                  mx: "5px",
-                  display: {
-                    xs: "none",
-                    md: "inline-flex",
-                  },
-                }}
-                onClick={() => navigate("/")}
-              >
-                <HomeIcon />
-              </IconButton>
-              <IconButton
-                size="middle"
-                color="inherit"
-                sx={{
-                  bgcolor:
-                    theme.palette.mode === "dark"
-                      ? "#65676B"
-                      : theme.palette.secondary.main,
-                  mx: "5px",
-                  display: {
-                    xs: "none",
-                    md: "inline-flex",
-                  },
-                }}
-                onClick={handleNotifClick}
-              >
-                <Badge
-                  badgeContent={
-                    notifs && notifs.filter((notif) => !notif.isRead).length
-                  }
-                  color="error"
-                >
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
               <IconButton
                 onClick={() => {
                   navigate(`/search/all/blank`);
+                  handleNavbar();
                 }}
                 sx={{
                   bgcolor:
@@ -388,12 +327,77 @@ export default function Navbar() {
                     theme.palette.mode === "dark"
                       ? "#65676B"
                       : theme.palette.secondary.main,
-                  display: { sm: "inline-flex", md: "none" },
                 }}
               >
                 <Avatar sx={{ width: 24, height: 24, bgcolor: "transparent" }}>
                   <MenuIcon color="white" />
                 </Avatar>
+              </IconButton>
+            </Toolbar>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          maxWidth={"xl"}
+          sx={{
+            mx: "auto",
+            display: isXsOrSm ? "none" : "flex",
+          }}
+        >
+          <Grid item xs={2}>
+            <Toolbar>
+              <Typography
+                id="logoName"
+                variant="h4"
+                color={ColorTheme.palette.textLight.main}
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate("/")}
+              >
+                algo
+              </Typography>
+            </Toolbar>
+          </Grid>
+          <Grid item xs={8}>
+            <Toolbar>
+              <AutocompleteWithAvatar darkMode={darkMode} />
+            </Toolbar>
+          </Grid>
+          <Grid item xs={2} container justifyContent="flex-end">
+            <Toolbar>
+              <IconButton
+                size="middle"
+                color="inherit"
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#65676B"
+                      : theme.palette.secondary.main,
+                  mx: "5px",
+                }}
+                onClick={() => navigate("/")}
+              >
+                <HomeIcon />
+              </IconButton>
+              <IconButton
+                size="middle"
+                color="inherit"
+                sx={{
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "#65676B"
+                      : theme.palette.secondary.main,
+                  mx: "5px",
+                }}
+                onClick={handleNotifClick}
+              >
+                <Badge
+                  badgeContent={
+                    notifs && notifs.filter((notif) => !notif.isRead).length
+                  }
+                  color="error"
+                >
+                  <NotificationsIcon />
+                </Badge>
               </IconButton>
               {/**NOTIFICATIONS PANEL */}
               <NotificationsMenu />
@@ -404,7 +408,6 @@ export default function Navbar() {
                 aria-expanded={mdOpen ? "true" : undefined}
                 sx={{
                   p: 0,
-                  display: { xs: "none", md: "inline-flex" },
                   ml: "5px",
                 }}
               >
@@ -811,7 +814,7 @@ function AutocompleteWithAvatar({ darkMode }) {
     <Autocomplete
       id="searchBar"
       sx={{
-        width: "80%",
+        width: "100%",
         margin: "auto",
         borderRadius: "50px",
         border: "1px solid",
