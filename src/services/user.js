@@ -8,6 +8,9 @@ export function getFriends() {
   return http.get("/friends");
 }
 
+export function getSpecificFriends(username) {
+  return http.get(`/friends/${username}/list`);
+}
 export function addFriend(friendId, date) {
   return http.post("/friends/add", { friendId, date });
 }

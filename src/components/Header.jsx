@@ -8,15 +8,30 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import cover from "../assets/cover.jpg";
 import UserActionButtons from "./UserActionButtons";
 import { FriendContext } from "../context/FriendContext";
+import { UserContext } from "../context/UserContext";
+import * as userService from "../services/user";
 
 const Header = ({ profileName, profileData }) => {
   const { username } = useParams();
   const { allFriends } = useContext(FriendContext);
+  const [friends, setFriends] = useState([]);
+  const { currentUser } = useContext(UserContext);
+
+  useEffect(() => {
+    if (currentUser && currentUser.username === username) {
+      console.log("allfrindd", allFriends);
+      setFriends(allFriends);
+    } else {
+      userService.getSpecificFriends(username).then((friends) => {
+        setFriends(friends.data);
+      });
+    }
+  }, [profileName, currentUser, username, allFriends]);
 
   const styles = {
     profilePhoto: {
@@ -79,8 +94,8 @@ const Header = ({ profileName, profileData }) => {
           )}
           <Typography>@{profileData.username}</Typography>
           <AvatarGroup max={4}>
-            {allFriends &&
-              allFriends.map((friend) => (
+            {friends &&
+              friends.map((friend) => (
                 <Avatar
                   src={friend.avatar}
                   alt={friend.username}

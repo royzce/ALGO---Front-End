@@ -23,6 +23,7 @@ const ProfilePage = ({ userProfile, friendProfile }) => {
       setProfileData(user);
     } else {
       userService.getProfileData(username).then((res) => {
+        console.log("profile page", res);
         setProfileData(res.data);
       });
     }

@@ -8,19 +8,30 @@ import {
   ImageListItemBar,
   Typography,
 } from "@mui/material";
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import defaultAvatar from "../assets/avatar.jpg";
 import { FriendContext } from "../context/FriendContext";
 import { UserContext } from "../context/UserContext";
+import * as userService from "../services/user";
 
 const FeaturedFriends = ({ profileName }) => {
   const { allFriends } = useContext(FriendContext);
 
   const { currentUser } = useContext(UserContext);
+  const [friends, setFriends] = useState([]);
+  useEffect(() => {
+    if (currentUser && currentUser.username === profileName) {
+      setFriends(allFriends);
+    } else {
+      userService.getSpecificFriends(profileName).then((friends) => {
+        setFriends(friends.data);
+      });
+    }
+  }, [profileName, currentUser, allFriends]);
   const showButton =
-    allFriends &&
-    allFriends.length > 0 &&
+    friends &&
+    friends.length > 0 &&
     currentUser &&
     currentUser.username === profileName;
 
@@ -31,7 +42,7 @@ const FeaturedFriends = ({ profileName }) => {
   };
 
   return (
-    allFriends && (
+    friends && (
       <Card sx={styles.borderRadius}>
         <CardHeader
           title={
@@ -39,7 +50,7 @@ const FeaturedFriends = ({ profileName }) => {
               Friends
             </Typography>
           }
-          subheader={allFriends.length + " Friends"}
+          subheader={friends.length + " Friends"}
           action={
             showButton && (
               <Button
@@ -54,8 +65,8 @@ const FeaturedFriends = ({ profileName }) => {
         />
         <CardMedia sx={{ padding: "0 15px" }}>
           <ImageList cols={3} sx={styles.borderRadius}>
-            {allFriends.length > 0 ? (
-              allFriends.map((friend, index) => (
+            {friends.length > 0 ? (
+              friends.map((friend, index) => (
                 <ImageListItem
                   key={index}
                   component={Link}
