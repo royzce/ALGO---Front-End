@@ -97,7 +97,10 @@ const EditProfileForm = ({ profileData }) => {
     bio: Joi.string().allow(null, "").optional(),
     interest: Joi.array().items(Joi.string().allow(null, "")).optional(),
   });
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     setOpen(true);
     let avatar = "";
@@ -121,10 +124,12 @@ const EditProfileForm = ({ profileData }) => {
         onShowSuccess("Profile Updated");
         closePreview();
         setCurrentUser(res.data);
+        setLoading(false);
         navigate(`/${form.username}`);
       })
       .catch((err) => {
         setOpen(false);
+        setLoading(false);
         onShowFail(err.response.data.message);
       });
   };
@@ -198,185 +203,188 @@ const EditProfileForm = ({ profileData }) => {
   }
   return (
     // <Container sx={styles.container} disableGutters>
-    <Paper
-      component="form"
-      autoComplete="off"
-      onSubmit={handleSubmit}
-      elevation={3}
-      style={styles.paper}
-    >
-      {uploading && <Spinner />}
-      <Stack
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        padding={2}
-        spacing={5}
+    <>
+      {loading && <Spinner />}
+
+      <Paper
+        component="form"
+        autoComplete="off"
+        onSubmit={handleSubmit}
+        elevation={3}
+        style={styles.paper}
       >
-        <div>
-          <Typography variant="h5">
-            <strong>Edit Profile</strong>
-          </Typography>
-        </div>
-      </Stack>
-      <hr />
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={2}
-        my={3}
-      >
-        <FirebaseCoverUpload
-          previewProfile={previewProfile.urlCover}
-          onFileSelect={handleCoverFileSelect}
-          closePreview={handleCloseCoverPreview}
-        />
-      </Stack>
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={2}
-        my={3}
-      >
-        <FirebaseAvatarUpload
-          previewProfile={previewProfile.urlAvatar}
-          onFileSelect={handleAvatarFileSelect}
-          closePreview={handleCloseAvatarPreview}
-        />
-      </Stack>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={1}
-        sx={styles.marginBottom}
-      >
+        {uploading && <Spinner />}
+        <Stack
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          padding={2}
+          spacing={5}
+        >
+          <div>
+            <Typography variant="h5">
+              <strong>Edit Profile</strong>
+            </Typography>
+          </div>
+        </Stack>
+        <hr />
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+          my={3}
+        >
+          <FirebaseCoverUpload
+            previewProfile={previewProfile.urlCover}
+            onFileSelect={handleCoverFileSelect}
+            closePreview={handleCloseCoverPreview}
+          />
+        </Stack>
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+          my={3}
+        >
+          <FirebaseAvatarUpload
+            previewProfile={previewProfile.urlAvatar}
+            onFileSelect={handleAvatarFileSelect}
+            closePreview={handleCloseAvatarPreview}
+          />
+        </Stack>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={1}
+          sx={styles.marginBottom}
+        >
+          <Tooltip
+            title={errors.firstName}
+            open={!!errors.firstName}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+          >
+            <TextField
+              name="firstName"
+              error={!!errors.firstName}
+              onChange={handleChange}
+              value={form.firstName}
+              label="First Name"
+              variant="filled"
+              InputProps={{ disableUnderline: true }}
+              sx={styles.myTextField}
+              fullWidth
+            />
+          </Tooltip>
+          <Tooltip
+            title={errors.lastName}
+            open={!!errors.lastName}
+            placement="top-end"
+            TransitionComponent={Zoom}
+            arrow={true}
+          >
+            <TextField
+              name="lastName"
+              error={!!errors.lastName}
+              onChange={handleChange}
+              value={form.lastName}
+              label="Last Name"
+              variant="filled"
+              InputProps={{ disableUnderline: true }}
+              sx={styles.myTextField}
+              fullWidth
+            />
+          </Tooltip>
+        </Stack>
         <Tooltip
-          title={errors.firstName}
-          open={!!errors.firstName}
+          title={errors.username}
+          open={!!errors.username}
           placement="top-end"
           TransitionComponent={Zoom}
           arrow={true}
         >
           <TextField
-            name="firstName"
-            error={!!errors.firstName}
+            name="username"
+            error={!!errors.username}
             onChange={handleChange}
-            value={form.firstName}
-            label="First Name"
+            value={form.username}
+            label="Username"
             variant="filled"
             InputProps={{ disableUnderline: true }}
-            sx={styles.myTextField}
-            fullWidth
-          />
-        </Tooltip>
-        <Tooltip
-          title={errors.lastName}
-          open={!!errors.lastName}
-          placement="top-end"
-          TransitionComponent={Zoom}
-          arrow={true}
-        >
-          <TextField
-            name="lastName"
-            error={!!errors.lastName}
-            onChange={handleChange}
-            value={form.lastName}
-            label="Last Name"
-            variant="filled"
-            InputProps={{ disableUnderline: true }}
-            sx={styles.myTextField}
-            fullWidth
-          />
-        </Tooltip>
-      </Stack>
-      <Tooltip
-        title={errors.username}
-        open={!!errors.username}
-        placement="top-end"
-        TransitionComponent={Zoom}
-        arrow={true}
-      >
-        <TextField
-          name="username"
-          error={!!errors.username}
-          onChange={handleChange}
-          value={form.username}
-          label="Username"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.marginBottom]}
-          fullWidth
-        />
-      </Tooltip>
-      <Tooltip
-        title={errors.email}
-        open={!!errors.email}
-        placement="top-end"
-        TransitionComponent={Zoom}
-        arrow={true}
-      >
-        <TextField
-          name="email"
-          error={!!errors.email}
-          onChange={handleChange}
-          value={form.email}
-          label="Email"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.marginBottom]}
-          fullWidth
-        />
-      </Tooltip>
-      <Tooltip
-        title={errors.bio}
-        open={!!errors.bio}
-        placement="top-end"
-        TransitionComponent={Zoom}
-        arrow={true}
-      >
-        <TextField
-          name="bio"
-          error={!!errors.bio}
-          onChange={handleChange}
-          value={form.bio}
-          label="Bio"
-          variant="filled"
-          InputProps={{ disableUnderline: true }}
-          sx={[styles.myTextField, styles.marginBottom]}
-          multiline
-          rows={3}
-          fullWidth
-        />
-      </Tooltip>
-      <Autocomplete
-        sx={styles.paddingRight}
-        multiple
-        options={interestList}
-        onChange={(event, value) => handleTagSel(value)}
-        filterSelectedOptions
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Interest"
             sx={[styles.myTextField, styles.marginBottom]}
-            variant="filled"
             fullWidth
           />
-        )}
-        size="small"
-        fullWidth
-      />
-      <Button
-        disabled={isFormInvalid()}
-        type="submit"
-        variant="contained"
-        fullWidth
-      >
-        Update
-      </Button>
-    </Paper>
-    // </Container>
+        </Tooltip>
+        <Tooltip
+          title={errors.email}
+          open={!!errors.email}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+        >
+          <TextField
+            name="email"
+            error={!!errors.email}
+            onChange={handleChange}
+            value={form.email}
+            label="Email"
+            variant="filled"
+            InputProps={{ disableUnderline: true }}
+            sx={[styles.myTextField, styles.marginBottom]}
+            fullWidth
+          />
+        </Tooltip>
+        <Tooltip
+          title={errors.bio}
+          open={!!errors.bio}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+        >
+          <TextField
+            name="bio"
+            error={!!errors.bio}
+            onChange={handleChange}
+            value={form.bio}
+            label="Bio"
+            variant="filled"
+            InputProps={{ disableUnderline: true }}
+            sx={[styles.myTextField, styles.marginBottom]}
+            multiline
+            rows={3}
+            fullWidth
+          />
+        </Tooltip>
+        <Autocomplete
+          sx={styles.paddingRight}
+          multiple
+          options={interestList}
+          onChange={(event, value) => handleTagSel(value)}
+          filterSelectedOptions
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Interest"
+              sx={[styles.myTextField, styles.marginBottom]}
+              variant="filled"
+              fullWidth
+            />
+          )}
+          size="small"
+          fullWidth
+        />
+        <Button
+          disabled={isFormInvalid()}
+          type="submit"
+          variant="contained"
+          fullWidth
+        >
+          Update
+        </Button>
+      </Paper>
+    </>
   );
 };
 

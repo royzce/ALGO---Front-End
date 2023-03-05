@@ -6,6 +6,7 @@ import * as userService from "../services/user";
 const EditProfilePage = () => {
   const { username } = useParams();
   const [profileData, setProfileData] = useState([]);
+
   useEffect(() => {
     if (username) {
       userService
