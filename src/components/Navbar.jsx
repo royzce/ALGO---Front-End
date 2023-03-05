@@ -807,12 +807,12 @@ function AutocompleteWithAvatar({ darkMode }) {
 
   function closeShowOptions() {
     setShowOptions(false);
-    document.getElementById("searchBar").blur();
+    document.getElementsByClassName("searchBar")[0].blur();
   }
 
   return (
     <Autocomplete
-      id="searchBar"
+      className="searchBar"
       sx={{
         width: "100%",
         margin: "auto",

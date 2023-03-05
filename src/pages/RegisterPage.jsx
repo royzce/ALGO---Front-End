@@ -381,7 +381,7 @@ const RegisterPage = () => {
             />
           </Tooltip>
         </FormControl>
-        <FormControl sx={{ width: "100%" }} variant="filled">
+        <FormControl sx={{ width: "100%", mb: "8px" }} variant="filled">
           <InputLabel
             htmlFor="confirm-pass-word"
             error={!!errors.confirmPassword}
