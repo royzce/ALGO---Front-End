@@ -110,6 +110,8 @@ export default function ResetPasswordPage() {
           [input.name]:
             "Password requires lowercase, uppercase, number, and special character.",
         });
+      } else if (input.name === "confirmPassword") {
+        setErrors({ ...errors, [input.name]: "Password mismatch." });
       } else {
         setErrors({ ...errors, [input.name]: error.details[0].message });
       }
@@ -171,7 +173,7 @@ export default function ResetPasswordPage() {
         <strong>Please enter new password</strong>
       </Typography>
 
-      <FormControl sx={{ width: "100%" }} variant="filled">
+      <FormControl sx={{ width: "100%", mb: "8px" }} variant="filled">
         <InputLabel htmlFor="pass-word" error={!!errors.password}>
           Password
         </InputLabel>
@@ -219,7 +221,7 @@ export default function ResetPasswordPage() {
         >
           <FilledInput
             id="confirm-pass-word"
-            name="password"
+            name="confirmPassword"
             error={!!errors.confirmPassword}
             onChange={handleChange}
             value={form.confirmPassword}

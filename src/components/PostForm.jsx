@@ -288,7 +288,12 @@ export default function PostForm({ post, withPhoto, onClose, open, onSubmit }) {
             </Stack>
           </CardContent>
           <CardActions sx={{ padding: "15px" }}>
-            <Button variant="contained" fullWidth onClick={handleSubmit}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleSubmit}
+              disabled={!form.value && previewUrls.length === 0}
+            >
               {post ? "SAVE" : "POST"}
             </Button>
           </CardActions>
