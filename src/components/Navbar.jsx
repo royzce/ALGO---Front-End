@@ -1,4 +1,4 @@
-import React, { createRef, useContext, useState } from "react";
+import React, { createRef, useContext, useEffect, useState } from "react";
 import {
   Avatar,
   Grid,
@@ -45,6 +45,7 @@ export default function Navbar() {
   const [tabIndex, setTabIndex] = React.useState(0);
   const { setCurrentUser } = useContext(UserContext);
   const { onMarkAsRead, onMarkAllAsRead } = useContext(NotifContext);
+
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
     if (isNotifVisible) handleNotifListToggle();
@@ -309,7 +310,7 @@ export default function Navbar() {
                 },
               }}
             >
-              <AutocompleteWithAvatar />
+              <AutocompleteWithAvatar darkMode={darkMode} />
             </Toolbar>
           </Grid>
           <Grid item xs={2} container justifyContent="flex-end">
@@ -714,8 +715,9 @@ function NotifList({ notifs, onClick }) {
   );
 }
 
-function CustomOption({ option, closeShowOptions }) {
+function CustomOption({ option, closeShowOptions, darkMode }) {
   const navigate = useNavigate();
+  useEffect(() => {}, [darkMode]);
   return (
     <MenuItem
       style={{
@@ -731,7 +733,7 @@ function CustomOption({ option, closeShowOptions }) {
       }}
     >
       <Avatar src={option.avatar} />
-      <div style={{ marginLeft: "12px", color: "black" }}>
+      <div style={{ marginLeft: "12px", color: darkMode ? "white" : "black" }}>
         {option.firstName + " " + option.lastName}
       </div>
     </MenuItem>
@@ -739,8 +741,9 @@ function CustomOption({ option, closeShowOptions }) {
 }
 
 //This will show at the bottom always
-function NoOption({ value, closeShowOptions }) {
+function NoOption({ value, closeShowOptions, darkMode }) {
   const navigate = useNavigate();
+  useEffect(() => {}, [darkMode]);
   return (
     <MenuItem
       style={{
@@ -756,13 +759,13 @@ function NoOption({ value, closeShowOptions }) {
       <Avatar sx={{ bgcolor: "#1976d2" }}>
         <SearchIcon />
       </Avatar>
-      <div style={{ marginLeft: "12px", color: "black" }}>
+      <div style={{ marginLeft: "12px", color: darkMode ? "white" : "black" }}>
         Search for <strong>{value}</strong>
       </div>
     </MenuItem>
   );
 }
-function AutocompleteWithAvatar() {
+function AutocompleteWithAvatar({ darkMode }) {
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [showOptions, setShowOptions] = useState(false);
@@ -825,6 +828,7 @@ function AutocompleteWithAvatar() {
               {...props}
               option={option}
               closeShowOptions={closeShowOptions}
+              darkMode={darkMode}
             />
           );
         } else {
@@ -833,6 +837,7 @@ function AutocompleteWithAvatar() {
               {...props}
               value={inputValue}
               closeShowOptions={closeShowOptions}
+              darkMode={darkMode}
             />
           );
         }

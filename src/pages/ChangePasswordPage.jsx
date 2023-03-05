@@ -17,18 +17,18 @@ import {
 import Joi from "joi";
 import React, { useContext, useEffect, useState } from "react";
 import appLogo from "../assets/logo.png";
-import GlobalCSS from "../components/GlobalCSS";
 import * as authService from "../services/auth";
 import { joiPasswordExtendCore } from "joi-password";
 import { PopupContext } from "../context/PopupContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { DarkModeContext } from "../context/DarkModeContext";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 export default function ChangePasswordPage() {
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
+  const { darkMode } = useContext(DarkModeContext);
   const styles = {
     passwordField: {
-      backgroundColor: "rgb(248, 250,252)",
       border: "1px solid #e2e2e1",
       overflow: "hidden",
       borderRadius: "10px",
@@ -45,6 +45,7 @@ export default function ChangePasswordPage() {
       minWidth: "425px",
       margin: "84px auto",
       width: "425px",
+      backgroundColor: darkMode && "rgb(37,37,37)",
     },
     heading: {
       textAlign: "center",

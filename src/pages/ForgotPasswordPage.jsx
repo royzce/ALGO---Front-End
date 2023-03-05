@@ -10,20 +10,22 @@ import {
   Zoom,
 } from "@mui/material";
 import Joi from "joi";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import appLogo from "../assets/logo.png";
-import GlobalCSS from "../components/GlobalCSS";
+import { DarkModeContext } from "../context/DarkModeContext";
 import { PopupContext } from "../context/PopupContext";
 import * as authService from "../services/auth";
 
 export default function ForgotPasswordPage() {
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
+  const { darkMode } = useContext(DarkModeContext);
   const navigate = useNavigate();
+
+  useEffect(() => {}, [darkMode]);
   const styles = {
     myTextField: {
       "& .MuiFilledInput-root": {
-        backgroundColor: "rgb(248, 250,252)",
         border: "1px solid #e2e2e1",
         overflow: "hidden",
         borderRadius: "10px",
@@ -122,7 +124,7 @@ export default function ForgotPasswordPage() {
         justifyContent: "center",
         height: "100vh",
         padding: "50px 0",
-        backgroundColor: "rgb(238,242,246)",
+        backgroundColor: darkMode ? "rgb(18,18,18)" : "rgb(238,242,246)",
         overflowY: "scroll",
       }}
     >
@@ -135,6 +137,7 @@ export default function ForgotPasswordPage() {
           minWidth: "425px",
           my: "auto",
           maxWidth: "425px",
+          backgroundColor: darkMode && "rgb(37,37,37)",
         }}
       >
         <img

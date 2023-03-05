@@ -65,6 +65,16 @@ const Details = () => {
             </ListItemText>
           </ListItemButton>
         </ListItem>
+        <ListItem style={styles.listItem}>
+          <ListItemButton LinkComponent={Link} to={`/change-password`}>
+            <ListItemIcon>
+              <EditIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography variant="h6">Change Password </Typography>
+            </ListItemText>
+          </ListItemButton>
+        </ListItem>
         <Divider />
         <ListItem style={styles.listItem}>
           <ListItemText>
