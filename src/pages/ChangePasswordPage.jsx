@@ -22,11 +22,13 @@ import { joiPasswordExtendCore } from "joi-password";
 import { PopupContext } from "../context/PopupContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DarkModeContext } from "../context/DarkModeContext";
+import { UserContext } from "../context/UserContext";
 
 const joiPassword = Joi.extend(joiPasswordExtendCore);
 export default function ChangePasswordPage() {
   const { onShowSuccess, onShowFail } = useContext(PopupContext);
   const { darkMode } = useContext(DarkModeContext);
+
   const styles = {
     passwordField: {
       border: "1px solid #e2e2e1",
@@ -55,6 +57,7 @@ export default function ChangePasswordPage() {
   const [form, setForm] = useState({
     old_password: "",
     new_password: "",
+    confirm_new_password: "",
   });
   const [errors, setErrors] = useState({});
   const schema = Joi.object({
@@ -69,6 +72,7 @@ export default function ChangePasswordPage() {
       .noWhiteSpaces()
       .min(8)
       .required(),
+    confirm_new_password: Joi.string().required().valid(form.new_password),
   });
 
   const handleChange = ({ currentTarget: input }) => {
@@ -83,7 +87,12 @@ export default function ChangePasswordPage() {
       .validate(input.value);
 
     if (error) {
-      if (
+      if (input.name === "confirm_new_password") {
+        setErrors({
+          ...errors,
+          [input.name]: "Password mismatch.",
+        });
+      } else if (
         error.details[0].message === `"old_password" is not allowed to be empty`
       ) {
         setErrors({
@@ -120,9 +129,11 @@ export default function ChangePasswordPage() {
   };
   const [oldPasswordVisible, setOldPasswordVisible] = useState(false);
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
+  const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] =
+    useState(false);
 
   const [loading, setLoading] = useState(false);
-
+  const { setCurrentUser } = useContext(UserContext);
   const handleSubmit = async () => {
     setLoading(true);
     await authService
@@ -130,6 +141,8 @@ export default function ChangePasswordPage() {
       .then(() => {
         setLoading(false);
         onShowSuccess("Password changed successfully!");
+        localStorage.removeItem("accessToken");
+        setCurrentUser(null);
       })
       .catch((err) => {
         setLoading(false);
@@ -163,7 +176,7 @@ export default function ChangePasswordPage() {
 
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="old-pass-word" error={!!errors.old_password}>
-          Old Password
+          Old password
         </InputLabel>
         <Tooltip
           title={errors.old_password}
@@ -199,7 +212,7 @@ export default function ChangePasswordPage() {
       <hr style={{ visibility: "hidden" }} />
       <FormControl sx={{ width: "100%" }} variant="filled">
         <InputLabel htmlFor="new-pass-word" error={!!errors.new_password}>
-          New Password
+          New password
         </InputLabel>
         <Tooltip
           title={errors.new_password}
@@ -226,6 +239,54 @@ export default function ChangePasswordPage() {
                   edge="end"
                 >
                   {newPasswordVisible ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Tooltip>
+      </FormControl>
+
+      <FormControl
+        sx={{ width: "100%", marginTop: "0.625rem" }}
+        variant="filled"
+      >
+        <InputLabel
+          htmlFor="confirm-new-pass-word"
+          error={!!errors.confirm_new_password}
+        >
+          Confirm new password
+        </InputLabel>
+        <Tooltip
+          title={errors.confirm_new_password}
+          open={!!errors.confirm_new_password}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+          id="error-tooltip"
+        >
+          <FilledInput
+            // id="filled-adornment-password"
+            id="confirm-new-pass-word"
+            name="confirm_new_password"
+            error={!!errors.confirm_new_password}
+            onChange={handleChange}
+            value={form.confirm_new_password}
+            type={confirmNewPasswordVisible ? "text" : "password"}
+            disableUnderline={true}
+            sx={styles.passwordField}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() =>
+                    setConfirmNewPasswordVisible(!confirmNewPasswordVisible)
+                  }
+                  edge="end"
+                >
+                  {confirmNewPasswordVisible ? (
+                    <Visibility />
+                  ) : (
+                    <VisibilityOff />
+                  )}
                 </IconButton>
               </InputAdornment>
             }

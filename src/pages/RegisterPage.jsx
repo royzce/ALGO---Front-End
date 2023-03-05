@@ -38,6 +38,7 @@ const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -48,7 +49,6 @@ const RegisterPage = () => {
     email: Joi.string().email({ minDomainSegments: 2, tlds: false }).required(),
     password: joiPassword
       .string()
-      .minOfSpecialCharacters(2)
       .minOfLowercase(1)
       .minOfUppercase(1)
       .minOfNumeric(1)
@@ -56,19 +56,19 @@ const RegisterPage = () => {
       .noWhiteSpaces()
       .min(8)
       .required(),
+    confirmPassword: Joi.string().required().valid(form.password),
     avatar: Joi.string().allow(null, ""),
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // handleToggle();
     setOpen(true);
     if (selectedFile) {
       const storageUrl = await handleUpload();
       form.avatar = storageUrl;
     }
-
+    const { confirmPassword, ...newUserInfo } = form;
     userService
-      .register(form)
+      .register(newUserInfo)
       .then(() => {
         setOpen(false);
         onShowSuccess("You are now registered.");
@@ -107,6 +107,8 @@ const RegisterPage = () => {
         } else {
           setErrors({ ...errors, [input.name]: error.details[0].message });
         }
+      } else if (input.name === "confirmPassword") {
+        setErrors({ ...errors, [input.name]: "Password mismatch." });
       } else if (
         error.details[0].message === `"${input.name}" must be a valid email`
       ) {
@@ -145,6 +147,7 @@ const RegisterPage = () => {
             setErrors({ ...errors, [input.name]: error.details[0].message });
         }
       } else {
+        console.log("callded");
         setErrors({ ...errors, [input.name]: error.details[0].message });
       }
     } else {
@@ -159,10 +162,7 @@ const RegisterPage = () => {
   };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const handlePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  const [confPasswordVisible, setConfPasswordVisible] = useState(false);
 
   const styles = {
     myTextField: {
@@ -352,7 +352,6 @@ const RegisterPage = () => {
           id="error-tooltip"
         >
           <FilledInput
-            // id="filled-adornment-password"
             id="pass-word"
             name="password"
             error={!!errors.password}
@@ -363,8 +362,48 @@ const RegisterPage = () => {
             sx={[styles.passwordField, styles.mb20]}
             endAdornment={
               <InputAdornment position="end">
-                <IconButton onClick={handlePasswordVisibility} edge="end">
+                <IconButton
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                  edge="end"
+                >
                   {passwordVisible ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Tooltip>
+      </FormControl>
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel
+          htmlFor="confirm-pass-word"
+          error={!!errors.confirmPassword}
+        >
+          Confirm password
+        </InputLabel>
+        <Tooltip
+          title={errors.confirmPassword}
+          open={!!errors.confirmPassword}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+          id="error-tooltip"
+        >
+          <FilledInput
+            id="confirm-pass-word"
+            name="confirmPassword"
+            error={!!errors.confirmPassword}
+            onChange={handleChange}
+            value={form.confirmPassword}
+            type={confPasswordVisible ? "text" : "password"}
+            disableUnderline={true}
+            sx={[styles.passwordField, styles.mb20]}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setConfPasswordVisible(!confPasswordVisible)}
+                  edge="end"
+                >
+                  {confPasswordVisible ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }

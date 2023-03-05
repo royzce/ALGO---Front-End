@@ -73,6 +73,7 @@ export default function ResetPasswordPage() {
   };
   const [form, setForm] = useState({
     password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const schema = Joi.object({
@@ -86,6 +87,7 @@ export default function ResetPasswordPage() {
       .noWhiteSpaces()
       .min(8)
       .required(),
+    confirmPassword: Joi.string().required().valid(form.password),
   });
 
   const handleChange = ({ currentTarget: input }) => {
@@ -188,6 +190,40 @@ export default function ResetPasswordPage() {
             error={!!errors.password}
             onChange={handleChange}
             value={form.password}
+            type={passwordVisible ? "text" : "password"}
+            disableUnderline={true}
+            sx={styles.passwordField}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton onClick={handlePasswordVisibility} edge="end">
+                  {passwordVisible ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Tooltip>
+      </FormControl>
+      <FormControl sx={{ width: "100%" }} variant="filled">
+        <InputLabel
+          htmlFor="confirm-pass-word"
+          error={!!errors.confirmPassword}
+        >
+          Confirm password
+        </InputLabel>
+        <Tooltip
+          title={errors.confirmPassword}
+          open={!!errors.confirmPassword}
+          placement="top-end"
+          TransitionComponent={Zoom}
+          arrow={true}
+          id="error-tooltip"
+        >
+          <FilledInput
+            id="confirm-pass-word"
+            name="password"
+            error={!!errors.confirmPassword}
+            onChange={handleChange}
+            value={form.confirmPassword}
             type={passwordVisible ? "text" : "password"}
             disableUnderline={true}
             sx={styles.passwordField}
