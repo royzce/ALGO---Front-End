@@ -15,7 +15,7 @@ const ProfileNavBar = ({ profileName, isCurrentUser }) => {
 
   return (
     <Box sx={styles.box}>
-      <Tabs value={profileTab}>
+      <Tabs value={profileTab} variant="scrollable" scrollButtons="auto">
         <Tab
           value="Post"
           label="Post"

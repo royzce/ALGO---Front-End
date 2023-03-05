@@ -64,7 +64,6 @@ export default function ResetPasswordPage() {
       minWidth: "425px",
       margin: "84px auto",
       width: "425px",
-      backgroundColor: darkMode && "rgb(37,37,37)",
     },
     heading: {
       textAlign: "center",
@@ -158,7 +157,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <Paper elevation={0} sx={styles.paper}>
+    <Paper elevation={3} sx={styles.paper}>
       {loading && <Spinner />}
       <img
         src={appLogo}

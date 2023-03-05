@@ -89,9 +89,13 @@ const ManageFriends = () => {
     borderRadius: {
       borderRadius: "10px",
     },
+    cardContainer: {
+      // minWidth: "425px",
+      // overflowX: "auto",
+    },
   };
   return (
-    <Card sx={styles.borderRadius}>
+    <Card sx={[styles.borderRadius, { width: "100%" }]}>
       <CardHeader
         sx={{ padding: "20px" }}
         title={
@@ -100,21 +104,34 @@ const ManageFriends = () => {
           </Typography>
         }
         action={
-          <Search sx={styles.borderRadius}>
+          <Search
+            sx={[styles.borderRadius, { display: { xs: "none", sm: "flex" } }]}
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search…" />
           </Search>
         }
+      />
+      <Search
+        sx={[
+          styles.borderRadius,
+          { margin: "0 20px 20px 20px", display: { xs: "flex", sm: "none" } },
+        ]}
       >
-        Friends
-      </CardHeader>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase placeholder="Search…" />
+      </Search>
       <Container sx={{ padding: "0 20px 20px 20px" }}>
         <Tabs
           value={friendsTab}
           onChange={handleChange}
           sx={{ marginBottom: "20px" }}
+          variant="scrollable"
+          scrollButtons="auto"
         >
           <Tab
             value="AllFriends"
