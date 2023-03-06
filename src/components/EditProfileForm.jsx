@@ -270,7 +270,7 @@ const EditProfileForm = ({ profileData }) => {
               name="firstName"
               error={!!errors.firstName}
               onChange={handleChange}
-              value={form.firstName}
+              value={form.firstName || ""}
               label="First Name"
               variant="filled"
               InputProps={{ disableUnderline: true }}
@@ -289,7 +289,7 @@ const EditProfileForm = ({ profileData }) => {
               name="lastName"
               error={!!errors.lastName}
               onChange={handleChange}
-              value={form.lastName}
+              value={form.lastName || ""}
               label="Last Name"
               variant="filled"
               InputProps={{ disableUnderline: true }}
@@ -309,7 +309,7 @@ const EditProfileForm = ({ profileData }) => {
             name="username"
             error={!!errors.username}
             onChange={handleChange}
-            value={form.username}
+            value={form.username || ""}
             label="Username"
             variant="filled"
             InputProps={{ disableUnderline: true }}
@@ -328,7 +328,7 @@ const EditProfileForm = ({ profileData }) => {
             name="email"
             error={!!errors.email}
             onChange={handleChange}
-            value={form.email}
+            value={form.email || ""}
             label="Email"
             variant="filled"
             InputProps={{ disableUnderline: true }}
@@ -347,7 +347,7 @@ const EditProfileForm = ({ profileData }) => {
             name="bio"
             error={!!errors.bio}
             onChange={handleChange}
-            value={form.bio}
+            value={form.bio || ""}
             label="Bio"
             variant="filled"
             InputProps={{ disableUnderline: true }}
